@@ -502,6 +502,48 @@
     .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     .tabs { flex-wrap: nowrap; overflow-x: auto; }
   }
+  /* ═══════ LANGUAGE TOGGLE ═══════ */
+  #google_translate_element { display: none !important; }
+  .goog-te-banner-frame, .goog-te-balloon-frame, .skiptranslate { display: none !important; }
+  body { top: 0 !important; }
+
+  .lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    background: rgba(15,23,42,.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: 'Exo 2', 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  }
+  .lang-toggle:hover {
+    border-color: rgba(103,232,249,.3);
+    color: #e2e8f0;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(0,0,0,.3);
+  }
+  .lang-toggle svg { flex-shrink: 0; }
+  .lang-toggle .lang-active {
+    color: #67e8f9;
+  }
+  .lang-toggle .lang-sep {
+    color: rgba(255,255,255,.15);
+  }
+
   /* ═══════ FONTS ═══════ */
   @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap');
 
@@ -571,7 +613,7 @@
     z-index: 1;
     width: 100%;
     max-width: 1080px;
-    padding: 64px 40px 48px;
+    padding: 88px 40px 48px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -957,7 +999,7 @@
 
     <!-- Logo -->
     <div class="intro-animate-scale d1" style="margin-bottom:28px">
-      <img src="/logo.svg" alt="PDVSA.XYZ" style="width:min(560px,92vw);height:auto;display:block;margin:0 auto">
+      <img src="/logo.svg" alt="PDVSA.XYZ" style="width:min(620px,94vw);height:auto;display:block;margin:0 auto">
     </div>
 
     <!-- Title -->
@@ -2823,5 +2865,95 @@ document.addEventListener('keydown', function(e) {
   }
 });
 </script>
+
+<!-- ═══════ LANGUAGE TOGGLE ═══════ -->
+<button class="lang-toggle" id="langToggle" onclick="toggleLanguage()" aria-label="Toggle language">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c2.8 2.8 4 6.2 4 10s-1.2 7.2-4 10c-2.8-2.8-4-6.2-4-10s1.2-7.2 4-10z"/></svg>
+  <span><span class="lang-active" id="langEn">EN</span> <span class="lang-sep">/</span> <span id="langEs">ES</span></span>
+</button>
+
+<div id="google_translate_element"></div>
+
+<script>
+// ═══════ GOOGLE TRANSLATE INIT ═══════
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+
+// Load Google Translate script
+(function() {
+  var s = document.createElement('script');
+  s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+
+// ═══════ TRANSLATION CONTROL ═══════
+var currentLang = 'en';
+
+function setLanguage(lang) {
+  var retries = 0;
+  var maxRetries = 30;
+  function trySet() {
+    var sel = document.querySelector('.goog-te-combo');
+    if (sel) {
+      sel.value = lang === 'es' ? 'es' : 'en';
+      sel.dispatchEvent(new Event('change'));
+      currentLang = lang;
+      updateToggleUI();
+    } else if (retries < maxRetries) {
+      retries++;
+      setTimeout(trySet, 200);
+    }
+  }
+  trySet();
+}
+
+function toggleLanguage() {
+  setLanguage(currentLang === 'en' ? 'es' : 'en');
+}
+
+function updateToggleUI() {
+  var elEn = document.getElementById('langEn');
+  var elEs = document.getElementById('langEs');
+  if (currentLang === 'es') {
+    elEn.classList.remove('lang-active');
+    elEs.classList.add('lang-active');
+  } else {
+    elEn.classList.add('lang-active');
+    elEs.classList.remove('lang-active');
+  }
+}
+
+// ═══════ AUTO-DETECT LANGUAGE ═══════
+(function autoDetectLanguage() {
+  // 1. Check browser language preference
+  var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  var languages = (navigator.languages || []).map(function(l) { return l.toLowerCase(); });
+  var isSpanishBrowser = browserLang.startsWith('es') || languages.some(function(l) { return l.startsWith('es'); });
+
+  if (isSpanishBrowser) {
+    // Wait for Google Translate to load, then switch
+    setTimeout(function() { setLanguage('es'); }, 1500);
+    return;
+  }
+
+  // 2. Check IP-based geolocation for Spanish-speaking countries
+  var spanishCountries = ['VE','MX','CO','AR','PE','CL','EC','GT','CU','BO','DO','HN','PY','SV','NI','CR','PA','UY','PR','GQ'];
+  fetch('https://ipapi.co/json/', { mode: 'cors' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.country_code && spanishCountries.indexOf(data.country_code) !== -1) {
+        setTimeout(function() { setLanguage('es'); }, 1500);
+      }
+    })
+    .catch(function() { /* silent fail — stay in English */ });
+})();
+</script>
+
 </body>
 </html>

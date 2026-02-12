@@ -7,6 +7,42 @@
 <title>VenezuelaStable — Institutional Investor Pitch Deck</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
+/* ═══════ LANGUAGE TOGGLE ═══════ */
+#google_translate_element { display: none !important; }
+.goog-te-banner-frame, .goog-te-balloon-frame, .skiptranslate { display: none !important; }
+body { top: 0 !important; }
+.lang-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  background: rgba(15,23,42,.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+}
+.lang-toggle:hover {
+  border-color: rgba(103,232,249,.3);
+  color: #e2e8f0;
+  transform: translateY(-1px);
+}
+.lang-toggle svg { flex-shrink: 0; }
+.lang-toggle .lang-active { color: #67e8f9; }
+.lang-toggle .lang-sep { color: rgba(255,255,255,.15); }
+
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --bg:#0a0e1a;--surface:#111827;--card:#1e293b;--border:#334155;
@@ -4192,6 +4228,24 @@ new Chart(document.getElementById('remitChart'), {
   },
   options: { responsive: true, plugins: { title: { display: true, text: 'Remittance Channels — $5.4B/yr', color: '#f1f5f9' }, legend: { position: 'bottom' } } }
 });
+</script>
+
+<!-- ═══════ LANGUAGE TOGGLE ═══════ -->
+<button class="lang-toggle" id="langToggle" onclick="toggleLanguage()" aria-label="Toggle language">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c2.8 2.8 4 6.2 4 10s-1.2 7.2-4 10c-2.8-2.8-4-6.2-4-10s1.2-7.2 4-10z"/></svg>
+  <span><span class="lang-active" id="langEn">EN</span> <span class="lang-sep">/</span> <span id="langEs">ES</span></span>
+</button>
+<div id="google_translate_element"></div>
+<script>
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'en,es',autoDisplay:false},'google_translate_element')}
+(function(){var s=document.createElement('script');s.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';s.async=true;document.head.appendChild(s)})();
+var currentLang='en';
+function setLanguage(l){var r=0;(function t(){var s=document.querySelector('.goog-te-combo');if(s){s.value=l==='es'?'es':'en';s.dispatchEvent(new Event('change'));currentLang=l;updateToggleUI()}else if(r++<30)setTimeout(t,200)})()}
+function toggleLanguage(){setLanguage(currentLang==='en'?'es':'en')}
+function updateToggleUI(){document.getElementById('langEn').classList.toggle('lang-active',currentLang==='en');document.getElementById('langEs').classList.toggle('lang-active',currentLang==='es')}
+(function(){var b=(navigator.language||'').toLowerCase(),ls=(navigator.languages||[]).map(function(l){return l.toLowerCase()});if(b.startsWith('es')||ls.some(function(l){return l.startsWith('es')})){setTimeout(function(){setLanguage('es')},1500);return}
+var sc=['VE','MX','CO','AR','PE','CL','EC','GT','CU','BO','DO','HN','PY','SV','NI','CR','PA','UY','PR','GQ'];
+fetch('https://ipapi.co/json/',{mode:'cors'}).then(function(r){return r.json()}).then(function(d){if(d&&sc.indexOf(d.country_code)!==-1)setTimeout(function(){setLanguage('es')},1500)}).catch(function(){})})();
 </script>
 </body>
 </html>
