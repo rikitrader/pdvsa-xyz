@@ -246,25 +246,48 @@
     .tabs.force-show { display: flex; }
     .report-dropdown-menu { left: 0; right: 0; min-width: auto; }
     .dashboard { padding: 10px; }
-    .header { padding: 20px 14px; margin-bottom: 16px; }
-    .chart-card { padding: 14px; }
+    .header { padding: 16px 12px; margin-bottom: 12px; }
+    .header h1 { font-size: 18px; }
+    .header .subtitle { font-size: 11px; }
+    .chart-card { padding: 12px; }
+    .chart-card h3 { font-size: 13px; }
     .chart-wrapper { height: 220px; }
     .kpi-grid { gap: 8px; grid-template-columns: repeat(2, 1fr); }
-    .kpi-card { padding: 12px; }
-    .kpi-value { font-size: 18px; }
+    .kpi-card { padding: 10px; }
+    .kpi-label { font-size: 10px; }
+    .kpi-value { font-size: 16px; }
+    .kpi-change { font-size: 11px; }
     .comparison-table { font-size: 11px; }
     .comparison-table th, .comparison-table td { padding: 8px 6px; }
-    .strategy-card { padding: 14px; }
-    .strategy-card ul { padding-left: 16px; }
-    .strategy-card li { font-size: 12px; }
+    .strategy-card { padding: 12px; }
+    .strategy-grid { gap: 12px; }
+    .strategy-card ul { padding-left: 14px; }
+    .strategy-card li { font-size: 12px; line-height: 1.5; }
     .glossary .glossary-grid { grid-template-columns: 1fr; }
+    /* Header intro mobile fixes */
+    .intro-flow-step { font-size: 9px; padding: 5px 8px; }
+    .intro-flow-arrow svg { width: 12px; height: 12px; }
+    .intro-flow { padding: 10px; gap: 3px; }
+    .intro-pillar { padding: 12px; }
+    .intro-pillar-title { font-size: 12px; }
+    .intro-pillar-desc { font-size: 11px; }
+    .intro-pillar-num { font-size: 9px; }
+    .intro-pillar-icon { width: 36px; height: 36px; }
+    /* TradingView charts mobile */
+    #tv-wti-chart { height: 350px !important; }
+    .tradingview-widget-container { min-height: 250px; }
   }
   @media(max-width:380px) {
     .kpi-grid { grid-template-columns: 1fr; }
-    .dashboard { padding: 8px; }
-    .header h1 { font-size: 18px; }
+    .dashboard { padding: 6px; }
+    .header { padding: 12px 8px; }
+    .header h1 { font-size: 16px; }
     .chart-wrapper { height: 180px; }
-    .chart-card h3 { font-size: 12px; }
+    .chart-card h3 { font-size: 11px; }
+    .chart-card { padding: 10px; }
+    .intro-flow-step { font-size: 8px; padding: 4px 6px; }
+    .intro-pillar-desc { font-size: 10px; }
+    #tv-wti-chart { height: 280px !important; }
   }
   @media(min-width:769px) {
     .mobile-menu-panel { display: none !important; }
@@ -755,10 +778,15 @@
     z-index: 9999;
     background: #0a0a0a;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 0;
     transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+  }
+  @media(min-height:700px) {
+    .intro-overlay { align-items: center; padding: 0; }
   }
   .intro-overlay.hidden {
     opacity: 0;
@@ -814,7 +842,7 @@
     z-index: 1;
     width: 100%;
     max-width: 1080px;
-    padding: 80px 16px 32px;
+    padding: 40px 12px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1425,6 +1453,7 @@
       <button class="drawer-item" data-mobile-tab="stablecoin"><span class="dot" style="background:var(--accent-cyan)"></span>Stablecoin Strategy</button>
       <button class="drawer-item" data-mobile-tab="strategy"><span class="dot" style="background:var(--accent-red)"></span>Anti-Inflation Strategy</button>
       <button class="drawer-item" data-mobile-tab="comparisons"><span class="dot" style="background:var(--text-muted)"></span>Historical Comparisons</button>
+      <button class="drawer-item" data-mobile-tab="oil-markets"><span class="dot" style="background:var(--accent-amber)"></span>Oil Markets (TradingView)</button>
       <div class="drawer-divider"></div>
       <a href="/report.html" class="drawer-item report-link">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 14V2h10v12M3 8h10"/><path d="M6 5h2M6 7h4"/></svg>
@@ -1473,6 +1502,7 @@
     <button class="tab" data-tab="stablecoin">Stablecoin Strategy</button>
     <button class="tab" data-tab="strategy">Anti-Inflation Strategy</button>
     <button class="tab" data-tab="comparisons">Historical Comparisons</button>
+    <button class="tab" data-tab="oil-markets" style="color:var(--accent-amber)">Oil Markets</button>
   </div>
 
   <!-- ========== SECTION: OVERVIEW ========== -->
@@ -3081,6 +3111,288 @@
     </div></details>
   </div>
 
+  <!-- ========== SECTION: OIL MARKETS (TradingView) ========== -->
+  <div class="section" id="oil-markets">
+    <div class="chart-card" style="margin-bottom:24px;border-left:3px solid var(--accent-amber)">
+      <h3 style="color:var(--accent-amber);font-size:18px;margin-bottom:8px">Live Oil Markets & Venezuela Production Analysis</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+        Interactive TradingView charts showing real-time oil prices, historical comparisons, and Venezuela's production collapse.
+        Venezuela went from <strong>3.5M bpd (1998)</strong> to <strong>~900K bpd (2025)</strong> — a 74% decline that mirrors the country's
+        economic destruction. Meanwhile, global oil prices ranged from $10 to $140/bbl, and Venezuela captured less and less of each dollar.
+      </p>
+    </div>
+
+    <!-- Oil Price KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card" style="border-top:2px solid var(--accent-amber)">
+        <div class="kpi-label">WTI Crude (Live)</div>
+        <div class="kpi-value" style="color:var(--accent-amber)">~$72</div>
+        <div class="kpi-change neutral">NYMEX CL1!</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-cyan)">
+        <div class="kpi-label">Brent Crude (Live)</div>
+        <div class="kpi-value" style="color:var(--accent-cyan)">~$76</div>
+        <div class="kpi-change neutral">ICE BZ1!</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-red)">
+        <div class="kpi-label">Venezuela Discount</div>
+        <div class="kpi-value" style="color:var(--accent-red)">-$12-18</div>
+        <div class="kpi-change negative">Merey heavy crude vs WTI</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-green)">
+        <div class="kpi-label">VZ Production (2025)</div>
+        <div class="kpi-value" style="color:var(--accent-green)">~900K</div>
+        <div class="kpi-change positive">bpd | +68% from 2020 low</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-purple)">
+        <div class="kpi-label">Peak Production</div>
+        <div class="kpi-value" style="color:var(--accent-purple)">3.5M</div>
+        <div class="kpi-change negative">bpd (1998) | -74% decline</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-red)">
+        <div class="kpi-label">Lost Revenue (est.)</div>
+        <div class="kpi-value" style="color:var(--accent-red)">$800B+</div>
+        <div class="kpi-change negative">Cumulative 2013-2025</div>
+      </div>
+    </div>
+
+    <!-- TradingView: WTI Crude Oil (Main Chart) -->
+    <div class="chart-card" style="margin-bottom:16px">
+      <h3>WTI Crude Oil — 2001 to Present (TradingView)</h3>
+      <div style="height:500px;border-radius:8px;overflow:hidden" id="tv-wti-chart">
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container" style="height:100%;width:100%">
+          <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+          {
+            "autosize": true,
+            "symbol": "NYMEX:CL1!",
+            "interval": "M",
+            "timezone": "America/New_York",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "backgroundColor": "rgba(24, 24, 27, 1)",
+            "gridColor": "rgba(255, 255, 255, 0.04)",
+            "range": "ALL",
+            "allow_symbol_change": true,
+            "calendar": false,
+            "studies": ["STD;SMA"],
+            "support_host": "https://www.tradingview.com"
+          }
+          </script>
+        </div>
+        <!-- TradingView Widget END -->
+      </div>
+    </div>
+
+    <!-- TradingView: Brent vs WTI Comparison -->
+    <div class="chart-card" style="margin-bottom:16px">
+      <h3>Brent vs WTI vs Natural Gas — Multi-Chart Comparison</h3>
+      <div style="height:400px;border-radius:8px;overflow:hidden">
+        <div class="tradingview-widget-container" style="height:100%;width:100%">
+          <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+          {
+            "symbols": [
+              ["WTI Crude", "NYMEX:CL1!|12M"],
+              ["Brent Crude", "ICEEUR:BRN1!|12M"],
+              ["Natural Gas", "NYMEX:NG1!|12M"],
+              ["Gasoline", "NYMEX:RB1!|12M"]
+            ],
+            "chartOnly": false,
+            "width": "100%",
+            "height": "100%",
+            "locale": "en",
+            "colorTheme": "dark",
+            "autosize": true,
+            "showVolume": false,
+            "showMA": true,
+            "hideDateRanges": false,
+            "hideMarketStatus": true,
+            "hideSymbolLogo": false,
+            "scalePosition": "right",
+            "scaleMode": "Normal",
+            "fontFamily": "Inter, -apple-system, sans-serif",
+            "fontSize": "10",
+            "noTimeScale": false,
+            "valuesTracking": "1",
+            "changeMode": "price-and-percent",
+            "chartType": "area",
+            "lineWidth": 2,
+            "lineType": 0,
+            "dateRanges": ["1m|1D", "3m|1D", "12m|1W", "60m|1M", "all|1M"]
+          }
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- TradingView: Oil-Producing Country ETFs/Indices -->
+    <div class="chart-card" style="margin-bottom:16px">
+      <h3>Oil-Producing Nations: Stock Market Performance</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Compare how oil-producing economies performed — while others diversified, Venezuela collapsed</p>
+      <div style="height:400px;border-radius:8px;overflow:hidden">
+        <div class="tradingview-widget-container" style="height:100%;width:100%">
+          <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+          {
+            "symbols": [
+              ["Saudi Arabia", "TADAWUL:TASI|12M"],
+              ["UAE (Dubai)", "DFM:DFMGI|12M"],
+              ["Norway", "TVC:NI225|12M"],
+              ["Brazil", "BMFBOVESPA:IBOV|12M"],
+              ["Russia", "MOEX:IMOEX|12M"]
+            ],
+            "chartOnly": false,
+            "width": "100%",
+            "height": "100%",
+            "locale": "en",
+            "colorTheme": "dark",
+            "autosize": true,
+            "showVolume": false,
+            "showMA": false,
+            "hideDateRanges": false,
+            "hideMarketStatus": true,
+            "hideSymbolLogo": false,
+            "scalePosition": "right",
+            "scaleMode": "Normal",
+            "fontFamily": "Inter, -apple-system, sans-serif",
+            "fontSize": "10",
+            "noTimeScale": false,
+            "valuesTracking": "1",
+            "changeMode": "price-and-percent",
+            "chartType": "area",
+            "lineWidth": 2,
+            "lineType": 0,
+            "dateRanges": ["12m|1W", "60m|1M", "all|1M"]
+          }
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- Venezuela Oil Production & Revenue (Chart.js custom data) -->
+    <div class="chart-grid" style="margin-top:16px">
+      <div class="chart-card">
+        <h3>Venezuela Oil Production (K bpd) — 2001-2025</h3>
+        <div class="chart-wrapper" style="height:320px"><canvas id="vzOilProdChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Oil Revenue vs Production Decline ($B)</h3>
+        <div class="chart-wrapper" style="height:320px"><canvas id="vzOilRevenueChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Venezuela vs OPEC Peers: Production (K bpd)</h3>
+        <div class="chart-wrapper" style="height:320px"><canvas id="vzVsOpecChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Oil Price vs Venezuela GDP ($B)</h3>
+        <div class="chart-wrapper" style="height:320px"><canvas id="oilPriceGdpChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Oil Reserves Comparison -->
+    <div class="chart-card" style="margin-top:16px">
+      <h3 style="margin-bottom:12px">Proven Oil Reserves by Country (Billion Barrels)</h3>
+      <div class="chart-wrapper" style="height:300px"><canvas id="oilReservesChart"></canvas></div>
+    </div>
+
+    <!-- Black Market Economy Explainer -->
+    <div class="chart-card" style="margin-top:16px;border-left:3px solid var(--accent-red)">
+      <h3 style="color:var(--accent-red);margin-bottom:12px">From Petro-State to Black Market Survival</h3>
+      <div class="table-scroll"><table class="comparison-table" style="min-width:700px">
+        <thead>
+          <tr><th>Period</th><th>Oil (bpd)</th><th>Oil Price</th><th>Revenue</th><th>Economy</th><th>Population Response</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>2001-2008</strong></td><td>2.5-3.2M</td><td>$25-140</td>
+            <td style="color:var(--accent-green)">$30-90B</td>
+            <td>Boom: Social spending, missions</td>
+            <td>Petro-state prosperity, imports surge</td>
+          </tr>
+          <tr>
+            <td><strong>2009-2013</strong></td><td>2.3-2.7M</td><td>$60-110</td>
+            <td style="color:var(--accent-amber)">$60-90B</td>
+            <td>Cracks: FX controls, shortages begin</td>
+            <td>Black market FX emerges, hoarding starts</td>
+          </tr>
+          <tr style="background:rgba(239,68,68,0.04)">
+            <td><strong>2014-2016</strong></td><td>2.3-2.6M</td><td style="color:var(--accent-red)">$26-53</td>
+            <td style="color:var(--accent-red)">$12-37B</td>
+            <td>Collapse: Hyperinflation begins</td>
+            <td>Food lines, bachaqueros (resellers), barter</td>
+          </tr>
+          <tr style="background:rgba(239,68,68,0.08)">
+            <td><strong>2017-2019</strong></td><td>0.8-2.1M</td><td>$50-70</td>
+            <td style="color:var(--accent-red)">$9-32B</td>
+            <td>Freefall: Sanctions + infrastructure collapse</td>
+            <td>Mass emigration (4M+), USDT adoption, survival economy</td>
+          </tr>
+          <tr style="background:rgba(239,68,68,0.12)">
+            <td><strong>2020-2021</strong></td><td>0.5-0.6M</td><td>$40-70</td>
+            <td style="color:var(--accent-red)">$3-8B</td>
+            <td>Bottom: COVID + sanctions floor</td>
+            <td>Dollarization accelerates, crypto P2P, informal economy 60%+</td>
+          </tr>
+          <tr>
+            <td><strong>2022-2025</strong></td><td>0.7-0.9M</td><td>$70-85</td>
+            <td style="color:var(--accent-amber)">$14-20B</td>
+            <td>Partial recovery: dark fleet + Chevron</td>
+            <td>Two-speed economy: $ haves vs Bs have-nots</td>
+          </tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- TradingView: Forex & Crypto -->
+    <div class="chart-card" style="margin-top:16px">
+      <h3>Related Markets: USD, Bitcoin, Tether Volume</h3>
+      <div style="height:180px;border-radius:8px;overflow:hidden">
+        <div class="tradingview-widget-container" style="height:100%;width:100%">
+          <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          {
+            "symbols": [
+              {"proName": "NYMEX:CL1!", "title": "WTI Oil"},
+              {"proName": "ICEEUR:BRN1!", "title": "Brent"},
+              {"proName": "TVC:DXY", "title": "US Dollar"},
+              {"proName": "BITSTAMP:BTCUSD", "title": "Bitcoin"},
+              {"proName": "KRAKEN:USDTUSD", "title": "USDT"},
+              {"proName": "TVC:GOLD", "title": "Gold"},
+              {"proName": "NYMEX:NG1!", "title": "Nat Gas"}
+            ],
+            "showSymbolLogo": true,
+            "isTransparent": true,
+            "displayMode": "adaptive",
+            "colorTheme": "dark",
+            "locale": "en"
+          }
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>WTI</strong> West Texas Intermediate (US oil benchmark)</div>
+      <div class="g-item"><strong>Brent</strong> Brent Crude (international oil benchmark)</div>
+      <div class="g-item"><strong>CL1!</strong> WTI front-month futures contract</div>
+      <div class="g-item"><strong>BZ1!</strong> Brent front-month futures contract</div>
+      <div class="g-item"><strong>bpd</strong> Barrels per day</div>
+      <div class="g-item"><strong>OPEC</strong> Organization of Petroleum Exporting Countries</div>
+      <div class="g-item"><strong>Merey</strong> Venezuela's heavy crude blend (discount to WTI)</div>
+      <div class="g-item"><strong>DXY</strong> US Dollar Index</div>
+      <div class="g-item"><strong>PDVSA</strong> Petr&oacute;leos de Venezuela S.A.</div>
+      <div class="g-item"><strong>STS</strong> Ship-to-Ship transfer (dark fleet tactic)</div>
+      <div class="g-item"><strong>TASI</strong> Tadawul All Share Index (Saudi Arabia)</div>
+      <div class="g-item"><strong>IBOV</strong> Bovespa Index (Brazil)</div>
+    </div></details>
+  </div>
+
   <!-- Sources -->
   <div class="sources">
     <strong>Data Sources:</strong>
@@ -3157,7 +3469,8 @@ document.querySelectorAll('button.tab[data-tab]').forEach(tab => {
     'brazil': 'Brazil Plano Real',
     'stablecoin': 'Stablecoin Strategy',
     'strategy': 'Anti-Inflation Strategy',
-    'comparisons': 'Historical Comparisons'
+    'comparisons': 'Historical Comparisons',
+    'oil-markets': 'Oil Markets'
   };
 
   btn.addEventListener('click', function() {
@@ -3988,6 +4301,175 @@ new Chart(document.getElementById('stablecoinTreasuryChart'), {
     plugins: {
       legend: { position: 'bottom', labels: { font: { size: 10 } } },
       tooltip: { callbacks: { label: ctx => ctx.label + ': $' + ctx.parsed + 'B' } }
+    }
+  }
+});
+
+// === OIL MARKETS CHARTS ===
+// Venezuela Oil Production 2001-2025
+new Chart(document.getElementById('vzOilProdChart'), {
+  type: 'bar',
+  data: {
+    labels: ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'],
+    datasets: [{
+      label: 'Production (K bpd)',
+      data: [3010,2600,2340,2600,2700,2800,2700,2650,2600,2560,2700,2690,2689,2685,2626,2410,2103,1514,796,545,636,716,800,893,896],
+      backgroundColor: function(ctx) {
+        var v = ctx.parsed.y;
+        return v > 2000 ? 'rgba(0,187,127,0.5)' : v > 1000 ? 'rgba(245,158,11,0.5)' : 'rgba(239,68,68,0.5)';
+      },
+      borderColor: function(ctx) {
+        var v = ctx.parsed.y;
+        return v > 2000 ? '#00bb7f' : v > 1000 ? '#f59e0b' : '#ef4444';
+      },
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { title: ctx => '20' + ctx[0].label, label: ctx => ctx.parsed.y.toLocaleString() + ' K bpd' } }
+    },
+    scales: {
+      y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { callback: v => (v/1000).toFixed(1) + 'M' } },
+      x: { grid: { display: false }, ticks: { callback: function(v,i) { return i % 2 === 0 ? "'"+this.getLabelForValue(v) : ''; } } }
+    }
+  }
+});
+
+// Oil Revenue vs Production
+new Chart(document.getElementById('vzOilRevenueChart'), {
+  type: 'line',
+  data: {
+    labels: ['2001','2003','2005','2007','2009','2011','2013','2015','2017','2019','2020','2021','2023','2025'],
+    datasets: [{
+      label: 'Oil Revenue ($B)',
+      data: [18,15,42,55,45,88,85,12,32,9,3.5,8,15,20],
+      borderColor: '#c9fd34',
+      backgroundColor: 'rgba(201,253,52,0.1)',
+      fill: true,
+      tension: 0.3,
+      yAxisID: 'y',
+    },{
+      label: 'Production (K bpd)',
+      data: [3010,2340,2700,2700,2600,2700,2689,2626,2103,796,545,636,800,896],
+      borderColor: '#ef4444',
+      borderDash: [5,5],
+      tension: 0.3,
+      yAxisID: 'y1',
+      pointRadius: 3,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: { position: 'left', grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { callback: v => '$' + v + 'B' } },
+      y1: { position: 'right', grid: { display: false }, ticks: { callback: v => (v/1000).toFixed(1) + 'M' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Venezuela vs OPEC Peers
+new Chart(document.getElementById('vzVsOpecChart'), {
+  type: 'line',
+  data: {
+    labels: ['2005','2008','2010','2013','2015','2017','2019','2021','2023','2025'],
+    datasets: [{
+      label: 'Venezuela',
+      data: [2700,2650,2560,2689,2626,2103,796,636,800,896],
+      borderColor: '#ef4444',
+      borderWidth: 3,
+      tension: 0.3,
+    },{
+      label: 'Saudi Arabia',
+      data: [9550,9261,8900,9637,10193,9954,9808,9119,10396,9000],
+      borderColor: '#f59e0b',
+      tension: 0.3,
+    },{
+      label: 'Iraq',
+      data: [1833,2385,2460,3141,4031,4469,4678,4088,4420,4500],
+      borderColor: '#8b5cf6',
+      tension: 0.3,
+    },{
+      label: 'UAE',
+      data: [2751,2980,2849,3233,3474,3636,3788,3655,4020,4100],
+      borderColor: '#06b6d4',
+      tension: 0.3,
+    },{
+      label: 'Nigeria',
+      data: [2580,2169,2458,2373,2352,1988,2000,1537,1550,1400],
+      borderColor: '#22c55e',
+      borderDash: [5,5],
+      tension: 0.3,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
+    scales: {
+      y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { callback: v => (v/1000).toFixed(1) + 'M' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Oil Price vs Venezuela GDP
+new Chart(document.getElementById('oilPriceGdpChart'), {
+  type: 'line',
+  data: {
+    labels: ['2001','2003','2005','2007','2009','2011','2013','2015','2017','2019','2020','2022','2024'],
+    datasets: [{
+      label: 'Oil Price (WTI avg $/bbl)',
+      data: [26,31,57,72,62,95,98,49,51,57,39,95,75],
+      borderColor: '#f59e0b',
+      tension: 0.3,
+      yAxisID: 'y',
+    },{
+      label: 'Venezuela GDP ($B)',
+      data: [123,84,145,230,329,316,371,326,143,64,44,102,117],
+      borderColor: '#c9fd34',
+      backgroundColor: 'rgba(201,253,52,0.08)',
+      fill: true,
+      tension: 0.3,
+      yAxisID: 'y1',
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: { position: 'left', grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { callback: v => '$' + v } },
+      y1: { position: 'right', grid: { display: false }, ticks: { callback: v => '$' + v + 'B' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Oil Reserves by Country
+new Chart(document.getElementById('oilReservesChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Venezuela','Saudi Arabia','Canada','Iran','Iraq','UAE','Russia','Libya','Nigeria','USA'],
+    datasets: [{
+      label: 'Proven Reserves (Billion bbl)',
+      data: [303.8, 258.6, 170.3, 157.8, 145.0, 97.8, 80.0, 48.4, 36.9, 44.4],
+      backgroundColor: ['rgba(239,68,68,0.6)','rgba(245,158,11,0.5)','rgba(239,68,68,0.3)','rgba(139,92,246,0.5)','rgba(139,92,246,0.3)','rgba(6,182,212,0.5)','rgba(59,130,246,0.5)','rgba(245,158,11,0.3)','rgba(34,197,94,0.5)','rgba(201,253,52,0.5)'],
+      borderColor: ['#ef4444','#f59e0b','#ef4444','#8b5cf6','#8b5cf6','#06b6d4','#3b82f6','#f59e0b','#22c55e','#c9fd34'],
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.parsed.x + ' billion barrels' } }
+    },
+    scales: {
+      x: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { callback: v => v + 'B' } },
+      y: { grid: { display: false } }
     }
   }
 });
