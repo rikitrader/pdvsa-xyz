@@ -180,6 +180,102 @@
   }
   .report-dropdown-menu a.dd-view-all:hover { background: rgba(239,68,68,0.1); }
 
+  /* Mobile Hamburger Menu */
+  .mobile-menu-btn {
+    display: none; padding: 10px 14px; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
+    color: var(--text-primary); font-size: 14px; font-weight: 600;
+    font-family: inherit; width: 100%; text-align: left;
+    min-height: 48px; align-items: center; gap: 10px; margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+  .mobile-menu-btn:hover { border-color: var(--text-muted); }
+  .mobile-menu-btn svg.hamburger-icon { flex-shrink: 0; }
+  .mobile-menu-btn .current-tab-label { flex: 1; }
+  .mobile-menu-btn svg.chevron-down { flex-shrink: 0; transition: transform 0.2s; }
+  .mobile-menu-btn.open svg.chevron-down { transform: rotate(180deg); }
+
+  .mobile-menu-panel {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px); z-index: 500;
+  }
+  .mobile-menu-panel.open { display: block; }
+  .mobile-menu-drawer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: #1a1a1e; border-radius: 20px 20px 0 0;
+    padding: 16px; max-height: 80vh; overflow-y: auto;
+    animation: slideUp 0.25s ease-out;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .mobile-menu-drawer .drawer-handle {
+    width: 40px; height: 4px; background: rgba(255,255,255,0.2);
+    border-radius: 2px; margin: 0 auto 16px;
+  }
+  .mobile-menu-drawer .drawer-title {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); margin-bottom: 12px; font-weight: 600;
+  }
+  .mobile-menu-drawer .drawer-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 12px; border-radius: 10px; cursor: pointer;
+    color: var(--text-secondary); font-size: 15px; font-weight: 500;
+    transition: all 0.15s; border: none; background: none;
+    width: 100%; text-align: left; font-family: inherit;
+    min-height: 48px;
+  }
+  .mobile-menu-drawer .drawer-item:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
+  .mobile-menu-drawer .drawer-item.active {
+    background: rgba(201,253,52,0.12); color: var(--brand-gold); font-weight: 600;
+  }
+  .mobile-menu-drawer .drawer-item .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .mobile-menu-drawer .drawer-divider {
+    height: 1px; background: rgba(255,255,255,0.06); margin: 8px 0;
+  }
+  .mobile-menu-drawer .drawer-item.report-link {
+    color: var(--accent-red); border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 10px; margin-top: 8px; text-decoration: none;
+  }
+
+  @media(max-width:768px) {
+    .mobile-menu-btn { display: flex; }
+    .tabs { display: none; }
+    .tabs.force-show { display: flex; }
+    .report-dropdown-menu { left: 0; right: 0; min-width: auto; }
+  }
+  @media(min-width:769px) {
+    .mobile-menu-panel { display: none !important; }
+  }
+
+  /* Abbreviation Glossary */
+  .glossary {
+    margin-top: 32px; padding: 16px; background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  .glossary summary {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-muted); cursor: pointer;
+    list-style: none; display: flex; align-items: center; gap: 8px;
+    min-height: 44px; padding: 4px 0;
+  }
+  .glossary summary::-webkit-details-marker { display: none; }
+  .glossary summary::before { content: '+ '; font-family: var(--font-mono); color: var(--brand-gold); }
+  .glossary[open] summary::before { content: '- '; }
+  .glossary .glossary-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 6px 16px; margin-top: 12px;
+  }
+  .glossary .g-item {
+    font-size: 12px; color: var(--text-secondary); line-height: 1.6;
+    padding: 4px 0; overflow-wrap: anywhere;
+  }
+  .glossary .g-item strong {
+    color: var(--text-primary); font-family: var(--font-mono); font-size: 11px;
+    margin-right: 4px;
+  }
+
   /* Sections */
   .section { display: none; }
   .section.active { display: block; }
@@ -1288,7 +1384,35 @@
     <div class="subtitle" style="margin-top:8px; font-size:11px;">Data as of May 2025 | Sources: BCV, CEDICE, IMF, UNDP, Trading Economics</div>
   </div>
 
-  <!-- Tabs -->
+  <!-- Mobile Menu Button (visible on small screens) -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open navigation menu">
+    <svg class="hamburger-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+    <span class="current-tab-label" id="currentTabLabel">Overview</span>
+    <svg class="chevron-down" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l4 4 4-4"/></svg>
+  </button>
+
+  <!-- Mobile Menu Panel (bottom drawer) -->
+  <div class="mobile-menu-panel" id="mobileMenuPanel">
+    <div class="mobile-menu-drawer">
+      <div class="drawer-handle"></div>
+      <div class="drawer-title">Dashboard</div>
+      <button class="drawer-item active" data-mobile-tab="overview"><span class="dot" style="background:var(--brand-gold)"></span>Overview</button>
+      <button class="drawer-item" data-mobile-tab="balance-sheet"><span class="dot" style="background:var(--accent-blue)"></span>Balance Sheet</button>
+      <button class="drawer-item" data-mobile-tab="monetary"><span class="dot" style="background:var(--accent-purple)"></span>Monetary & Inflation</button>
+      <button class="drawer-item" data-mobile-tab="external"><span class="dot" style="background:var(--accent-green)"></span>Reserves & External</button>
+      <button class="drawer-item" data-mobile-tab="brazil"><span class="dot" style="background:var(--accent-amber)"></span>Brazil Plano Real</button>
+      <button class="drawer-item" data-mobile-tab="stablecoin"><span class="dot" style="background:var(--accent-cyan)"></span>Stablecoin Strategy</button>
+      <button class="drawer-item" data-mobile-tab="strategy"><span class="dot" style="background:var(--accent-red)"></span>Anti-Inflation Strategy</button>
+      <button class="drawer-item" data-mobile-tab="comparisons"><span class="dot" style="background:var(--text-muted)"></span>Historical Comparisons</button>
+      <div class="drawer-divider"></div>
+      <a href="/report.html" class="drawer-item report-link">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 14V2h10v12M3 8h10"/><path d="M6 5h2M6 7h4"/></svg>
+        Forensic Report
+      </a>
+    </div>
+  </div>
+
+  <!-- Tabs (hidden on mobile, visible on desktop) -->
   <div class="tabs">
     <!-- Forensic Report Dropdown (FIRST) -->
     <div class="report-dropdown" id="reportDropdown">
@@ -1574,6 +1698,22 @@
         <div class="chart-wrapper"><canvas id="overviewFxChart"></canvas></div>
       </div>
     </div>
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>BCV</strong> Banco Central de Venezuela (Central Bank)</div>
+      <div class="g-item"><strong>GDP</strong> Gross Domestic Product</div>
+      <div class="g-item"><strong>FX</strong> Foreign Exchange</div>
+      <div class="g-item"><strong>M2</strong> Broad Money Supply (cash + deposits + savings)</div>
+      <div class="g-item"><strong>CPI</strong> Consumer Price Index</div>
+      <div class="g-item"><strong>IMF</strong> International Monetary Fund</div>
+      <div class="g-item"><strong>PDVSA</strong> Petr&oacute;leos de Venezuela S.A.</div>
+      <div class="g-item"><strong>Bs</strong> Bol&iacute;var (Venezuelan currency)</div>
+      <div class="g-item"><strong>USDT</strong> Tether (US Dollar stablecoin)</div>
+      <div class="g-item"><strong>USDC</strong> USD Coin (Circle stablecoin)</div>
+      <div class="g-item"><strong>YoY</strong> Year-over-Year</div>
+      <div class="g-item"><strong>CEDICE</strong> Centro de Divulgaci&oacute;n del Conocimiento Econ&oacute;mico</div>
+      <div class="g-item"><strong>OPEC</strong> Organization of Petroleum Exporting Countries</div>
+      <div class="g-item"><strong>bpd</strong> Barrels per day</div>
+    </div></details>
   </div>
 
   <!-- ========== SECTION: BALANCE SHEET ========== -->
@@ -1674,6 +1814,18 @@
         </div>
       </div>
     </div>
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>BCV</strong> Banco Central de Venezuela</div>
+      <div class="g-item"><strong>SDR</strong> Special Drawing Rights (IMF reserve asset)</div>
+      <div class="g-item"><strong>VEF/VES</strong> Bol&iacute;var Fuerte / Bol&iacute;var Soberano</div>
+      <div class="g-item"><strong>T-Bill</strong> Treasury Bill (short-term US government debt)</div>
+      <div class="g-item"><strong>NFA</strong> Net Foreign Assets</div>
+      <div class="g-item"><strong>NDA</strong> Net Domestic Assets</div>
+      <div class="g-item"><strong>OGP</strong> Observatorio de Gasto P&uacute;blico (CEDICE)</div>
+      <div class="g-item"><strong>Bs</strong> Bol&iacute;var (Venezuelan currency)</div>
+      <div class="g-item"><strong>FX</strong> Foreign Exchange</div>
+      <div class="g-item"><strong>YoY</strong> Year-over-Year</div>
+    </div></details>
   </div>
 
   <!-- ========== SECTION: MONETARY & INFLATION ========== -->
@@ -1722,6 +1874,18 @@
         <div class="chart-wrapper"><canvas id="fxChart"></canvas></div>
       </div>
     </div>
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>M2</strong> Broad Money Supply</div>
+      <div class="g-item"><strong>M1</strong> Narrow Money (cash + checking deposits)</div>
+      <div class="g-item"><strong>CPI</strong> Consumer Price Index</div>
+      <div class="g-item"><strong>MoM</strong> Month-over-Month</div>
+      <div class="g-item"><strong>QE</strong> Quantitative Easing (money printing)</div>
+      <div class="g-item"><strong>URV</strong> Unidade Real de Valor (Brazil's bridge currency)</div>
+      <div class="g-item"><strong>VES</strong> Bol&iacute;var Soberano (current Venezuelan currency)</div>
+      <div class="g-item"><strong>Bs</strong> Bol&iacute;var</div>
+      <div class="g-item"><strong>YoY</strong> Year-over-Year</div>
+      <div class="g-item"><strong>FX</strong> Foreign Exchange</div>
+    </div></details>
   </div>
 
   <!-- ========== SECTION: RESERVES & EXTERNAL ========== -->
@@ -1769,6 +1933,18 @@
         <div class="chart-wrapper"><canvas id="debtCompChart"></canvas></div>
       </div>
     </div>
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>FX</strong> Foreign Exchange</div>
+      <div class="g-item"><strong>SDR</strong> Special Drawing Rights (IMF)</div>
+      <div class="g-item"><strong>SWAP</strong> Currency Swap Agreement</div>
+      <div class="g-item"><strong>EMBI</strong> Emerging Markets Bond Index</div>
+      <div class="g-item"><strong>CDS</strong> Credit Default Swap</div>
+      <div class="g-item"><strong>BoP</strong> Balance of Payments</div>
+      <div class="g-item"><strong>CAD</strong> Current Account Deficit</div>
+      <div class="g-item"><strong>OFAC</strong> Office of Foreign Assets Control (US Treasury)</div>
+      <div class="g-item"><strong>bpd</strong> Barrels per day</div>
+      <div class="g-item"><strong>IMF</strong> International Monetary Fund</div>
+    </div></details>
   </div>
 
   <!-- ========== SECTION: BRAZIL PLANO REAL ========== -->
@@ -2002,6 +2178,16 @@
       </table>
     </div>
   </div>
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>URV</strong> Unidade Real de Valor (Brazil's virtual bridge currency 1994)</div>
+      <div class="g-item"><strong>BRL</strong> Brazilian Real (current currency)</div>
+      <div class="g-item"><strong>Cruzeiro</strong> Previous Brazilian currency replaced by the Real</div>
+      <div class="g-item"><strong>MoM</strong> Month-over-Month</div>
+      <div class="g-item"><strong>CB</strong> Central Bank</div>
+      <div class="g-item"><strong>FHC</strong> Fernando Henrique Cardoso (architect of Plano Real)</div>
+      <div class="g-item"><strong>USDT</strong> Tether stablecoin (digital dollar equivalent)</div>
+      <div class="g-item"><strong>P2P</strong> Peer-to-Peer (direct person-to-person transfers)</div>
+    </div></details>
   </div><!-- close brazil section -->
 
   <!-- ========== SECTION: STABLECOIN STRATEGY ========== -->
@@ -2226,6 +2412,340 @@
         <div class="chart-wrapper"><canvas id="stablecoinTrustChart"></canvas></div>
       </div>
     </div>
+
+    <!-- ===== USDVZ: SOVEREIGN STABLECOIN BACKED BY US TREASURIES ===== -->
+    <div class="chart-card" style="margin-top:32px;border-left:3px solid var(--brand-gold);background:linear-gradient(135deg, rgba(201,253,52,0.06), rgba(6,182,212,0.04))">
+      <h3 style="color:var(--brand-gold);font-size:20px;margin-bottom:8px">USDVZ: A Sovereign Stablecoin Backed by US Treasuries</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+        The <strong style="color:var(--brand-gold)">USDVZ</strong> is a proposed sovereign digital currency for Venezuela, fully backed 1:1 by <strong>US Treasury securities</strong>.
+        Unlike the failed Petro (opaque, unbacked, forced), USDVZ follows the proven model of Tether ($141.6B in Treasuries) and the US GENIUS Act framework (signed July 2025).
+        Every USDVZ token is redeemable for $1, with reserves publicly auditable on-chain in real-time.
+        At current T-bill yields of <strong>3.47–3.73%</strong>, the Treasury backing generates passive income for Venezuela —
+        turning monetary stability into a <strong>revenue center</strong> instead of a cost center.
+      </p>
+    </div>
+
+    <!-- USDVZ KPIs -->
+    <div class="kpi-grid" style="margin-top:16px">
+      <div class="kpi-card" style="border-top:2px solid var(--brand-gold)">
+        <div class="kpi-label">T-Bill Yield (3M)</div>
+        <div class="kpi-value" style="color:var(--brand-gold)">3.73%</div>
+        <div class="kpi-change neutral">Feb 2026 | US Treasury</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-cyan)">
+        <div class="kpi-label">Tether Treasury Holdings</div>
+        <div class="kpi-value" style="color:var(--accent-cyan)">$141.6B</div>
+        <div class="kpi-change positive">Top-10 global holder of US debt</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-green)">
+        <div class="kpi-label">Tether 2025 Profit</div>
+        <div class="kpi-value" style="color:var(--accent-green)">$10B+</div>
+        <div class="kpi-change positive">From Treasury yields alone</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-amber)">
+        <div class="kpi-label">GENIUS Act</div>
+        <div class="kpi-value" style="color:var(--accent-amber)">100%</div>
+        <div class="kpi-change neutral">1:1 reserve mandate (Jul 2025)</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-purple)">
+        <div class="kpi-label">Combined Stablecoin Treasuries</div>
+        <div class="kpi-value" style="color:var(--accent-purple)">$206.7B</div>
+        <div class="kpi-change neutral">USDT + USDC in T-bills/repos</div>
+      </div>
+      <div class="kpi-card" style="border-top:2px solid var(--accent-red)">
+        <div class="kpi-label">Venezuela Pop.</div>
+        <div class="kpi-value" style="color:var(--accent-red)">28.6M</div>
+        <div class="kpi-change neutral">Per-capita backing target</div>
+      </div>
+    </div>
+
+    <!-- US Treasury Yield Curve Chart -->
+    <div class="chart-grid" style="margin-top:24px">
+      <div class="chart-card">
+        <h3>US Treasury Yield Curve (Feb 2026)</h3>
+        <div class="chart-wrapper"><canvas id="treasuryYieldChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>USDVZ Annual Yield by Treasury Holding Size</h3>
+        <div class="chart-wrapper"><canvas id="usdvzYieldChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- How USDVZ Works -->
+    <div class="chart-card" style="margin-top:24px">
+      <h3 style="margin-bottom:16px">How USDVZ Works: 4-Step Treasury-Backed Architecture</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+        <div style="padding:16px;background:var(--bg-primary);border-radius:12px;border:1px solid var(--brand-gold);border-left:4px solid var(--brand-gold);position:relative">
+          <div style="position:absolute;top:-10px;left:16px;background:var(--brand-gold);color:#0a0a0a;font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px">STEP 1</div>
+          <div style="font-weight:600;font-size:14px;color:var(--brand-gold);margin-top:8px">Oil Revenue Inflow</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.6">PDVSA oil exports ($24.6B/yr gross) settle in USD. A sovereign allocation (20-40%) flows into a dedicated US Treasury reserve account managed by an independent custodian.</div>
+        </div>
+        <div style="padding:16px;background:var(--bg-primary);border-radius:12px;border:1px solid var(--accent-cyan);border-left:4px solid var(--accent-cyan);position:relative">
+          <div style="position:absolute;top:-10px;left:16px;background:var(--accent-cyan);color:#0a0a0a;font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px">STEP 2</div>
+          <div style="font-weight:600;font-size:14px;color:var(--accent-cyan);margin-top:8px">Treasury Purchase</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.6">Reserve fund buys short-duration US T-bills (1-6 month maturities) — the same instruments backing USDT/USDC. Custodied at a GENIUS-compliant institution (BlackRock, BNY Mellon).</div>
+        </div>
+        <div style="padding:16px;background:var(--bg-primary);border-radius:12px;border:1px solid var(--accent-green);border-left:4px solid var(--accent-green);position:relative">
+          <div style="position:absolute;top:-10px;left:16px;background:var(--accent-green);color:#0a0a0a;font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px">STEP 3</div>
+          <div style="font-weight:600;font-size:14px;color:var(--accent-green);margin-top:8px">USDVZ Mint</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.6">For every $1 in T-bills, exactly 1 USDVZ is minted on a public blockchain. Smart contract enforces: total supply &le; total reserves. Anyone can verify backing ratio in real-time.</div>
+        </div>
+        <div style="padding:16px;background:var(--bg-primary);border-radius:12px;border:1px solid var(--accent-purple);border-left:4px solid var(--accent-purple);position:relative">
+          <div style="position:absolute;top:-10px;left:16px;background:var(--accent-purple);color:#0a0a0a;font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px">STEP 4</div>
+          <div style="font-weight:600;font-size:14px;color:var(--accent-purple);margin-top:8px">Yield Capture</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.6">T-bill interest (3.47-3.73% annually) accrues to the Venezuelan sovereign fund. At $20B reserves, this generates $720M/yr in passive income — funding infrastructure, healthcare, education.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Treasury Backing Scenarios Table -->
+    <div class="chart-card" style="margin-top:24px">
+      <h3 style="margin-bottom:12px">USDVZ Treasury Reserve Scenarios & Annual Revenue</h3>
+      <div class="table-scroll"><table class="comparison-table" style="min-width:700px">
+        <thead>
+          <tr><th>Treasury Holding</th><th>Per Capita</th><th>Yield @3.60%</th><th>Yield @4.18%</th><th>Yield @4.76%</th><th>Comparable Model</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>$5B</strong></td><td>$175</td>
+            <td style="color:var(--accent-green)">$180M/yr</td>
+            <td style="color:var(--accent-green)">$209M/yr</td>
+            <td style="color:var(--accent-green)">$238M/yr</td>
+            <td>Minimal Viable</td>
+          </tr>
+          <tr style="background:rgba(201,253,52,0.04)">
+            <td><strong style="color:var(--brand-gold)">$20B</strong></td><td style="color:var(--brand-gold)">$699</td>
+            <td style="color:var(--accent-green);font-weight:600">$720M/yr</td>
+            <td style="color:var(--accent-green);font-weight:600">$836M/yr</td>
+            <td style="color:var(--accent-green);font-weight:600">$952M/yr</td>
+            <td style="color:var(--brand-gold)">Recommended Target</td>
+          </tr>
+          <tr>
+            <td><strong>$50B</strong></td><td>$1,748</td>
+            <td style="color:var(--accent-green)">$1.80B/yr</td>
+            <td style="color:var(--accent-green)">$2.09B/yr</td>
+            <td style="color:var(--accent-green)">$2.38B/yr</td>
+            <td>Credible Full Peg</td>
+          </tr>
+          <tr>
+            <td><strong>$100B</strong></td><td>$3,497</td>
+            <td style="color:var(--accent-green)">$3.60B/yr</td>
+            <td style="color:var(--accent-green)">$4.18B/yr</td>
+            <td style="color:var(--accent-green)">$4.76B/yr</td>
+            <td>Tether-Scale Model</td>
+          </tr>
+          <tr>
+            <td><strong>$360B</strong></td><td>$12,587</td>
+            <td style="color:var(--accent-green)">$12.96B/yr</td>
+            <td style="color:var(--accent-green)">$15.05B/yr</td>
+            <td style="color:var(--accent-green)">$17.14B/yr</td>
+            <td>Saudi Arabia Level</td>
+          </tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- Oil Revenue Accumulation Path -->
+    <div class="chart-card" style="margin-top:24px">
+      <h3 style="margin-bottom:12px">Oil Revenue Allocation: Years to Reach Reserve Targets</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Based on ~$24.6B gross annual oil revenue (900K bpd at ~$75/bbl)</p>
+      <div class="table-scroll"><table class="comparison-table">
+        <thead>
+          <tr><th>Allocation %</th><th>Annual $</th><th>Years to $20B</th><th>Years to $50B</th><th>Years to $100B</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>10%</td><td>$2.46B</td><td>8.1 yrs</td><td>20.3 yrs</td><td>40.7 yrs</td></tr>
+          <tr style="background:rgba(201,253,52,0.04)"><td><strong style="color:var(--brand-gold)">20%</strong></td><td style="color:var(--brand-gold)">$4.92B</td><td style="color:var(--brand-gold);font-weight:600">4.1 yrs</td><td>10.2 yrs</td><td>20.3 yrs</td></tr>
+          <tr><td>30%</td><td>$7.38B</td><td style="color:var(--accent-green)">2.7 yrs</td><td>6.8 yrs</td><td>13.6 yrs</td></tr>
+          <tr><td>40%</td><td>$9.84B</td><td style="color:var(--accent-green);font-weight:600">2.0 yrs</td><td style="color:var(--accent-green)">5.1 yrs</td><td>10.2 yrs</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- Global Reserve Benchmark Comparison -->
+    <div class="chart-card" style="margin-top:24px">
+      <h3 style="margin-bottom:12px">Global Economic Systems: Reserve-Backed Currency Models</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px">How other nations maintain currency stability through reserves — models Venezuela can adapt</p>
+      <div class="table-scroll"><table class="comparison-table" style="min-width:800px">
+        <thead>
+          <tr><th>Country</th><th>System</th><th>Pop.</th><th>Reserves</th><th>Per Capita</th><th>Primary Asset</th><th>Years Active</th><th>Key Lesson</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Hong Kong</strong></td><td>Currency Board</td><td>7.5M</td>
+            <td style="color:var(--accent-green)">$429B</td><td style="color:var(--accent-green)">$57,250</td>
+            <td>USD assets (1.7x backing)</td><td>Since 1983</td><td style="font-size:11px">100% USD backing survived 3 crises</td>
+          </tr>
+          <tr>
+            <td><strong>Singapore</strong></td><td>Managed Float</td><td>5.9M</td>
+            <td style="color:var(--accent-green)">$1.64T</td><td style="color:var(--accent-green)">$278,000</td>
+            <td>Diversified (51% equities)</td><td>Since 1981</td><td style="font-size:11px">SWF yields 3.8% real over 20 years</td>
+          </tr>
+          <tr>
+            <td><strong>Saudi Arabia</strong></td><td>Fixed Peg</td><td>36.9M</td>
+            <td style="color:var(--accent-green)">$463B</td><td style="color:var(--accent-green)">$12,560</td>
+            <td>US Treasuries (~80%)</td><td>Since 1986</td><td style="font-size:11px">Oil revenue → T-bill reserves = USDVZ model</td>
+          </tr>
+          <tr style="background:rgba(201,253,52,0.04)">
+            <td><strong style="color:var(--brand-gold)">Tether (USDT)</strong></td><td style="color:var(--brand-gold)">Stablecoin</td><td>—</td>
+            <td style="color:var(--brand-gold)">$141.6B</td><td>—</td>
+            <td style="color:var(--brand-gold)">US T-bills (73%)</td><td>Since 2014</td><td style="font-size:11px;color:var(--brand-gold)">$10B profit from yields; USDVZ template</td>
+          </tr>
+          <tr style="background:rgba(239,68,68,0.04)">
+            <td><strong style="color:var(--accent-red)">Venezuela (now)</strong></td><td style="color:var(--accent-red)">Floating</td><td>28.6M</td>
+            <td style="color:var(--accent-red)">$13.3B</td><td style="color:var(--accent-red)">$465</td>
+            <td style="color:var(--accent-red)">Gold (opaque)</td><td>—</td><td style="font-size:11px;color:var(--accent-red)">Lowest per-capita reserves in LatAm</td>
+          </tr>
+          <tr style="background:rgba(201,253,52,0.08)">
+            <td><strong style="color:var(--brand-gold)">USDVZ (target)</strong></td><td style="color:var(--brand-gold)">Treasury-Backed Stablecoin</td><td>28.6M</td>
+            <td style="color:var(--brand-gold)">$20B+</td><td style="color:var(--brand-gold)">$699+</td>
+            <td style="color:var(--brand-gold)">US T-bills (100%)</td><td>Proposed</td><td style="font-size:11px;color:var(--brand-gold)">$720M/yr passive yield + full transparency</td>
+          </tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- Per-Capita Reserve Benchmark Chart -->
+    <div class="chart-grid" style="margin-top:24px">
+      <div class="chart-card">
+        <h3>Per-Capita Reserve Benchmarks ($)</h3>
+        <div class="chart-wrapper"><canvas id="perCapitaReserveChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Stablecoin Issuers: US Treasury Holdings ($B)</h3>
+        <div class="chart-wrapper"><canvas id="stablecoinTreasuryChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- USDVZ IMPLEMENTATION ROADMAP -->
+    <div class="chart-card" style="margin-top:32px;border-left:3px solid var(--accent-cyan)">
+      <h3 style="color:var(--accent-cyan);font-size:18px;margin-bottom:16px">USDVZ Implementation Roadmap</h3>
+      <div class="table-scroll"><table class="comparison-table" style="min-width:850px">
+        <thead>
+          <tr style="background:rgba(6,182,212,0.1)">
+            <th style="width:100px">Phase</th><th style="width:100px">Timeline</th><th>Milestone</th><th>Deliverables</th><th style="width:90px">Reserve Target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="display:inline-block;padding:2px 8px;border-radius:6px;background:rgba(239,68,68,0.15);color:var(--accent-red);font-size:11px;font-weight:600">Phase 0</span></td>
+            <td><strong>Month 1-2</strong></td>
+            <td><strong>Legal Framework</strong></td>
+            <td style="font-size:12px">Draft USDVZ decree via Gaceta Oficial. Establish independent Reserve Authority. GENIUS Act compliance mapping. Select custodian (BlackRock/BNY). Legal tender dual status.</td>
+            <td style="color:var(--text-muted)">$0</td>
+          </tr>
+          <tr style="background:rgba(245,158,11,0.04)">
+            <td><span style="display:inline-block;padding:2px 8px;border-radius:6px;background:rgba(245,158,11,0.15);color:var(--accent-amber);font-size:11px;font-weight:600">Phase 1</span></td>
+            <td><strong>Month 3-6</strong></td>
+            <td><strong>Seed Reserve</strong></td>
+            <td style="font-size:12px">Initial T-bill purchase ($2-5B from PDVSA allocation). Deploy smart contracts on Ethereum/Tron. On-chain proof-of-reserves dashboard. Mint first USDVZ batch. Pilot with government payroll (500K employees).</td>
+            <td style="color:var(--accent-amber);font-weight:600">$2-5B</td>
+          </tr>
+          <tr>
+            <td><span style="display:inline-block;padding:2px 8px;border-radius:6px;background:rgba(6,182,212,0.15);color:var(--accent-cyan);font-size:11px;font-weight:600">Phase 2</span></td>
+            <td><strong>Month 6-12</strong></td>
+            <td><strong>Retail Launch</strong></td>
+            <td style="font-size:12px">USDVZ wallet app (iOS/Android). Merchant POS integration. Tax payment in USDVZ. License exchanges (Binance, Reserve, local P2P). Dual-pricing mandate (Bs + USDVZ). PDVSA settlements shift to USDVZ.</td>
+            <td style="color:var(--accent-cyan);font-weight:600">$5-10B</td>
+          </tr>
+          <tr style="background:rgba(0,187,127,0.04)">
+            <td><span style="display:inline-block;padding:2px 8px;border-radius:6px;background:rgba(0,187,127,0.15);color:var(--accent-green);font-size:11px;font-weight:600">Phase 3</span></td>
+            <td><strong>Month 12-24</strong></td>
+            <td><strong>Mass Adoption</strong></td>
+            <td style="font-size:12px">Target 60%+ transaction share. Interbank settlement in USDVZ. Cross-border remittance corridors (Colombia, Peru, Chile). Build reserve to $20B via 20% PDVSA allocation. Sovereign wealth fund establishment.</td>
+            <td style="color:var(--accent-green);font-weight:600">$10-20B</td>
+          </tr>
+          <tr>
+            <td><span style="display:inline-block;padding:2px 8px;border-radius:6px;background:rgba(201,253,52,0.2);color:var(--brand-gold);font-size:11px;font-weight:600">Phase 4</span></td>
+            <td><strong>Year 2-5</strong></td>
+            <td><strong>Bolivar Sunset</strong></td>
+            <td style="font-size:12px">Phase out bolivar as USDVZ adoption exceeds 80%. Full economy on USDVZ + USDT/USDC. BCV transitions from money printer to reserve manager. Smart contracts prevent backsliding. Target Saudi-level per-capita backing.</td>
+            <td style="color:var(--brand-gold);font-weight:600">$20-50B</td>
+          </tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- Digital System Architecture -->
+    <div class="chart-card" style="margin-top:24px">
+      <h3 style="margin-bottom:16px">USDVZ Digital System Architecture</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+        <div style="padding:16px;background:var(--bg-primary);border-radius:12px;border:1px solid var(--border);text-align:center">
+          <div style="font-size:28px;font-weight:700;color:var(--brand-gold);margin-bottom:4px">Layer 1</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px">Reserve Custody</div>
+          <div style="font-size:11px;color:var(--text-muted);line-height:1.5">US T-bills held at GENIUS-compliant custodian (BlackRock Circle Reserve Fund model). Monthly attestation, annual audit. No rehypothecation.</div>
+        </div>
+        <div style="padding:16px;background:var(--bg-primary);border-radius:12px;border:1px solid var(--border);text-align:center">
+          <div style="font-size:28px;font-weight:700;color:var(--accent-cyan);margin-bottom:4px">Layer 2</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px">Smart Contracts</div>
+          <div style="font-size:11px;color:var(--text-muted);line-height:1.5">Ethereum + Tron (for USDT compatibility). Mint/burn enforced by code. Supply cap = reserve balance. Formally verified contracts (Certora/Slither).</div>
+        </div>
+        <div style="padding:16px;background:var(--bg-primary);border-radius:12px;border:1px solid var(--border);text-align:center">
+          <div style="font-size:28px;font-weight:700;color:var(--accent-green);margin-bottom:4px">Layer 3</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px">Payment Rails</div>
+          <div style="font-size:11px;color:var(--text-muted);line-height:1.5">Wallet app (iOS/Android/web). QR code merchant POS. NFC tap-to-pay. Offline SMS fallback for rural areas. Sub-$0.01 transaction fees.</div>
+        </div>
+        <div style="padding:16px;background:var(--bg-primary);border-radius:12px;border:1px solid var(--border);text-align:center">
+          <div style="font-size:28px;font-weight:700;color:var(--accent-purple);margin-bottom:4px">Layer 4</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px">Transparency</div>
+          <div style="font-size:11px;color:var(--text-muted);line-height:1.5">Real-time proof-of-reserves dashboard. On-chain supply audit. Public reserve attestations. Any citizen can verify backing ratio at any time.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits of US Treasuries -->
+    <div class="chart-card" style="margin-top:24px">
+      <h3 style="margin-bottom:12px">Benefits of US Treasury Backing for USDVZ</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+        <div style="padding:14px;background:var(--accent-green-dim);border-radius:8px">
+          <div style="font-weight:600;font-size:13px;color:var(--accent-green);margin-bottom:4px">Passive Revenue Generation</div>
+          <div style="font-size:12px;color:var(--text-secondary)">At $20B in T-bills, Venezuela earns $720M/yr in risk-free yield — more than the entire 2024 education budget. Tether proved this at scale: $10B profit in 2025 from Treasury yields alone.</div>
+        </div>
+        <div style="padding:14px;background:var(--accent-cyan-dim);border-radius:8px">
+          <div style="font-weight:600;font-size:13px;color:var(--accent-cyan);margin-bottom:4px">Sanctions-Compatible Design</div>
+          <div style="font-size:12px;color:var(--text-secondary)">Unlike USDT P2P (which operates in a gray zone), USDVZ would be issued under a negotiated OFAC General License framework. Holding US Treasuries actually aligns Venezuelan interests with US financial infrastructure.</div>
+        </div>
+        <div style="padding:14px;background:var(--accent-purple-dim);border-radius:8px">
+          <div style="font-weight:600;font-size:13px;color:var(--accent-purple);margin-bottom:4px">Zero Trust Required</div>
+          <div style="font-size:12px;color:var(--text-secondary)">The BCV has zero credibility after decades of money printing and data hiding. On-chain proof-of-reserves eliminates the trust problem entirely — smart contracts enforce what institutions can't.</div>
+        </div>
+        <div style="padding:14px;background:var(--brand-gold-dim);border-radius:8px">
+          <div style="font-weight:600;font-size:13px;color:var(--brand-gold);margin-bottom:4px">Financial Inclusion</div>
+          <div style="font-size:12px;color:var(--text-secondary)">60% of Venezuelans are unbanked. USDVZ runs on smartphones — no bank branch, no minimum balance, no KYC for small transactions. 38% already use P2P crypto; USDVZ formalizes this.</div>
+        </div>
+        <div style="padding:14px;background:var(--accent-amber-dim);border-radius:8px">
+          <div style="font-weight:600;font-size:13px;color:var(--accent-amber);margin-bottom:4px">Remittance Revolution</div>
+          <div style="font-size:12px;color:var(--text-secondary)">7.9M Venezuelan diaspora sends ~$5.4B/yr in remittances. Western Union charges 10-50% fees. USDVZ transfers cost &lt;$0.01 and settle in minutes. This alone saves families $500M+/yr.</div>
+        </div>
+        <div style="padding:14px;background:var(--accent-blue-dim);border-radius:8px">
+          <div style="font-weight:600;font-size:13px;color:var(--accent-blue);margin-bottom:4px">GENIUS Act Compliance</div>
+          <div style="font-size:12px;color:var(--text-secondary)">The US GENIUS Act (Jul 2025) mandates 100% reserve backing, monthly disclosure, and annual audits for stablecoins. USDVZ designed to exceed these requirements — signaling credibility to global markets.</div>
+        </div>
+      </div>
+    </div>
+
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>USDVZ</strong> Proposed Venezuelan sovereign stablecoin backed by US Treasuries</div>
+      <div class="g-item"><strong>USDT</strong> Tether (largest stablecoin, $140B supply)</div>
+      <div class="g-item"><strong>USDC</strong> USD Coin by Circle ($73B supply)</div>
+      <div class="g-item"><strong>T-Bill</strong> US Treasury Bill (short-term government debt, &lt;1 year)</div>
+      <div class="g-item"><strong>GENIUS Act</strong> US stablecoin regulation law (signed Jul 2025)</div>
+      <div class="g-item"><strong>OFAC</strong> Office of Foreign Assets Control (US Treasury)</div>
+      <div class="g-item"><strong>URV</strong> Unidade Real de Valor (Brazil's 1994 bridge currency)</div>
+      <div class="g-item"><strong>SWF</strong> Sovereign Wealth Fund</div>
+      <div class="g-item"><strong>SAMA</strong> Saudi Arabian Monetary Authority</div>
+      <div class="g-item"><strong>MAS</strong> Monetary Authority of Singapore</div>
+      <div class="g-item"><strong>HKMA</strong> Hong Kong Monetary Authority</div>
+      <div class="g-item"><strong>CBDC</strong> Central Bank Digital Currency</div>
+      <div class="g-item"><strong>P2P</strong> Peer-to-Peer transfers</div>
+      <div class="g-item"><strong>POS</strong> Point of Sale (merchant terminal)</div>
+      <div class="g-item"><strong>NFC</strong> Near-Field Communication (tap to pay)</div>
+      <div class="g-item"><strong>KYC</strong> Know Your Customer (identity verification)</div>
+      <div class="g-item"><strong>BCV</strong> Banco Central de Venezuela</div>
+      <div class="g-item"><strong>bpd</strong> Barrels per day</div>
+      <div class="g-item"><strong>Petro</strong> Failed Venezuelan gov't crypto (2018-2024)</div>
+      <div class="g-item"><strong>SWIFT</strong> Society for Worldwide Interbank Financial Telecommunication</div>
+    </div></details>
   </div>
   </div><!-- close stablecoin section -->
 
@@ -2369,6 +2889,19 @@
         the BCV's balance sheet is merely the symptom. The disease is fiscal and institutional.
       </p>
     </div>
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>BCV</strong> Banco Central de Venezuela</div>
+      <div class="g-item"><strong>IMF</strong> International Monetary Fund</div>
+      <div class="g-item"><strong>CB</strong> Central Bank</div>
+      <div class="g-item"><strong>PDVSA</strong> Petr&oacute;leos de Venezuela S.A.</div>
+      <div class="g-item"><strong>FX</strong> Foreign Exchange</div>
+      <div class="g-item"><strong>USDT</strong> Tether stablecoin</div>
+      <div class="g-item"><strong>URV</strong> Unidade Real de Valor (Brazil model)</div>
+      <div class="g-item"><strong>SOE</strong> State-Owned Enterprise</div>
+      <div class="g-item"><strong>PPP</strong> Purchasing Power Parity</div>
+      <div class="g-item"><strong>VAT</strong> Value Added Tax</div>
+      <div class="g-item"><strong>SWF</strong> Sovereign Wealth Fund</div>
+    </div></details>
   </div>
 
   <!-- ========== SECTION: COMPARISONS ========== -->
@@ -2513,6 +3046,18 @@
         </div>
       </div>
     </div>
+    <details class="glossary"><summary>Abbreviations Index</summary><div class="glossary-grid">
+      <div class="g-item"><strong>URV</strong> Unidade Real de Valor (Brazil 1994)</div>
+      <div class="g-item"><strong>Austral Plan</strong> Argentina's failed 1985 stabilization</div>
+      <div class="g-item"><strong>Convertibilidad</strong> Argentina's 1:1 USD peg (1991-2001)</div>
+      <div class="g-item"><strong>Shekel Plan</strong> Israel's 1985 heterodox stabilization</div>
+      <div class="g-item"><strong>Plano Real</strong> Brazil's successful 1994 stabilization</div>
+      <div class="g-item"><strong>Sachs Plan</strong> Jeffrey Sachs' Bolivia shock therapy (1985)</div>
+      <div class="g-item"><strong>IMF</strong> International Monetary Fund</div>
+      <div class="g-item"><strong>CB</strong> Central Bank</div>
+      <div class="g-item"><strong>HIPC</strong> Heavily Indebted Poor Countries Initiative</div>
+      <div class="g-item"><strong>FX</strong> Foreign Exchange</div>
+    </div></details>
   </div>
 
   <!-- Sources -->
@@ -2573,6 +3118,58 @@ document.querySelectorAll('button.tab[data-tab]').forEach(tab => {
       dd.classList.remove('open');
       btn.setAttribute('aria-expanded', 'false');
     }
+  });
+})();
+
+// Mobile Menu
+(function() {
+  const btn = document.getElementById('mobileMenuBtn');
+  const panel = document.getElementById('mobileMenuPanel');
+  const label = document.getElementById('currentTabLabel');
+  if (!btn || !panel) return;
+
+  const tabNames = {
+    'overview': 'Overview',
+    'balance-sheet': 'Balance Sheet',
+    'monetary': 'Monetary & Inflation',
+    'external': 'Reserves & External',
+    'brazil': 'Brazil Plano Real',
+    'stablecoin': 'Stablecoin Strategy',
+    'strategy': 'Anti-Inflation Strategy',
+    'comparisons': 'Historical Comparisons'
+  };
+
+  btn.addEventListener('click', function() {
+    panel.classList.add('open');
+    btn.classList.add('open');
+  });
+
+  panel.addEventListener('click', function(e) {
+    if (e.target === panel) {
+      panel.classList.remove('open');
+      btn.classList.remove('open');
+    }
+  });
+
+  document.querySelectorAll('[data-mobile-tab]').forEach(function(item) {
+    item.addEventListener('click', function() {
+      const tabId = item.dataset.mobileTab;
+      // Switch tabs
+      document.querySelectorAll('button.tab[data-tab]').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+      var desktopTab = document.querySelector('button.tab[data-tab="' + tabId + '"]');
+      if (desktopTab) desktopTab.classList.add('active');
+      var target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+      // Update mobile menu
+      document.querySelectorAll('[data-mobile-tab]').forEach(function(i) { i.classList.remove('active'); });
+      item.classList.add('active');
+      label.textContent = tabNames[tabId] || tabId;
+      // Close drawer
+      panel.classList.remove('open');
+      btn.classList.remove('open');
+      window.scrollTo(0, 0);
+    });
   });
 })();
 
@@ -3274,8 +3871,105 @@ new Chart(document.getElementById('stablecoinTrustChart'), {
   }
 });
 
-// Add Brazil to comparison chart
-// (Already included in the comparison chart dataset)
+// US Treasury Yield Curve
+new Chart(document.getElementById('treasuryYieldChart'), {
+  type: 'line',
+  data: {
+    labels: ['1M','3M','6M','1Y','2Y','3Y','5Y','7Y','10Y','20Y','30Y'],
+    datasets: [{
+      label: 'Yield (%)',
+      data: [3.71,3.73,3.60,3.47,3.52,3.55,3.75,3.96,4.18,4.76,4.82],
+      borderColor: '#c9fd34',
+      backgroundColor: 'rgba(201,253,52,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 5,
+      pointBackgroundColor: '#c9fd34',
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.parsed.y.toFixed(2) + '%' } }
+    },
+    scales: {
+      y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { callback: v => v + '%' }, min: 3.0, max: 5.0 },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// USDVZ Yield by Reserve Size
+new Chart(document.getElementById('usdvzYieldChart'), {
+  type: 'bar',
+  data: {
+    labels: ['$5B','$10B','$20B','$50B','$100B','$360B'],
+    datasets: [{
+      label: 'Annual Yield @3.60%',
+      data: [0.18, 0.36, 0.72, 1.80, 3.60, 12.96],
+      backgroundColor: ['rgba(201,253,52,0.3)','rgba(201,253,52,0.4)','rgba(201,253,52,0.7)','rgba(6,182,212,0.5)','rgba(139,92,246,0.5)','rgba(0,187,127,0.5)'],
+      borderColor: ['#c9fd34','#c9fd34','#c9fd34','#06b6d4','#8b5cf6','#00bb7f'],
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toFixed(2) + 'B/yr' } }
+    },
+    scales: {
+      y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { callback: v => '$' + v + 'B' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Per-Capita Reserve Benchmark
+new Chart(document.getElementById('perCapitaReserveChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Venezuela\n(Current)','USDVZ\n($20B Target)','Saudi\nArabia','Hong\nKong','Singapore'],
+    datasets: [{
+      label: 'Per Capita Reserves ($)',
+      data: [465, 699, 12560, 57250, 278000],
+      backgroundColor: ['rgba(239,68,68,0.5)','rgba(201,253,52,0.6)','rgba(245,158,11,0.5)','rgba(6,182,212,0.5)','rgba(139,92,246,0.5)'],
+      borderColor: ['#ef4444','#c9fd34','#f59e0b','#06b6d4','#8b5cf6'],
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.x.toLocaleString() + ' per capita' } }
+    },
+    scales: {
+      x: { type: 'logarithmic', grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { callback: v => '$' + v.toLocaleString() } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// Stablecoin Treasury Holdings
+new Chart(document.getElementById('stablecoinTreasuryChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Tether (USDT) T-Bills','Tether Repos','Tether Other','Circle (USDC) T-Bills','Circle Repos','Circle Other'],
+    datasets: [{
+      data: [122, 19, 51.9, 24.5, 40.6, 11.4],
+      backgroundColor: ['#c9fd34','rgba(201,253,52,0.5)','rgba(201,253,52,0.2)','#06b6d4','rgba(6,182,212,0.5)','rgba(6,182,212,0.2)'],
+      borderColor: '#18181b',
+      borderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 10 } } },
+      tooltip: { callbacks: { label: ctx => ctx.label + ': $' + ctx.parsed + 'B' } }
+    }
+  }
+});
 
 // Radar Chart - Preconditions
 new Chart(document.getElementById('radarChart'), {
