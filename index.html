@@ -1375,6 +1375,130 @@
         <div class="chart-wrapper"><canvas id="oilChart"></canvas></div>
       </div>
     </div>
+
+    <!-- HISTORICAL DATA: 2001-2024 -->
+    <div class="chart-card" style="margin-top:24px;border-left:3px solid var(--brand-gold)">
+      <h3 style="color:var(--brand-gold);font-size:18px;margin-bottom:4px">The Full Picture: Venezuela 2004&ndash;2025</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:16px">A 21-year visual dataset showing the rise and catastrophic fall of Venezuela's economy &mdash; from $373B peak GDP and 2,600K bpd oil output to systemic collapse.</p>
+    </div>
+
+    <!-- GDP vs Oil Price vs Production -->
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>GDP, Oil Production &amp; OPEC Price (2004&ndash;2025)</h3>
+        <div class="chart-wrapper"><canvas id="overviewTripleChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Key metrics infographic row -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin:16px 0">
+      <div class="kpi-card" style="text-align:center;border-top:3px solid var(--accent-red)">
+        <div class="kpi-label">GDP Peak &rarr; Trough</div>
+        <div class="kpi-value" style="color:var(--accent-red);font-size:22px">-88%</div>
+        <div class="kpi-change negative">$373B &rarr; $43B (2012-2020)</div>
+      </div>
+      <div class="kpi-card" style="text-align:center;border-top:3px solid var(--accent-amber)">
+        <div class="kpi-label">Oil Production</div>
+        <div class="kpi-value" style="color:var(--accent-amber);font-size:22px">-74%</div>
+        <div class="kpi-change negative">3,400K &rarr; 896K bpd</div>
+      </div>
+      <div class="kpi-card" style="text-align:center;border-top:3px solid var(--accent-purple)">
+        <div class="kpi-label">FX Reserves</div>
+        <div class="kpi-value" style="color:var(--accent-purple);font-size:22px">-69%</div>
+        <div class="kpi-change negative">$43.1B &rarr; $13.3B</div>
+      </div>
+      <div class="kpi-card" style="text-align:center;border-top:3px solid var(--brand-gold)">
+        <div class="kpi-label">Peak Inflation</div>
+        <div class="kpi-value" style="color:var(--brand-gold);font-size:22px">130K%</div>
+        <div class="kpi-change negative">2018 hyperinflation peak</div>
+      </div>
+    </div>
+
+    <!-- FX Reserves + Inflation bar charts -->
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>International Reserves (2004&ndash;2025, $B)</h3>
+        <div class="chart-wrapper"><canvas id="overviewReservesBar"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Inflation Trajectory (Log Scale)</h3>
+        <div class="chart-wrapper"><canvas id="overviewInflationLog"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Oil Revenue waterfall -->
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Estimated Oil Revenue by Year ($B)</h3>
+        <div class="chart-wrapper"><canvas id="overviewRevenueBar"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Historical data table -->
+    <div class="chart-card" style="margin-top:16px">
+      <h3>Complete Economic Dataset (2004&ndash;2025)</h3>
+      <div class="table-scroll"><table class="bs-table" style="min-width:700px">
+        <thead>
+          <tr><th>Year</th><th class="amount">GDP ($B)</th><th class="amount">Inflation (%)</th><th class="amount">Reserves ($B)</th><th class="amount">Oil (K bpd)</th><th class="amount">Oil Price ($/bbl)</th><th class="amount">Revenue ($B)</th><th>Key Event</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2004</td><td class="amount">112</td><td class="amount">19</td><td class="amount">24.2</td><td class="amount">2,600</td><td class="amount">34.88</td><td class="amount">~33</td><td>Ch&aacute;vez consolidates power</td></tr>
+          <tr><td>2005</td><td class="amount">143</td><td class="amount">14</td><td class="amount">30.4</td><td class="amount">2,600</td><td class="amount">50.64</td><td class="amount">~48</td><td>Peak spending begins</td></tr>
+          <tr><td>2006</td><td class="amount">179</td><td class="amount">17</td><td class="amount">37.4</td><td class="amount">2,500</td><td class="amount">61.30</td><td class="amount">~56</td><td>Oil JVs nationalized</td></tr>
+          <tr><td>2007</td><td class="amount">233</td><td class="amount">23</td><td class="amount">33.5</td><td class="amount">2,400</td><td class="amount">68.53</td><td class="amount">~60</td><td>Mass expropriations</td></tr>
+          <tr style="background:var(--accent-green-dim)"><td><strong>2008</strong></td><td class="amount"><strong>307</strong></td><td class="amount">31</td><td class="amount"><strong>43.1</strong></td><td class="amount">2,394</td><td class="amount">94.45</td><td class="amount">~82</td><td>Peak reserves $43.1B</td></tr>
+          <tr><td>2009</td><td class="amount">269</td><td class="amount">25</td><td class="amount">35.8</td><td class="amount">2,300</td><td class="amount">61.29</td><td class="amount">~51</td><td>Global financial crisis</td></tr>
+          <tr><td>2010</td><td class="amount">318</td><td class="amount">27</td><td class="amount">29.5</td><td class="amount">2,200</td><td class="amount">77.45</td><td class="amount">~62</td><td>Continued underinvestment</td></tr>
+          <tr><td>2011</td><td class="amount">316</td><td class="amount">28</td><td class="amount">29.9</td><td class="amount">2,100</td><td class="amount">107.48</td><td class="amount">~82</td><td>Peak oil prices</td></tr>
+          <tr style="background:var(--brand-gold-dim)"><td><strong>2012</strong></td><td class="amount"><strong>373</strong></td><td class="amount">20</td><td class="amount">29.9</td><td class="amount">2,000</td><td class="amount">109.97</td><td class="amount">~80</td><td>Peak GDP $373B</td></tr>
+          <tr><td>2013</td><td class="amount">259</td><td class="amount">56</td><td class="amount">21.5</td><td class="amount">1,900</td><td class="amount">105.87</td><td class="amount">~73</td><td>Ch&aacute;vez dies; Maduro</td></tr>
+          <tr><td>2014</td><td class="amount">215</td><td class="amount">69</td><td class="amount">22.1</td><td class="amount">1,800</td><td class="amount">96.29</td><td class="amount">~63</td><td>Oil price crash</td></tr>
+          <tr><td>2015</td><td class="amount">125</td><td class="amount">159</td><td class="amount">16.4</td><td class="amount">1,700</td><td class="amount">49.49</td><td class="amount">~31</td><td>Crisis deepens</td></tr>
+          <tr><td>2016</td><td class="amount">113</td><td class="amount">274</td><td class="amount">10.5</td><td class="amount">1,500</td><td class="amount">40.76</td><td class="amount">~22</td><td>Hyperinflation begins</td></tr>
+          <tr><td>2017</td><td class="amount">116</td><td class="amount">863</td><td class="amount">9.7</td><td class="amount">1,300</td><td class="amount">52.39</td><td class="amount">~25</td><td style="color:var(--accent-red)">Bond default</td></tr>
+          <tr style="background:var(--accent-red-dim)"><td><strong>2018</strong></td><td class="amount">102</td><td class="amount" style="color:var(--accent-red)"><strong>130,060</strong></td><td class="amount">8.8</td><td class="amount">1,354</td><td class="amount">70.32</td><td class="amount">~35</td><td style="color:var(--accent-red)">Peak hyperinflation</td></tr>
+          <tr><td>2019</td><td class="amount">73</td><td class="amount" style="color:var(--accent-red)">19,906</td><td class="amount">7.6</td><td class="amount">877</td><td class="amount">63.96</td><td class="amount">~20</td><td style="color:var(--accent-red)">US oil sanctions</td></tr>
+          <tr style="background:var(--accent-red-dim)"><td><strong>2020</strong></td><td class="amount" style="color:var(--accent-red)"><strong>43</strong></td><td class="amount">2,959</td><td class="amount" style="color:var(--accent-red)">6.4</td><td class="amount" style="color:var(--accent-red)">512</td><td class="amount">41.85</td><td class="amount" style="color:var(--accent-red)">~8</td><td style="color:var(--accent-red)">COVID + sanctions trough</td></tr>
+          <tr><td>2021</td><td class="amount">57</td><td class="amount">686</td><td class="amount">5.1</td><td class="amount">553</td><td class="amount">70.40</td><td class="amount">~14</td><td>Slow recovery begins</td></tr>
+          <tr><td>2022</td><td class="amount">89</td><td class="amount">234</td><td class="amount">9.2</td><td class="amount">717</td><td class="amount">101.95</td><td class="amount">~27</td><td>Chevron license</td></tr>
+          <tr><td>2023</td><td class="amount">102</td><td class="amount">190</td><td class="amount">9.8</td><td class="amount">800</td><td class="amount">84.17</td><td class="amount">~25</td><td>Temporary sanctions relief</td></tr>
+          <tr><td>2024</td><td class="amount">120</td><td class="amount">48</td><td class="amount">10.3</td><td class="amount">893</td><td class="amount">79.53</td><td class="amount">17.5</td><td>PDVSA reports $17.5B</td></tr>
+          <tr><td>2025</td><td class="amount">83</td><td class="amount">172-548</td><td class="amount">13.3</td><td class="amount">896</td><td class="amount">~67</td><td class="amount">~16</td><td>Maduro captured; GL46</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px">Sources: <a href="https://www.worldometers.info/gdp/venezuela-gdp/" target="_blank" style="color:var(--brand-gold)">Worldometer</a> | <a href="https://www.imf.org/external/datamapper/PCPIPCH@WEO/VEN" target="_blank" style="color:var(--brand-gold)">IMF WEO</a> | <a href="https://tradingeconomics.com/venezuela/foreign-exchange-reserves" target="_blank" style="color:var(--brand-gold)">TradingEconomics</a> | <a href="https://countryeconomy.com/raw-materials/opec" target="_blank" style="color:var(--brand-gold)">OPEC</a> | <a href="https://www.eia.gov/international/analysis/country/VEN" target="_blank" style="color:var(--brand-gold)">EIA</a></p>
+    </div>
+
+    <!-- Debt Infographic -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-top:16px">
+      <div class="kpi-card" style="text-align:center;border-top:3px solid var(--accent-red)">
+        <div class="kpi-label">Defaulted Bonds</div>
+        <div class="kpi-value" style="color:var(--accent-red)">$60B</div>
+        <div class="kpi-change negative">Since November 2017</div>
+      </div>
+      <div class="kpi-card" style="text-align:center;border-top:3px solid var(--accent-amber)">
+        <div class="kpi-label">Total External Debt</div>
+        <div class="kpi-value" style="color:var(--accent-amber)">$170B</div>
+        <div class="kpi-change negative">~200% of GDP</div>
+      </div>
+      <div class="kpi-card" style="text-align:center;border-top:3px solid var(--accent-purple)">
+        <div class="kpi-label">Oil Revenue (1999-2017)</div>
+        <div class="kpi-value" style="color:var(--accent-purple)">$635B</div>
+        <div class="kpi-change negative">Where did it all go?</div>
+      </div>
+    </div>
+
+    <!-- Debt breakdown chart -->
+    <div class="chart-grid" style="margin-top:16px">
+      <div class="chart-card">
+        <h3>External Debt Breakdown ($B)</h3>
+        <div class="chart-wrapper"><canvas id="overviewDebtChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>FX Rate: Official vs Parallel (2025)</h3>
+        <div class="chart-wrapper"><canvas id="overviewFxChart"></canvas></div>
+      </div>
+    </div>
   </div>
 
   <!-- ========== SECTION: BALANCE SHEET ========== -->
@@ -2405,6 +2529,133 @@ new Chart(document.getElementById('oilChart'), {
       y: { beginAtZero: true, grid: { color: 'rgba(30,41,59,0.3)' } },
       x: { grid: { display: false } }
     }
+  }
+});
+
+// Overview: Triple axis chart (GDP + Oil + Price)
+const ovYrs = ['2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+new Chart(document.getElementById('overviewTripleChart'), {
+  type: 'bar',
+  data: {
+    labels: ovYrs,
+    datasets: [
+      { label: 'GDP ($B)', data: [112,143,179,233,307,269,318,316,373,259,215,125,113,116,102,73,43,57,89,102,120,83],
+        backgroundColor: ovYrs.map((_,i)=>[112,143,179,233,307,269,318,316,373,259,215,125,113,116,102,73,43,57,89,102,120,83][i]<100?'rgba(239,68,68,0.6)':'rgba(201,253,52,0.5)'),
+        borderRadius: 3, yAxisID: 'y' },
+      { label: 'Oil (K bpd)', type:'line', data: [2600,2600,2500,2400,2394,2300,2200,2100,2000,1900,1800,1700,1500,1300,1354,877,512,553,717,800,893,896],
+        borderColor: '#8b5cf6', borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: 'y', fill: false },
+      { label: 'OPEC Price ($/bbl)', type:'line', data: [35,51,61,69,94,61,77,107,110,106,96,49,41,52,70,64,42,70,102,84,80,67],
+        borderColor: '#f59e0b', borderWidth: 2, tension: 0.3, pointRadius: 2, borderDash:[5,3], yAxisID: 'y1', fill: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      y: { position:'left', grid:{color:'rgba(30,41,59,0.3)'} },
+      y1: { position:'right', grid:{display:false}, ticks:{callback:v=>'$'+v} },
+      x: { grid:{display:false} }
+    },
+    plugins: { legend: { labels: { usePointStyle: true, pointStyle: 'circle' } } }
+  }
+});
+
+// Overview: Reserves bar chart
+new Chart(document.getElementById('overviewReservesBar'), {
+  type: 'bar',
+  data: {
+    labels: ovYrs,
+    datasets: [{
+      label: 'FX Reserves ($B)',
+      data: [24.2,30.4,37.4,33.5,43.1,35.8,29.5,29.9,29.9,21.5,22.1,16.4,10.5,9.7,8.8,7.6,6.4,5.1,9.2,9.8,10.3,13.3],
+      backgroundColor: ovYrs.map((_,i)=>[24.2,30.4,37.4,33.5,43.1,35.8,29.5,29.9,29.9,21.5,22.1,16.4,10.5,9.7,8.8,7.6,6.4,5.1,9.2,9.8,10.3,13.3][i]<10?'rgba(239,68,68,0.7)':'rgba(201,253,52,0.5)'),
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false} },
+    scales: {
+      y: { grid:{color:'rgba(30,41,59,0.3)'}, ticks:{callback:v=>'$'+v+'B'} },
+      x: { grid:{display:false} }
+    }
+  }
+});
+
+// Overview: Inflation log chart
+new Chart(document.getElementById('overviewInflationLog'), {
+  type: 'line',
+  data: {
+    labels: ['2004','2006','2008','2010','2012','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'Inflation (%, Log)',
+      data: [19,17,31,27,20,69,159,274,863,130060,19906,2959,686,234,190,48,172],
+      borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)',
+      fill: true, tension: 0.3, borderWidth: 2, pointRadius: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false} },
+    scales: {
+      y: { type:'logarithmic', grid:{color:'rgba(30,41,59,0.3)'},
+        ticks:{callback:v=>{if([10,100,1000,10000,100000].includes(v))return v.toLocaleString()+'%';return '';}} },
+      x: { grid:{display:false} }
+    }
+  }
+});
+
+// Overview: Revenue bar
+new Chart(document.getElementById('overviewRevenueBar'), {
+  type: 'bar',
+  data: {
+    labels: ovYrs,
+    datasets: [{
+      label: 'Est. Oil Revenue ($B)',
+      data: [33,48,56,60,82,51,62,82,80,73,63,31,22,25,35,20,8,14,27,25,17.5,16],
+      backgroundColor: ovYrs.map((_,i)=>[33,48,56,60,82,51,62,82,80,73,63,31,22,25,35,20,8,14,27,25,17.5,16][i]>60?'rgba(0,187,127,0.6)':[33,48,56,60,82,51,62,82,80,73,63,31,22,25,35,20,8,14,27,25,17.5,16][i]>30?'rgba(245,158,11,0.6)':'rgba(239,68,68,0.6)'),
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false}, title:{display:true, text:'Total 1999-2017: ~$635B earned', color:'#f59e0b', font:{size:11}} },
+    scales: {
+      y: { grid:{color:'rgba(30,41,59,0.3)'}, ticks:{callback:v=>'$'+v+'B'} },
+      x: { grid:{display:false} }
+    }
+  }
+});
+
+// Overview: Debt breakdown
+new Chart(document.getElementById('overviewDebtChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Sovereign Bonds $35B','PDVSA Bonds $25B','Arbitration $22B','Accrued Interest $35B','China $10B','Russia+Multi $6.5B'],
+    datasets: [{ data: [35,25,22,35,10,6.5], backgroundColor: ['#ef4444','#dc2626','#f59e0b','#8b5cf6','#06b6d4','rgba(255,255,255,0.15)'], borderWidth: 0, borderRadius: 3 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position:'bottom', labels:{usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10}} } }
+  }
+});
+
+// Overview: FX chart
+new Chart(document.getElementById('overviewFxChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan 25','Mar','Jun','Aug','Oct','Dec','Jan 26'],
+    datasets: [
+      { label:'Official (VES/$)', data:[52,65,99,150,200,280,301], borderColor:'#c9fd34', borderWidth:2, tension:0.3, pointRadius:3 },
+      { label:'Parallel (VES/$)', data:[75,110,165,240,350,490,560], borderColor:'#ef4444', borderWidth:2, tension:0.3, pointRadius:3, borderDash:[5,3] }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      y: { grid:{color:'rgba(30,41,59,0.3)'}, ticks:{callback:v=>v+' VES'} },
+      x: { grid:{display:false} }
+    },
+    plugins: { legend: { labels:{usePointStyle:true,pointStyle:'circle'} } }
   }
 });
 
