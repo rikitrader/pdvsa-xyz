@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 120">
   <defs>
     <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#3b82f6"/>
@@ -23,7 +23,7 @@
   </defs>
 
   <!-- === ICON MARK === -->
-  <g transform="translate(60, 60)">
+  <g transform="translate(54, 60)">
     <!-- Outer hexagonal ring -->
     <polygon points="0,-42 36.4,-21 36.4,21 0,42 -36.4,21 -36.4,-21"
       fill="none" stroke="url(#lg)" stroke-width="1.2" opacity=".4"/>
@@ -56,26 +56,16 @@
   </g>
 
   <!-- === WORDMARK === -->
-  <g transform="translate(116, 40)">
-    <!-- PDVSA -->
+  <g transform="translate(110, 40)">
     <text font-family="'Orbitron', 'SF Pro Display', system-ui, sans-serif" font-weight="700"
-      font-size="36" letter-spacing="4" fill="url(#lg2)" y="10">
-      PDVSA
-    </text>
-    <!-- .XYZ -->
-    <text font-family="'Orbitron', 'SF Pro Display', system-ui, sans-serif" font-weight="700"
-      font-size="36" letter-spacing="4" fill="url(#lg3)" x="178" y="10">
-      .XYZ
-    </text>
+      font-size="36" letter-spacing="2" fill="url(#lg2)" y="10">PDVSA</text><text font-family="'Orbitron', 'SF Pro Display', system-ui, sans-serif" font-weight="700"
+      font-size="36" letter-spacing="2" fill="url(#lg3)" x="156" y="10">.XYZ</text>
   </g>
 
   <!-- Tagline -->
   <text font-family="'Exo 2', 'Inter', system-ui, sans-serif" font-weight="400"
-    font-size="11" letter-spacing="3.5" fill="#64748b" x="118" y="76"
-    text-transform="uppercase">
-    BLOCKCHAIN MONETARY INNOVATION
-  </text>
+    font-size="11" letter-spacing="3" fill="#64748b" x="112" y="76">BLOCKCHAIN MONETARY INNOVATION</text>
 
   <!-- Thin accent line -->
-  <line x1="118" y1="86" x2="380" y2="86" stroke="url(#lg)" stroke-width=".5" opacity=".2"/>
+  <line x1="112" y1="86" x2="370" y2="86" stroke="url(#lg)" stroke-width=".5" opacity=".2"/>
 </svg>
