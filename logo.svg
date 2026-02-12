@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120">
+  <defs>
+    <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="40%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f0f9ff"/>
+      <stop offset="60%" stop-color="#94a3b8"/>
+    </linearGradient>
+    <linearGradient id="lg3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- === ICON MARK === -->
+  <g transform="translate(60, 60)">
+    <!-- Outer hexagonal ring -->
+    <polygon points="0,-42 36.4,-21 36.4,21 0,42 -36.4,21 -36.4,-21"
+      fill="none" stroke="url(#lg)" stroke-width="1.2" opacity=".4"/>
+    <!-- Middle hexagonal ring (rotated 30deg) -->
+    <polygon points="0,-32 27.7,-16 27.7,16 0,32 -27.7,16 -27.7,-16"
+      fill="none" stroke="url(#lg)" stroke-width="1" opacity=".25"
+      transform="rotate(30)"/>
+    <!-- Inner circle -->
+    <circle r="20" fill="none" stroke="url(#lg)" stroke-width="1.2" opacity=".5"/>
+    <!-- Core glow -->
+    <circle r="8" fill="url(#lg)" opacity=".7" filter="url(#glow)"/>
+    <circle r="4" fill="#f0f9ff" opacity=".9"/>
+    <!-- Node dots on outer hex -->
+    <circle cx="0" cy="-42" r="2.5" fill="#3b82f6" opacity=".7"/>
+    <circle cx="36.4" cy="-21" r="2.5" fill="#6366f1" opacity=".7"/>
+    <circle cx="36.4" cy="21" r="2.5" fill="#8b5cf6" opacity=".7"/>
+    <circle cx="0" cy="42" r="2.5" fill="#a78bfa" opacity=".7"/>
+    <circle cx="-36.4" cy="21" r="2.5" fill="#22d3ee" opacity=".7"/>
+    <circle cx="-36.4" cy="-21" r="2.5" fill="#06b6d4" opacity=".7"/>
+    <!-- Connection lines from core to nodes -->
+    <line x1="0" y1="0" x2="0" y2="-42" stroke="#3b82f6" stroke-width=".5" opacity=".15"/>
+    <line x1="0" y1="0" x2="36.4" y2="-21" stroke="#6366f1" stroke-width=".5" opacity=".15"/>
+    <line x1="0" y1="0" x2="36.4" y2="21" stroke="#8b5cf6" stroke-width=".5" opacity=".15"/>
+    <line x1="0" y1="0" x2="0" y2="42" stroke="#a78bfa" stroke-width=".5" opacity=".15"/>
+    <line x1="0" y1="0" x2="-36.4" y2="21" stroke="#22d3ee" stroke-width=".5" opacity=".15"/>
+    <line x1="0" y1="0" x2="-36.4" y2="-21" stroke="#06b6d4" stroke-width=".5" opacity=".15"/>
+    <!-- V mark -->
+    <path d="M-14,-14 L0,14 L14,-14" fill="none" stroke="url(#lg3)" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+  </g>
+
+  <!-- === WORDMARK === -->
+  <g transform="translate(116, 40)">
+    <!-- PDVSA -->
+    <text font-family="'Orbitron', 'SF Pro Display', system-ui, sans-serif" font-weight="700"
+      font-size="36" letter-spacing="4" fill="url(#lg2)" y="10">
+      PDVSA
+    </text>
+    <!-- .XYZ -->
+    <text font-family="'Orbitron', 'SF Pro Display', system-ui, sans-serif" font-weight="700"
+      font-size="36" letter-spacing="4" fill="url(#lg3)" x="178" y="10">
+      .XYZ
+    </text>
+  </g>
+
+  <!-- Tagline -->
+  <text font-family="'Exo 2', 'Inter', system-ui, sans-serif" font-weight="400"
+    font-size="11" letter-spacing="3.5" fill="#64748b" x="118" y="76"
+    text-transform="uppercase">
+    BLOCKCHAIN MONETARY INNOVATION
+  </text>
+
+  <!-- Thin accent line -->
+  <line x1="118" y1="86" x2="380" y2="86" stroke="url(#lg)" stroke-width=".5" opacity=".2"/>
+</svg>
