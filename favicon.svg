@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#020408"/>
+  <!-- Outer ring -->
+  <circle cx="32" cy="32" r="26" stroke="url(#g)" stroke-width="1.5" fill="none" opacity=".5"/>
+  <!-- Middle ring -->
+  <circle cx="32" cy="32" r="18" stroke="url(#g)" stroke-width="1.2" fill="none" opacity=".35"/>
+  <!-- Inner ring -->
+  <circle cx="32" cy="32" r="10" stroke="url(#g)" stroke-width="1" fill="none" opacity=".25"/>
+  <!-- Core -->
+  <circle cx="32" cy="32" r="4" fill="url(#g)"/>
+  <!-- Crosshair ticks -->
+  <path d="M32 6v6M32 52v6M6 32h6M52 32h6" stroke="rgba(59,130,246,.3)" stroke-width="1" stroke-linecap="round"/>
+  <!-- V letterform -->
+  <path d="M22 18l10 20 10-20" stroke="url(#g)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+</svg>
