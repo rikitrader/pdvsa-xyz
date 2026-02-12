@@ -107,6 +107,7 @@
     border-radius: 12px;
     padding: 4px;
     overflow-x: auto;
+    position: relative;
   }
 
   .tab {
@@ -130,6 +131,54 @@
 
   .tab:hover { color: var(--text-secondary); background: var(--bg-card-hover); }
   .tab.active { background: var(--brand-gold); color: #0a0a0a; font-weight: 600; }
+
+  /* Forensic Report Dropdown */
+  .report-dropdown { position: relative; flex-shrink: 0; }
+  .report-dropdown-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 12px 16px; border: 1px solid rgba(239,68,68,0.3);
+    background: rgba(239,68,68,0.08); color: var(--accent-red);
+    font-size: clamp(11px, 2.5vw, 13px); font-weight: 600;
+    cursor: pointer; border-radius: 8px; transition: all 0.2s;
+    white-space: nowrap; min-height: 44px; font-family: inherit;
+  }
+  .report-dropdown-btn:hover { background: rgba(239,68,68,0.15); border-color: var(--accent-red); }
+  .report-dropdown-btn svg.chevron { transition: transform 0.2s; }
+  .report-dropdown.open .report-dropdown-btn svg.chevron { transform: rotate(180deg); }
+  .report-dropdown.open .report-dropdown-btn { background: rgba(239,68,68,0.18); border-color: var(--accent-red); }
+
+  .report-dropdown-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    min-width: 280px; background: #1a1a1e; border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px; padding: 8px; z-index: 200;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+  .report-dropdown.open .report-dropdown-menu { display: block; }
+
+  .report-dropdown-menu .dd-group-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); padding: 8px 12px 4px; font-weight: 600;
+  }
+  .report-dropdown-menu a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-radius: 8px; text-decoration: none;
+    color: var(--text-secondary); font-size: 13px; font-weight: 500;
+    transition: all 0.15s; cursor: pointer;
+  }
+  .report-dropdown-menu a:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
+  .report-dropdown-menu a .dd-dot {
+    width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+  }
+  .report-dropdown-menu .dd-divider {
+    height: 1px; background: rgba(255,255,255,0.06); margin: 4px 8px;
+  }
+  .report-dropdown-menu a.dd-view-all {
+    color: var(--accent-red); font-weight: 600; margin-top: 4px;
+    border-top: 1px solid rgba(255,255,255,0.06); border-radius: 0 0 8px 8px;
+    padding-top: 12px;
+  }
+  .report-dropdown-menu a.dd-view-all:hover { background: rgba(239,68,68,0.1); }
 
   /* Sections */
   .section { display: none; }
@@ -1241,6 +1290,36 @@
 
   <!-- Tabs -->
   <div class="tabs">
+    <!-- Forensic Report Dropdown (FIRST) -->
+    <div class="report-dropdown" id="reportDropdown">
+      <button class="report-dropdown-btn" id="reportDropdownBtn" aria-expanded="false" aria-haspopup="true">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12V2h8v10M3 7h8"/><path d="M6 4h2M6 6h4"/></svg>
+        Forensic Report
+        <svg class="chevron" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3.5l3 3 3-3"/></svg>
+      </button>
+      <div class="report-dropdown-menu" role="menu">
+        <div class="dd-group-label">Core Analysis</div>
+        <a href="/report.html#executive" role="menuitem"><span class="dd-dot" style="background:var(--brand-gold)"></span>Executive Summary</a>
+        <a href="/report.html#balance-sheet" role="menuitem"><span class="dd-dot" style="background:var(--accent-blue)"></span>Balance Sheet</a>
+        <a href="/report.html#reserves" role="menuitem"><span class="dd-dot" style="background:var(--accent-green)"></span>Reserves Analysis</a>
+        <div class="dd-divider"></div>
+        <div class="dd-group-label">Macro & Fiscal</div>
+        <a href="/report.html#money-supply" role="menuitem"><span class="dd-dot" style="background:var(--accent-purple)"></span>Money Supply</a>
+        <a href="/report.html#fiscal" role="menuitem"><span class="dd-dot" style="background:var(--accent-amber)"></span>Fiscal & Debt</a>
+        <a href="/report.html#external" role="menuitem"><span class="dd-dot" style="background:var(--accent-cyan)"></span>FX & External</a>
+        <div class="dd-divider"></div>
+        <div class="dd-group-label">Risk & Geopolitics</div>
+        <a href="/report.html#redflags" role="menuitem"><span class="dd-dot" style="background:var(--accent-red)"></span>Red Flags</a>
+        <a href="/report.html#oil-pdvsa" role="menuitem"><span class="dd-dot" style="background:#f59e0b"></span>Oil & PDVSA</a>
+        <a href="/report.html#sanctions" role="menuitem"><span class="dd-dot" style="background:var(--accent-red)"></span>Sanctions</a>
+        <a href="/report.html#darkfleet" role="menuitem"><span class="dd-dot" style="background:#f59e0b"></span>Dark Fleet & Crypto</a>
+        <div class="dd-divider"></div>
+        <a href="/report.html" class="dd-view-all" role="menuitem">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l5 5-5 5"/></svg>
+          View Full Report
+        </a>
+      </div>
+    </div>
     <button class="tab active" data-tab="overview">Overview</button>
     <button class="tab" data-tab="balance-sheet">Balance Sheet</button>
     <button class="tab" data-tab="monetary">Monetary & Inflation</button>
@@ -1249,10 +1328,6 @@
     <button class="tab" data-tab="stablecoin">Stablecoin Strategy</button>
     <button class="tab" data-tab="strategy">Anti-Inflation Strategy</button>
     <button class="tab" data-tab="comparisons">Historical Comparisons</button>
-    <a href="/report.html" style="flex:1;padding:12px 16px;background:transparent;color:var(--accent-red);font-size:clamp(11px,2.5vw,13px);font-weight:600;cursor:pointer;border-radius:8px;transition:all 0.2s;white-space:nowrap;min-height:44px;display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid rgba(239,68,68,0.3)">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M3 12V2h8v10M3 7h8"/><path d="M6 4h2M6 6h4"/></svg>
-      Forensic Report
-    </a>
   </div>
 
   <!-- ========== SECTION: OVERVIEW ========== -->
@@ -2476,6 +2551,30 @@ document.querySelectorAll('button.tab[data-tab]').forEach(tab => {
     if (target) target.classList.add('active');
   });
 });
+
+// Forensic Report Dropdown
+(function() {
+  const dd = document.getElementById('reportDropdown');
+  const btn = document.getElementById('reportDropdownBtn');
+  if (!dd || !btn) return;
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const isOpen = dd.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen);
+  });
+  document.addEventListener('click', function(e) {
+    if (!dd.contains(e.target)) {
+      dd.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      dd.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
 
 // Chart.js defaults
 Chart.defaults.color = '#94a3b8';
