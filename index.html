@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>BCV Balance Sheet & Anti-Hyperinflation Strategy Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -204,7 +204,8 @@
   .mobile-menu-drawer {
     position: absolute; bottom: 0; left: 0; right: 0;
     background: #1a1a1e; border-radius: 20px 20px 0 0;
-    padding: 16px; max-height: 80vh; overflow-y: auto;
+    padding: 16px; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
     animation: slideUp 0.25s ease-out;
   }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -244,6 +245,26 @@
     .tabs { display: none; }
     .tabs.force-show { display: flex; }
     .report-dropdown-menu { left: 0; right: 0; min-width: auto; }
+    .dashboard { padding: 10px; }
+    .header { padding: 20px 14px; margin-bottom: 16px; }
+    .chart-card { padding: 14px; }
+    .chart-wrapper { height: 220px; }
+    .kpi-grid { gap: 8px; grid-template-columns: repeat(2, 1fr); }
+    .kpi-card { padding: 12px; }
+    .kpi-value { font-size: 18px; }
+    .comparison-table { font-size: 11px; }
+    .comparison-table th, .comparison-table td { padding: 8px 6px; }
+    .strategy-card { padding: 14px; }
+    .strategy-card ul { padding-left: 16px; }
+    .strategy-card li { font-size: 12px; }
+    .glossary .glossary-grid { grid-template-columns: 1fr; }
+  }
+  @media(max-width:380px) {
+    .kpi-grid { grid-template-columns: 1fr; }
+    .dashboard { padding: 8px; }
+    .header h1 { font-size: 18px; }
+    .chart-wrapper { height: 180px; }
+    .chart-card h3 { font-size: 12px; }
   }
   @media(min-width:769px) {
     .mobile-menu-panel { display: none !important; }
