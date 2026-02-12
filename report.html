@@ -267,24 +267,49 @@ strong { color: var(--text-primary); }
 /* Print */
 @media print {
   body { background: #fff; color: #000; }
-  .back-link { display: none; }
+  .report-topnav { display: none; }
 }
 
-/* Nav sidebar */
-.report-nav {
-  position: fixed; top: 16px; right: 16px; z-index: 100;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 10px; padding: 12px; max-height: 90vh;
-  overflow-y: auto; display: none; width: 240px;
+/* Top sticky nav */
+.report-topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
 }
-@media(min-width:1024px){ .report-nav { display: block; } }
-.report-nav a {
-  display: block; padding: 4px 8px; font-size: 11px;
-  color: var(--text-muted); text-decoration: none; border-radius: 4px;
-  cursor: pointer; transition: background .2s;
+.report-topnav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
-.report-nav a:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
-.report-nav .nav-title { font-size: 10px; color: var(--brand-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+.report-topnav-inner::-webkit-scrollbar { display: none; }
+.report-topnav .nav-brand {
+  font-size: 13px; font-weight: 700; color: var(--accent-red);
+  white-space: nowrap; padding: 12px 16px 12px 0;
+  border-right: 1px solid var(--border); margin-right: 4px;
+  text-decoration: none; display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0; cursor: pointer; min-height: 44px;
+}
+.report-topnav a.nav-item {
+  padding: 12px 12px; font-size: 11px; font-weight: 500;
+  color: var(--text-muted); text-decoration: none; white-space: nowrap;
+  transition: color .2s, background .2s; border-radius: 0;
+  cursor: pointer; min-height: 44px;
+  display: flex; align-items: center;
+  border-bottom: 2px solid transparent;
+  flex-shrink: 0;
+}
+.report-topnav a.nav-item:hover {
+  color: var(--text-primary); background: rgba(255,255,255,0.04);
+}
+.report-topnav a.nav-item.active {
+  color: var(--brand-gold); border-bottom-color: var(--brand-gold);
+}
+@media(min-width:768px){
+  .report-topnav a.nav-item { padding: 14px 14px; font-size: 12px; }
+}
 
 /* Timeline */
 .timeline { position: relative; padding-left: 24px; margin: 16px 0; }
@@ -317,28 +342,30 @@ strong { color: var(--text-primary); }
 </style>
 </head>
 <body>
-<!-- Navigation sidebar -->
-<nav class="report-nav">
-  <div class="nav-title">Report Sections</div>
-  <a href="#title">Title</a>
-  <a href="#executive">Executive Summary</a>
-  <a href="#methodology">Methodology</a>
-  <a href="#balance-sheet">BCV Balance Sheet</a>
-  <a href="#reserves">Reserves Adequacy</a>
-  <a href="#money-supply">Money Supply</a>
-  <a href="#fiscal">Fiscal & Debt</a>
-  <a href="#external">External Sector & FX</a>
-  <a href="#redflags">Red Flags</a>
-  <a href="#investor">Investor Implications</a>
-  <a href="#appendix">Appendices</a>
+<!-- Top Navigation -->
+<nav class="report-topnav">
+  <div class="report-topnav-inner">
+    <a href="/index.html" class="nav-brand">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2L4 8l6 6"/></svg>
+      PDVSA.XYZ
+    </a>
+    <a href="#executive" class="nav-item active">Summary</a>
+    <a href="#methodology" class="nav-item">Methodology</a>
+    <a href="#balance-sheet" class="nav-item">Balance Sheet</a>
+    <a href="#reserves" class="nav-item">Reserves</a>
+    <a href="#money-supply" class="nav-item">Money Supply</a>
+    <a href="#fiscal" class="nav-item">Fiscal &amp; Debt</a>
+    <a href="#external" class="nav-item">FX &amp; External</a>
+    <a href="#redflags" class="nav-item">Red Flags</a>
+    <a href="#oil-pdvsa" class="nav-item">Oil &amp; PDVSA</a>
+    <a href="#collapse" class="nav-item">Collapse</a>
+    <a href="#brazil" class="nav-item">Brazil Model</a>
+    <a href="#investor" class="nav-item">Investor</a>
+    <a href="#appendix" class="nav-item">Appendix</a>
+  </div>
 </nav>
 
-<div class="report">
-<a href="/index.html" class="back-link">
-  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2L4 8l6 6"/></svg>
-  Back to Dashboard
-</a>
-
+<div class="report" style="padding-top:8px">
 <!-- ============ 1. TITLE PAGE ============ -->
 <section class="title-page" id="title">
   <div class="meta">PDVSA.XYZ RESEARCH DIVISION</div>
@@ -994,6 +1021,332 @@ strong { color: var(--text-primary); }
   </div>
 </section>
 
+<!-- ============ OIL & PDVSA FORENSICS ============ -->
+<section class="section-block" id="oil-pdvsa">
+  <div class="section-num">Section 10</div>
+  <h2 class="section-title">Oil Sector &amp; PDVSA Forensics</h2>
+
+  <p>Venezuela sits atop the <strong>world's largest proven oil reserves</strong> (303 billion barrels), yet its state oil company PDVSA has been systematically hollowed out through political mismanagement, underinvestment, sanctions, and corruption. Oil production collapsed <strong>from 3.4 million bpd (1998) to a low of 337K bpd (June 2020)</strong> &mdash; a 90% decline that represents one of the greatest industrial collapses in modern history.</p>
+
+  <div class="chart-wrap">
+    <h4>Oil Production &amp; OPEC Basket Price (2004&ndash;2025)</h4>
+    <div class="chart-box"><canvas id="oilChart"></canvas></div>
+  </div>
+
+  <div class="card-grid cols-4" style="margin:20px 0">
+    <div class="info-block">
+      <div class="info-val" style="color:var(--accent-red)">-74%</div>
+      <div class="info-label">Production Collapse</div>
+      <div class="metric-sub">3,400K &rarr; 896K bpd (1998-2025)</div>
+    </div>
+    <div class="info-block">
+      <div class="info-val" style="color:var(--brand-gold)">303B</div>
+      <div class="info-label">Proven Reserves (bbl)</div>
+      <div class="metric-sub">World's largest &mdash; mostly heavy/extra-heavy</div>
+    </div>
+    <div class="info-block">
+      <div class="info-val" style="color:var(--accent-green)">$17.5B</div>
+      <div class="info-label">PDVSA Revenue (2024)</div>
+      <div class="metric-sub">Exports ~805K bpd average</div>
+    </div>
+    <div class="info-block">
+      <div class="info-val" style="color:var(--accent-amber)">$58B</div>
+      <div class="info-label">Infra Repair Cost</div>
+      <div class="metric-sub">Pipelines 50+ years old</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">Oil Revenue vs Production: The Destruction of Wealth</h3>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Year</th><th>Production (K bpd)</th><th>OPEC Price ($/bbl)</th><th>Est. Revenue ($B)</th><th>GDP ($B)</th><th>Oil % of GDP</th><th>Key Event</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2004</td><td>2,600</td><td>$34.88</td><td>~$33</td><td>$112</td><td>~29%</td><td>Ch&aacute;vez consolidates control</td></tr>
+        <tr><td>2005</td><td>2,600</td><td>$50.64</td><td>~$48</td><td>$143</td><td>~34%</td><td>Peak spending begins</td></tr>
+        <tr><td>2006</td><td>2,500</td><td>$61.30</td><td>~$56</td><td>$179</td><td>~31%</td><td>Nationalization of oil JVs</td></tr>
+        <tr><td>2007</td><td>2,400</td><td>$68.53</td><td>~$60</td><td>$233</td><td>~26%</td><td>Mass expropriations</td></tr>
+        <tr><td>2008</td><td>2,394</td><td>$94.45</td><td>~$82</td><td>$307</td><td>~27%</td><td><span class="tag tag-ok">Peak reserves $43.1B</span></td></tr>
+        <tr><td>2009</td><td>2,300</td><td>$61.29</td><td>~$51</td><td>$269</td><td>~19%</td><td>Global financial crisis</td></tr>
+        <tr><td>2010</td><td>2,200</td><td>$77.45</td><td>~$62</td><td>$318</td><td>~19%</td><td>Continued underinvestment</td></tr>
+        <tr><td>2011</td><td>2,100</td><td>$107.48</td><td>~$82</td><td>$316</td><td>~26%</td><td><span class="tag tag-ok">Peak oil prices</span></td></tr>
+        <tr><td>2012</td><td>2,000</td><td>$109.97</td><td>~$80</td><td>$373</td><td>~21%</td><td><span class="tag tag-ok">Peak GDP $373B</span></td></tr>
+        <tr><td>2013</td><td>1,900</td><td>$105.87</td><td>~$73</td><td>$259</td><td>~28%</td><td>Ch&aacute;vez dies; Maduro takes over</td></tr>
+        <tr><td>2014</td><td>1,800</td><td>$96.29</td><td>~$63</td><td>$215</td><td>~29%</td><td><span class="tag tag-extreme">Oil price crash begins</span></td></tr>
+        <tr><td>2015</td><td>1,700</td><td>$49.49</td><td>~$31</td><td>$125</td><td>~25%</td><td>Revenue collapse, crisis deepens</td></tr>
+        <tr><td>2016</td><td>1,500</td><td>$40.76</td><td>~$22</td><td>$113</td><td>~20%</td><td>PDVSA reports $48B revenue</td></tr>
+        <tr><td>2017</td><td>1,300</td><td>$52.39</td><td>~$25</td><td>$116</td><td>~22%</td><td><span class="tag tag-extreme">Default on sovereign bonds</span></td></tr>
+        <tr><td>2018</td><td>1,354</td><td>$70.32</td><td>~$35</td><td>$102</td><td>~34%</td><td>Hyperinflation 130,060%</td></tr>
+        <tr><td>2019</td><td>877</td><td>$63.96</td><td>~$20</td><td>$73</td><td>~27%</td><td><span class="tag tag-extreme">US oil sanctions</span></td></tr>
+        <tr><td>2020</td><td>512</td><td>$41.85</td><td>~$8</td><td>$43</td><td>~19%</td><td>COVID + sanctions trough</td></tr>
+        <tr><td>2021</td><td>553</td><td>$70.40</td><td>~$14</td><td>$57</td><td>~25%</td><td>Gradual recovery begins</td></tr>
+        <tr><td>2022</td><td>717</td><td>$101.95</td><td>~$27</td><td>$89</td><td>~30%</td><td>Chevron license granted</td></tr>
+        <tr><td>2023</td><td>800</td><td>$84.17</td><td>~$25</td><td>$102</td><td>~25%</td><td>Temporary sanctions relief</td></tr>
+        <tr><td>2024</td><td>893</td><td>$79.53</td><td>$17.5</td><td>$120</td><td>~15%</td><td>PDVSA reports $17.5B</td></tr>
+        <tr><td>2025</td><td>896</td><td>~$67</td><td>~$16</td><td>$83</td><td>~19%</td><td>Maduro captured; GL46</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote">Revenue estimates for 2004-2023 calculated from production &times; price &times; 365 &times; export share (~70-80%). 2024 is PDVSA official. Sources: <a href="https://www.eia.gov/international/analysis/country/VEN" target="_blank">EIA</a>, <a href="https://countryeconomy.com/raw-materials/opec" target="_blank">OPEC Basket</a>, <a href="https://www.worldometers.info/gdp/venezuela-gdp/" target="_blank">Worldometer GDP</a></p>
+
+  <div class="chart-wrap">
+    <h4>GDP Collapse: From $373B to $83B (2012&ndash;2025)</h4>
+    <div class="chart-box"><canvas id="gdpChart"></canvas></div>
+  </div>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">PDVSA Forensic Profile</h3>
+  <div class="card-grid cols-3">
+    <div class="redflag-box">
+      <h5>No Financial Reporting Since 2016</h5>
+      <p style="margin:0;font-size:13px">PDVSA has not published audited financials or SEC filings since 2016. Last 20-F filing was 2005. Total opacity for 9+ years.</p>
+    </div>
+    <div class="redflag-box">
+      <h5>$635B in Revenue Burned (1999-2017)</h5>
+      <p style="margin:0;font-size:13px">PDVSA earned ~$635B in oil revenue under Ch&aacute;vez/Maduro. Infrastructure neglected. Pipelines unchanged for 50+ years. $58B needed to repair.</p>
+    </div>
+    <div class="redflag-box">
+      <h5>Mass Brain Drain</h5>
+      <p style="margin:0;font-size:13px">After 2002 strike, 18,000 PDVSA workers fired. Replaced with political loyalists. Technical expertise destroyed. Production never recovered.</p>
+    </div>
+  </div>
+
+  <!-- PDVSA SEC Filing Timeline -->
+  <h3 style="font-size:15px;margin:20px 0 12px">PDVSA: Regulatory &amp; Financial Timeline</h3>
+  <div class="timeline">
+    <div class="timeline-item green">
+      <div class="timeline-year">2002</div>
+      <div class="timeline-text">Last SEC 20-F annual filing by PDVSA. 18,000 workers fired after strike. Production crashes temporarily.</div>
+    </div>
+    <div class="timeline-item amber">
+      <div class="timeline-year">2006</div>
+      <div class="timeline-text">PDVSA files delayed 20-F for 2005. Nationalization of foreign JVs begins. ExxonMobil, ConocoPhillips exit.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2007-2013</div>
+      <div class="timeline-text">No SEC filings. PDVSA publishes local-GAAP financials sporadically. $635B total revenue earned. Reserves stripped for social spending.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2015</div>
+      <div class="timeline-text">PDVSA 2015 financials show $16.83B income. Oil price crash halves revenue. Debt payments become strained.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2016</div>
+      <div class="timeline-text">Last published financial statement: $48B revenue reported. Company exchanges $1.37B debt for promissory notes at 6.5%.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">Nov 2017</div>
+      <div class="timeline-text">PDVSA defaults on bond payments. $25B+ in PDVSA bonds enter default. No financial reporting since.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2019</div>
+      <div class="timeline-text">US imposes direct oil sector sanctions. Production crashes to 877K bpd. PDVSA begins oil-for-debt swaps with China/Russia.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024</div>
+      <div class="timeline-text">PDVSA reports $17.5B in oil revenue (first disclosure in years). Production recovers to 893K bpd with Chevron JV contribution.</div>
+    </div>
+    <div class="timeline-item green">
+      <div class="timeline-year">Jan 2026</div>
+      <div class="timeline-text">GL46 issued: US companies authorized for Venezuelan oil trade. Rodr&iacute;guez signs foreign oil company rights bill. New era begins?</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ECONOMIC COLLAPSE TIMELINE ============ -->
+<section class="section-block" id="collapse">
+  <div class="section-num">Section 11</div>
+  <h2 class="section-title red">The Economic Collapse: 2001&ndash;2025</h2>
+
+  <p>Venezuela's economic trajectory from 2001 to 2025 is one of the <strong>most dramatic peacetime economic collapses in modern history</strong>. GDP fell from $373B (2012 peak) to $43B (2020 trough) &mdash; a <strong>88% contraction</strong>. This section presents the complete dataset showing how oil dependence, institutional destruction, and hyperinflation created a perfect storm.</p>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">Complete Economic Dataset: 2004&ndash;2025</h3>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Year</th><th>GDP ($B)</th><th>Inflation (%)</th><th>FX Reserves ($B)</th><th>Oil Prod (K bpd)</th><th>Oil Price ($/bbl)</th><th>Debt/GDP (%)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2004</td><td>112</td><td>19.2</td><td>24.2</td><td>2,600</td><td>34.88</td><td>~38</td></tr>
+        <tr><td>2005</td><td>143</td><td>14.4</td><td>30.4</td><td>2,600</td><td>50.64</td><td>~33</td></tr>
+        <tr><td>2006</td><td>179</td><td>17.0</td><td>37.4</td><td>2,500</td><td>61.30</td><td>~24</td></tr>
+        <tr><td>2007</td><td>233</td><td>22.5</td><td>33.5</td><td>2,400</td><td>68.53</td><td>~19</td></tr>
+        <tr><td>2008</td><td>307</td><td>30.9</td><td>43.1</td><td>2,394</td><td>94.45</td><td>~14</td></tr>
+        <tr><td>2009</td><td>269</td><td>25.1</td><td>35.8</td><td>2,300</td><td>61.29</td><td>~18</td></tr>
+        <tr><td>2010</td><td>318</td><td>27.2</td><td>29.5</td><td>2,200</td><td>77.45</td><td>~25</td></tr>
+        <tr><td>2011</td><td>316</td><td>27.6</td><td>29.9</td><td>2,100</td><td>107.48</td><td>~25</td></tr>
+        <tr style="background:rgba(201,253,52,0.05)"><td><strong>2012</strong></td><td><strong>373</strong></td><td>20.1</td><td>29.9</td><td>2,000</td><td>109.97</td><td>~28</td></tr>
+        <tr><td>2013</td><td>259</td><td>56.2</td><td>21.5</td><td>1,900</td><td>105.87</td><td>~32</td></tr>
+        <tr><td>2014</td><td>215</td><td>68.5</td><td>22.1</td><td>1,800</td><td>96.29</td><td>~45</td></tr>
+        <tr><td>2015</td><td>125</td><td>159</td><td>16.4</td><td>1,700</td><td>49.49</td><td>~70</td></tr>
+        <tr><td>2016</td><td>113</td><td>274</td><td>10.5</td><td>1,500</td><td>40.76</td><td>~95</td></tr>
+        <tr><td>2017</td><td>116</td><td>863</td><td>9.7</td><td>1,300</td><td>52.39</td><td>~120</td></tr>
+        <tr style="background:rgba(239,68,68,0.05)"><td><strong>2018</strong></td><td><strong>102</strong></td><td><strong>130,060</strong></td><td>8.8</td><td>1,354</td><td>70.32</td><td>~162</td></tr>
+        <tr><td>2019</td><td>73</td><td>19,906</td><td>7.6</td><td>877</td><td>63.96</td><td>~233</td></tr>
+        <tr style="background:rgba(239,68,68,0.05)"><td><strong>2020</strong></td><td><strong>43</strong></td><td>2,959</td><td>6.4</td><td>512</td><td>41.85</td><td>~304</td></tr>
+        <tr><td>2021</td><td>57</td><td>686</td><td>5.1</td><td>553</td><td>70.40</td><td>~217</td></tr>
+        <tr><td>2022</td><td>89</td><td>234</td><td>9.2</td><td>717</td><td>101.95</td><td>~155</td></tr>
+        <tr><td>2023</td><td>102</td><td>190</td><td>9.8</td><td>800</td><td>84.17</td><td>~159</td></tr>
+        <tr><td>2024</td><td>120</td><td>48</td><td>10.3</td><td>893</td><td>79.53</td><td>~164</td></tr>
+        <tr><td>2025</td><td>83</td><td>172-548*</td><td>13.3</td><td>896</td><td>~67</td><td>~180</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote">Sources: <a href="https://www.worldometers.info/gdp/venezuela-gdp/" target="_blank">Worldometer</a>, <a href="https://www.imf.org/external/datamapper/PCPIPCH@WEO/VEN" target="_blank">IMF WEO</a>, <a href="https://tradingeconomics.com/venezuela/foreign-exchange-reserves" target="_blank">TradingEconomics</a>, <a href="https://countryeconomy.com/raw-materials/opec" target="_blank">OPEC</a>. *2025 inflation varies by source (BCV vs IMF vs independent).</p>
+
+  <div class="chart-wrap">
+    <h4>The Destruction: Oil Production vs GDP vs Oil Price (2004&ndash;2025)</h4>
+    <div class="chart-box"><canvas id="collapseChart"></canvas></div>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>Oil Revenue Waterfall: Where Did $635 Billion Go?</h4>
+    <div class="chart-box"><canvas id="revenueChart"></canvas></div>
+  </div>
+
+  <div class="redflag-box">
+    <h5>The $635 Billion Question</h5>
+    <p style="margin:0;font-size:13px">Between 1999 and 2017, PDVSA earned approximately <strong>$635 billion</strong> in oil revenue. Yet by 2020, GDP had collapsed 88% from peak, FX reserves were down to $6.4B, infrastructure was crumbling, and 7+ million Venezuelans had fled the country. The money was diverted to: (1) unsustainable social spending without fiscal framework, (2) corruption and kleptocracy, (3) subsidized oil exports to Cuba/Caribbean allies, (4) debt service to China ($60B+ in oil-for-loans), and (5) capital flight by regime insiders.</p>
+  </div>
+</section>
+
+<!-- ============ BRAZIL PLANO REAL COMPARISON ============ -->
+<section class="section-block" id="brazil">
+  <div class="section-num">Section 12</div>
+  <h2 class="section-title" style="color:var(--accent-green)">Brazil Plano Real &rarr; Stablecoin Bridge Model</h2>
+
+  <p>Brazil's <strong>Plano Real (1994)</strong> is the most successful hyperinflation stabilization in modern history. This section maps the Brazilian mechanism to a modern <strong>US-Treasury-backed stablecoin framework</strong> &mdash; a potential stabilization pathway for Venezuela.</p>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">A. Why Brazil Succeeded Where Others Failed</h3>
+
+  <div class="flow-row" style="margin-bottom:20px">
+    <div class="flow-step" style="border-color:var(--accent-red)"><strong style="color:var(--accent-red)">Cruzado</strong><br><span style="font-size:10px;color:var(--text-muted)">1986: Price freeze. Failed.</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-red)"><strong style="color:var(--accent-red)">Bresser</strong><br><span style="font-size:10px;color:var(--text-muted)">1987: Partial freeze. Failed.</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-red)"><strong style="color:var(--accent-red)">Collor I</strong><br><span style="font-size:10px;color:var(--text-muted)">1990: Asset freeze. Failed.</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-red)"><strong style="color:var(--accent-red)">Collor II</strong><br><span style="font-size:10px;color:var(--text-muted)">1991: Rate freeze. Failed.</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-green)"><strong style="color:var(--accent-green)">Plano Real</strong><br><span style="font-size:10px;color:var(--text-muted)">1994: URV &rarr; Real. SUCCESS.</span></div>
+  </div>
+
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Year</th><th>Brazil Inflation (%)</th><th>Policy</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1988</td><td>980%</td><td>Cruzado Novo currency change</td><td>Temporary slowdown; resumed</td></tr>
+        <tr><td>1989</td><td>1,973%</td><td>Multiple failed plans</td><td>Near-hyperinflation</td></tr>
+        <tr><td>1990</td><td>2,948%</td><td>Collor Plan I: asset confiscation</td><td>GDP crash; trust destroyed</td></tr>
+        <tr><td>1991</td><td>432%</td><td>Collor Plan II: rate freezes</td><td>Temporary; Collor impeached</td></tr>
+        <tr><td>1992</td><td>952%</td><td>Political crisis</td><td>No credible plan</td></tr>
+        <tr><td>1993</td><td>2,087%</td><td>Pre-Real: fiscal emergency fund (FSE)</td><td>Foundation laid</td></tr>
+        <tr style="background:rgba(0,187,127,0.05)"><td><strong>1994</strong></td><td><strong>50.7% &rarr; 0.96%/mo</strong></td><td><strong>URV introduced &rarr; Real launched July 1</strong></td><td><span class="tag tag-ok">Permanent success</span></td></tr>
+        <tr><td>1995</td><td>22.0%</td><td>High Selic rates (40%+), managed band</td><td>Inflation contained</td></tr>
+        <tr><td>1996</td><td>9.1%</td><td>Continued tight policy + banking reform</td><td>Further disinflation</td></tr>
+        <tr><td>1997</td><td>4.3%</td><td>Stable regime; fiscal reform underway</td><td>Near-target inflation</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">B. The URV Mechanism: How to Break Inertial Inflation</h3>
+
+  <div class="flow-row">
+    <div class="flow-step" style="border-color:var(--accent-amber)"><strong style="color:var(--accent-amber)">Step 1</strong><br><span style="font-size:11px">Fiscal Emergency Fund (FSE)</span><br><span style="font-size:10px;color:var(--text-muted)">Break fiscal dominance</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-cyan)"><strong style="color:var(--accent-cyan)">Step 2</strong><br><span style="font-size:11px">Introduce URV</span><br><span style="font-size:10px;color:var(--text-muted)">Unit of account, not money</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-purple)"><strong style="color:var(--accent-purple)">Step 3</strong><br><span style="font-size:11px">Re-price everything</span><br><span style="font-size:10px;color:var(--text-muted)">Wages, goods, rents in URV</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-green)"><strong style="color:var(--accent-green)">Step 4</strong><br><span style="font-size:11px">Convert to Real</span><br><span style="font-size:10px;color:var(--text-muted)">July 1, 1994: 1 URV = 1 Real</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--brand-gold)"><strong style="color:var(--brand-gold)">Result</strong><br><span style="font-size:11px">Inflation killed</span><br><span style="font-size:10px;color:var(--text-muted)">2,087% &rarr; 22% in 1 year</span></div>
+  </div>
+
+  <h3 style="font-size:15px;margin:24px 0 12px">C. Mapping: Brazil &rarr; Stablecoin Stabilization</h3>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Brazil Component</th><th>Stablecoin Equivalent</th><th>Venezuela Application</th><th>Match Quality</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>URV</strong> (unit of account)</td><td>USDT/USDC stablecoin as pricing anchor</td><td>Already happening &mdash; 50% of txns use USDT</td><td><span class="tag tag-ok">Organic</span></td></tr>
+        <tr><td><strong>Fiscal emergency fund</strong></td><td>Budget transparency + smart contract enforcement</td><td>Requires political will &mdash; transition govt</td><td><span class="tag tag-high">Partial</span></td></tr>
+        <tr><td><strong>Conversion day</strong> (URV &rarr; Real)</td><td>Formal dollarization or sovereign stablecoin launch</td><td>Awaiting policy decision from Rodr&iacute;guez govt</td><td><span class="tag tag-high">Pending</span></td></tr>
+        <tr><td><strong>Central bank credibility</strong></td><td>Proof of reserves + on-chain audit + 1:1 Treasury backing</td><td>BCV has zero credibility &mdash; must rebuild from scratch</td><td><span class="tag tag-extreme">Critical gap</span></td></tr>
+        <tr><td><strong>High interest rates</strong></td><td>Treasury yield (4.5-5%) provides natural incentive</td><td>T-bill yields attract capital; better than VES deposits</td><td><span class="tag tag-ok">Ready</span></td></tr>
+        <tr><td><strong>Managed FX band</strong></td><td>Stablecoin peg with redemption mechanism</td><td>$1 = 1 stablecoin, instant redemption via Treasury collateral</td><td><span class="tag tag-ok">Designable</span></td></tr>
+        <tr><td><strong>Breaking indexation</strong></td><td>People already pricing in USD/USDT</td><td>Inertial inflation already breaking organically</td><td><span class="tag tag-ok">Happening</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:15px;margin:24px 0 12px">D. Collateral Model: How Much US Treasury Backing?</h3>
+
+  <div class="formula-box">
+    <div class="formula-name">Stablecoin Supply Needed (Transactions Approach)</div>
+    <code>S = &alpha; &times; (GDP / V<sub>stable</sub>)</code><br>
+    <span style="font-size:11px;color:var(--text-muted)">Where &alpha; = adoption fraction, GDP = $82.8B, V<sub>stable</sub> = estimated velocity of stablecoin (4-6x for developing economy)</span>
+  </div>
+  <div class="formula-box">
+    <div class="formula-name">Reserve Requirement</div>
+    <code>R = S &times; CR</code><br>
+    <span style="font-size:11px;color:var(--text-muted)">CR = collateralization ratio (100-125%). Higher CR needed when trust is low.</span>
+  </div>
+  <div class="formula-box">
+    <div class="formula-name">Stress-Adjusted Reserve</div>
+    <code>R<sub>effective</sub> = (S &times; &beta; &times; CR) / (1 - L - H)</code><br>
+    <span style="font-size:11px;color:var(--text-muted)">&beta; = redemption shock (20-60%), L = liquidity haircut (2-5%), H = operational haircut (2-5%)</span>
+  </div>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">Collateral Scenario Matrix (Venezuela: GDP $82.8B)</h3>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Adoption (&alpha;)</th><th>Stablecoin Supply ($B)</th><th>CR 100%</th><th>CR 110%</th><th>CR 125%</th><th>Stress-Adj 125% + 10% haircut</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>10%</td><td>$1.7B</td><td>$1.7B</td><td>$1.9B</td><td>$2.1B</td><td>$2.3B</td></tr>
+        <tr><td>25%</td><td>$4.1B</td><td>$4.1B</td><td>$4.5B</td><td>$5.2B</td><td>$5.7B</td></tr>
+        <tr style="background:rgba(201,253,52,0.05)"><td><strong>50%</strong></td><td><strong>$8.3B</strong></td><td><strong>$8.3B</strong></td><td><strong>$9.1B</strong></td><td><strong>$10.4B</strong></td><td><strong>$11.5B</strong></td></tr>
+        <tr><td>75%</td><td>$12.4B</td><td>$12.4B</td><td>$13.7B</td><td>$15.5B</td><td>$17.2B</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote">Based on S = &alpha; &times; (GDP / V) with V=5. Stress-adjusted uses &beta;=40%, L=5%, H=5%. At 50% adoption (current trajectory), Venezuela needs ~$10-12B in Treasury collateral &mdash; roughly equal to current FX reserves.</p>
+
+  <div class="chart-wrap">
+    <h4>Collateral Requirements by Adoption Scenario</h4>
+    <div class="chart-box"><canvas id="collateralChart"></canvas></div>
+  </div>
+
+  <h3 style="font-size:15px;margin:24px 0 12px">E. Implementation Playbook</h3>
+  <div class="timeline">
+    <div class="timeline-item amber">
+      <div class="timeline-year">Phase 0: Diagnosis</div>
+      <div class="timeline-text"><strong>Establish metrics:</strong> Real inflation measurement, M2 tracking, FX reserve audit, stablecoin transaction volume monitoring. BCV data transparency reform. Duration: 1-3 months.</div>
+    </div>
+    <div class="timeline-item amber">
+      <div class="timeline-year">Phase 1: URV Analog</div>
+      <div class="timeline-text"><strong>Formalize stablecoin unit of account:</strong> Allow tax payments in USDT/USDC. Price government contracts in USD. Establish conversion rate board (analog to URV). Duration: 3-6 months.</div>
+    </div>
+    <div class="timeline-item green">
+      <div class="timeline-year">Phase 2: Payment Rails</div>
+      <div class="timeline-text"><strong>Build infrastructure:</strong> Stablecoin payment acceptance at all government agencies. Payroll option in stablecoins. Merchant adoption incentives. Reserve proof-of-reserves portal. Duration: 6-12 months.</div>
+    </div>
+    <div class="timeline-item green">
+      <div class="timeline-year">Phase 3: Conversion Window</div>
+      <div class="timeline-text"><strong>Launch sovereign stablecoin or formal dollarization:</strong> 1:1 peg with Treasury backing. Instant redemption mechanism. Monthly reserve audits. Banking system integration. Duration: 12-18 months.</div>
+    </div>
+    <div class="timeline-item green">
+      <div class="timeline-year">Phase 4: Institutional Hardening</div>
+      <div class="timeline-text"><strong>Long-term governance:</strong> BCV independence law. Fiscal responsibility act. Automatic stabilizers. Reserve portfolio (4-week, 8-week, 13-week T-bill ladder). Proof-of-reserve audit cadence. Duration: ongoing.</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 11. APPENDICES ============ -->
 <section class="section-block" id="appendix">
   <div class="section-num">Section 10</div>
@@ -1036,38 +1389,102 @@ strong { color: var(--text-primary); }
   </div>
 
   <h3 style="font-size:15px;margin:20px 0 12px">C. Data Sources Catalog</h3>
-  <ul class="source-list">
-    <li><a href="https://www.ceicdata.com/en/indicator/venezuela/foreign-exchange-reserves" target="_blank">CEIC Data &mdash; Venezuela Foreign Exchange Reserves</a></li>
-    <li><a href="https://tradingeconomics.com/venezuela/foreign-exchange-reserves" target="_blank">TradingEconomics &mdash; Venezuela FX Reserves</a></li>
-    <li><a href="https://tradingeconomics.com/venezuela/gold-reserves" target="_blank">TradingEconomics &mdash; Venezuela Gold Reserves</a></li>
-    <li><a href="https://www.imf.org/external/datamapper/NGDPD@WEO/VEN" target="_blank">IMF WEO &mdash; Venezuela GDP</a></li>
-    <li><a href="https://www.imf.org/external/datamapper/PCPIPCH@WEO/WEOWORLD/VEN/TUR" target="_blank">IMF WEO &mdash; Venezuela Inflation Rate</a></li>
-    <li><a href="https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG?locations=VE" target="_blank">World Bank &mdash; Consumer Price Inflation</a></li>
-    <li><a href="https://www.caracaschronicles.com/2025/04/09/why-venezuelas-exchange-rate-gap-is-growing-and-what-to-expect/" target="_blank">Caracas Chronicles &mdash; Exchange Rate Gap Analysis</a></li>
-    <li><a href="https://www.cnbc.com/2026/01/04/venezuelas-billions-in-distressed-debt-who-is-in-line-to-collect.html" target="_blank">CNBC &mdash; Venezuela Distressed Debt</a></li>
-    <li><a href="https://www.csis.org/analysis/venezuelan-external-public-debt-crisis-everything-everywhere-all-once" target="_blank">CSIS &mdash; Venezuelan External Debt Crisis</a></li>
-    <li><a href="https://learn.backpack.exchange/articles/stablecoins-in-venezuela" target="_blank">Backpack Exchange &mdash; Stablecoins in Venezuela</a></li>
-    <li><a href="https://www.cnbc.com/2026/01/19/venezuelans-turned-to-tether-issued-usdt-stablecoin-as-its-government-wobbled.html" target="_blank">CNBC &mdash; Venezuela USDT Adoption</a></li>
-    <li><a href="https://ofac.treasury.gov/sanctions-programs-and-country-information/venezuela-related-sanctions" target="_blank">OFAC &mdash; Venezuela Sanctions Program</a></li>
-    <li><a href="https://www.eia.gov/international/analysis/country/VEN" target="_blank">EIA &mdash; Venezuela Oil Production</a></li>
-    <li><a href="https://pgjonline.com/news/2025/july/venezuelas-pdvsa-reports-175-billion-in-2024-oil-revenue-as-exports-jump" target="_blank">PGJ &mdash; PDVSA 2024 Revenue</a></li>
-    <li><a href="https://www.focus-economics.com/country-indicator/venezuela/money/" target="_blank">FocusEconomics &mdash; Venezuela Money Supply</a></li>
-    <li><a href="https://en.wikipedia.org/wiki/Hyperinflation_in_Venezuela" target="_blank">Wikipedia &mdash; Hyperinflation in Venezuela</a></li>
-  </ul>
+  <div class="card-grid" style="margin-bottom:16px">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:11px;color:var(--brand-gold);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Official &amp; Institutional</div>
+      <ul class="source-list">
+        <li><a href="https://www.bcv.org.ve" target="_blank">Banco Central de Venezuela (BCV) &mdash; Official reserves, monetary aggregates</a></li>
+        <li><a href="https://www.imf.org/external/datamapper/NGDPD@WEO/VEN" target="_blank">IMF World Economic Outlook &mdash; GDP, inflation, fiscal</a></li>
+        <li><a href="https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG?locations=VE" target="_blank">World Bank DataBank &mdash; CPI, trade, development</a></li>
+        <li><a href="https://www.eia.gov/international/analysis/country/VEN" target="_blank">U.S. Energy Information Administration &mdash; Oil production &amp; analysis</a></li>
+        <li><a href="https://ofac.treasury.gov/sanctions-programs-and-country-information/venezuela-related-sanctions" target="_blank">OFAC / U.S. Treasury &mdash; Venezuela sanctions program</a></li>
+        <li><a href="https://www.opec.org/opec-basket-price.html" target="_blank">OPEC &mdash; Reference basket prices</a></li>
+        <li><a href="https://www.undp.org/venezuela" target="_blank">UNDP Venezuela &mdash; Human development indicators</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:11px;color:var(--accent-cyan);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Financial Databases</div>
+      <ul class="source-list">
+        <li><a href="https://www.ceicdata.com/en/indicator/venezuela/foreign-exchange-reserves" target="_blank">CEIC Data &mdash; BCV balance sheet, FX reserves, monetary</a></li>
+        <li><a href="https://tradingeconomics.com/venezuela/foreign-exchange-reserves" target="_blank">Trading Economics &mdash; FX reserves, gold, interest rates</a></li>
+        <li><a href="https://www.focus-economics.com/country-indicator/venezuela/money/" target="_blank">FocusEconomics &mdash; Money supply, forecasts</a></li>
+        <li><a href="https://countryeconomy.com/raw-materials/opec" target="_blank">CountryEconomy &mdash; OPEC basket historical prices</a></li>
+        <li><a href="https://www.worldometers.info/gdp/venezuela-gdp/" target="_blank">Worldometer &mdash; GDP historical by year</a></li>
+        <li><a href="https://www.statista.com/statistics/371895/inflation-rate-in-venezuela/" target="_blank">Statista &mdash; Inflation, oil, economic indicators</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-grid" style="margin-bottom:16px">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:11px;color:var(--accent-amber);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Independent Analysis &amp; Think Tanks</div>
+      <ul class="source-list">
+        <li><a href="https://www.caracaschronicles.com/2025/04/09/why-venezuelas-exchange-rate-gap-is-growing-and-what-to-expect/" target="_blank">Caracas Chronicles &mdash; Exchange rate gap analysis</a></li>
+        <li><a href="https://www.csis.org/analysis/venezuelan-external-public-debt-crisis-everything-everywhere-all-once" target="_blank">CSIS &mdash; Venezuelan external debt crisis</a></li>
+        <li><a href="https://www.crisisgroup.org/stm/latin-america-caribbean/venezuela-united-states/venezuela-after-maduro-transaction-or-transition" target="_blank">Crisis Group &mdash; Venezuela after Maduro</a></li>
+        <li><a href="https://psfl.princeton.edu/document/306" target="_blank">Princeton SPIA &mdash; Policy brief on Venezuela debt</a></li>
+        <li>CEDICE OGP (May 2025) &mdash; Venezuelan economic observatory data</li>
+        <li>CEDICE OGP (Mar 2025) &mdash; Independent inflation tracking</li>
+        <li>Finanzas Digital / Oliveros &mdash; Independent economic analysis</li>
+      </ul>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:11px;color:var(--accent-purple);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Crypto &amp; Stablecoin Sources</div>
+      <ul class="source-list">
+        <li><a href="https://www.transfi.com/blog/stablecoin-payments-in-venezuela-dollarizing-a-hyperinflated-economy-on-chain" target="_blank">TransFi &mdash; Stablecoins in Venezuela: on-chain dollarization</a></li>
+        <li><a href="https://www.currencyofpower.co/p/venezuela-the-accidental-stablecoin" target="_blank">Currency of Power &mdash; Venezuela: The Accidental Stablecoin Empire</a></li>
+        <li><a href="https://www.cnbc.com/2026/01/19/venezuelans-turned-to-tether-issued-usdt-stablecoin-as-its-government-wobbled.html" target="_blank">CNBC &mdash; Venezuela USDT adoption (Jan 2026)</a></li>
+        <li><a href="https://learn.backpack.exchange/articles/stablecoins-in-venezuela" target="_blank">Backpack Exchange &mdash; How USDT powers a parallel economy</a></li>
+        <li>Newsweek &mdash; Stablecoin dollarization analysis</li>
+        <li>Market Periodical &mdash; Venezuela USDT/USDC as de facto currency</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:11px;color:var(--accent-green);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">News &amp; Media</div>
+      <ul class="source-list">
+        <li><a href="https://www.cnbc.com/2026/01/04/venezuelas-billions-in-distressed-debt-who-is-in-line-to-collect.html" target="_blank">CNBC &mdash; Venezuela distressed debt (Jan 2026)</a></li>
+        <li><a href="https://www.france24.com/en/live-news/20251114-return-to-bad-days-of-hyperinflation-looms-in-venezuela" target="_blank">France 24 &mdash; Hyperinflation return warning (Nov 2025)</a></li>
+        <li><a href="https://pgjonline.com/news/2025/july/venezuelas-pdvsa-reports-175-billion-in-2024-oil-revenue-as-exports-jump" target="_blank">PGJ Online &mdash; PDVSA 2024 revenue report</a></li>
+        <li>Asia Times (Jan 2026) &mdash; Venezuela regime transition analysis</li>
+        <li>Bloomberg L&iacute;nea &mdash; Venezuela economic data coverage</li>
+        <li>El Comercio &mdash; Regional economic reporting</li>
+      </ul>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:11px;color:var(--accent-red);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Brazil Plano Real Sources</div>
+      <ul class="source-list">
+        <li>Plano Real (detailed) &mdash; Mechanism design analysis</li>
+        <li>30 Years of Real Plan &mdash; FHC Foundation retrospective</li>
+        <li><a href="https://en.wikipedia.org/wiki/Hyperinflation_in_Venezuela" target="_blank">Wikipedia &mdash; Hyperinflation in Venezuela (historical data)</a></li>
+        <li><a href="https://mafhola.uchicago.edu/wp-content/uploads/Venezuela_Restuccia.pdf" target="_blank">Restuccia (U. Chicago) &mdash; Monetary &amp; Fiscal History of Venezuela 1960-2016</a></li>
+        <li>Central Bank of Brazil &mdash; Historical monetary data</li>
+        <li>IMF Staff Papers &mdash; Stabilization case studies</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <!-- Footer -->
-<div style="text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:32px">
-  <div style="font-size:12px;color:var(--text-muted)">
-    PDVSA.XYZ Research Division &mdash; Deep Forensic Report v1.0 &mdash; February 2026<br>
-    <span style="color:var(--accent-red)">DISCLAIMER:</span> This report is for informational purposes only. Not financial advice.<br>
-    Data sources cited throughout. Independent verification recommended.
+<footer style="border-top:1px solid var(--border);margin-top:32px;padding:32px 0">
+  <div style="display:grid;grid-template-columns:1fr;gap:24px;margin-bottom:24px">
+    <div style="text-align:center">
+      <div style="font-size:18px;font-weight:700;color:var(--accent-red);margin-bottom:4px">PDVSA.XYZ</div>
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase">Blockchain Monetary Innovation</div>
+    </div>
   </div>
-  <a href="/index.html" class="back-link" style="margin-top:16px">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2L4 8l6 6"/></svg>
-    Back to Dashboard
-  </a>
-</div>
+  <div style="text-align:center;font-size:11px;color:var(--text-muted);line-height:1.8;max-width:600px;margin:0 auto">
+    <span style="color:var(--accent-red);font-weight:600">DISCLAIMER:</span> This report is for informational and educational purposes only. It does not constitute financial, investment, or legal advice. All data sourced from publicly available databases and cited throughout. Independent verification recommended before any investment decision.<br><br>
+    Deep Forensic Report v2.0 &mdash; February 2026 &mdash; PDVSA.XYZ Research Division<br>
+    <span style="color:var(--text-muted)">Data timestamp: Q4 2025 / Q1 2026</span>
+  </div>
+  <div style="text-align:center;margin-top:20px">
+    <a href="/index.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--brand-gold);text-decoration:none;font-size:13px;font-weight:500;padding:10px 20px;border:1px solid rgba(201,253,52,0.3);border-radius:8px;cursor:pointer;transition:all .2s;min-height:44px">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2L4 8l6 6"/></svg>
+      Back to Dashboard
+    </a>
+  </div>
+</footer>
 
 </div><!-- end .report -->
 
@@ -1354,6 +1771,183 @@ new Chart(document.getElementById('scenarioChart'), {
     plugins: { legend: { display: false } }
   }
 });
+
+// 11. Oil Production + Price Dual Axis
+const oilYears = ['2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+new Chart(document.getElementById('oilChart'), {
+  type: 'bar',
+  data: {
+    labels: oilYears,
+    datasets: [
+      {
+        label: 'Production (K bpd)',
+        data: [2600,2600,2500,2400,2394,2300,2200,2100,2000,1900,1800,1700,1500,1300,1354,877,512,553,717,800,893,896],
+        backgroundColor: oilYears.map((_,i) => i >= 15 ? redC : goldC),
+        borderRadius: 3, borderWidth: 0, yAxisID: 'y'
+      },
+      {
+        label: 'OPEC Basket ($/bbl)',
+        data: [34.88,50.64,61.30,68.53,94.45,61.29,77.45,107.48,109.97,105.87,96.29,49.49,40.76,52.39,70.32,63.96,41.85,70.40,101.95,84.17,79.53,67],
+        type: 'line', borderColor: amberC, borderWidth: 2.5, tension: 0.3,
+        pointRadius: 3, pointBackgroundColor: amberC, yAxisID: 'y1', fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { position: 'left', grid: { color: gridC }, ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(1)+'M' : v+'K' } },
+      y1: { position: 'right', grid: { display: false }, ticks: { callback: v => '$'+v } },
+      x: { grid: { display: false } }
+    },
+    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16 } } }
+  }
+});
+
+// 12. GDP Collapse Chart
+new Chart(document.getElementById('gdpChart'), {
+  type: 'line',
+  data: {
+    labels: ['2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'GDP (USD Billions)',
+      data: [112,143,179,233,307,269,318,316,373,259,215,125,113,116,102,73,43,57,89,102,120,83],
+      borderColor: redC, backgroundColor: 'rgba(239,68,68,0.08)',
+      fill: true, tension: 0.3, borderWidth: 2.5, pointRadius: 4,
+      pointBackgroundColor: function(ctx) {
+        return ctx.parsed.y < 100 ? redC : ctx.parsed.y > 300 ? greenC : amberC;
+      }
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { grid: { color: gridC }, ticks: { callback: v => '$'+v+'B' } },
+      x: { grid: { display: false } }
+    },
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Peak: $373B (2012) → Trough: $43B (2020) → Now: $83B', color: redC, font: { size: 11, weight: 'bold' } }
+    }
+  }
+});
+
+// 13. Collapse multi-axis
+new Chart(document.getElementById('collapseChart'), {
+  type: 'line',
+  data: {
+    labels: ['2004','2006','2008','2010','2012','2014','2016','2018','2020','2022','2024'],
+    datasets: [
+      {
+        label: 'GDP ($B)', data: [112,179,307,318,373,215,113,102,43,89,120],
+        borderColor: redC, borderWidth: 2, tension: 0.3, pointRadius: 3, yAxisID: 'y'
+      },
+      {
+        label: 'Oil Prod (K bpd)', data: [2600,2500,2394,2200,2000,1800,1500,1354,512,717,893],
+        borderColor: goldC, borderWidth: 2, tension: 0.3, pointRadius: 3, yAxisID: 'y'
+      },
+      {
+        label: 'Oil Price ($/bbl)', data: [35,61,94,77,110,96,41,70,42,102,80],
+        borderColor: amberC, borderWidth: 2, tension: 0.3, borderDash: [5,3], pointRadius: 3, yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { position: 'left', grid: { color: gridC } },
+      y1: { position: 'right', grid: { display: false }, ticks: { callback: v => '$'+v } },
+      x: { grid: { display: false } }
+    },
+    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 12 } } }
+  }
+});
+
+// 14. Revenue Waterfall
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'],
+    datasets: [{
+      label: 'Est. Oil Revenue ($B)',
+      data: [33,48,56,60,82,51,62,82,80,73,63,31,22,25,35,20,8,14,27,25,17.5],
+      backgroundColor: function(ctx) {
+        const v = ctx.parsed.y;
+        return v > 60 ? greenC : v > 30 ? amberC : redC;
+      },
+      borderRadius: 3, borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { grid: { color: gridC }, ticks: { callback: v => '$'+v+'B' } },
+      x: { grid: { display: false } }
+    },
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Total 1999-2017: ~$635B earned. Where did it go?', color: amberC, font: { size: 11 } }
+    }
+  }
+});
+
+// 15. Collateral Requirements
+new Chart(document.getElementById('collateralChart'), {
+  type: 'bar',
+  data: {
+    labels: ['10% Adoption', '25% Adoption', '50% Adoption', '75% Adoption'],
+    datasets: [
+      { label: 'CR 100%', data: [1.7,4.1,8.3,12.4], backgroundColor: greenC, borderRadius: 4 },
+      { label: 'CR 110%', data: [1.9,4.5,9.1,13.7], backgroundColor: amberC, borderRadius: 4 },
+      { label: 'CR 125%', data: [2.1,5.2,10.4,15.5], backgroundColor: purpleC, borderRadius: 4 },
+      { label: 'Stress-Adjusted', data: [2.3,5.7,11.5,17.2], backgroundColor: redC, borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { grid: { color: gridC }, ticks: { callback: v => '$'+v+'B' } },
+      x: { grid: { display: false } }
+    },
+    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 12 } } }
+  }
+});
+
+// === Scroll-spy for top nav ===
+(function(){
+  const navItems = document.querySelectorAll('.report-topnav a.nav-item');
+  const sections = [];
+  navItems.forEach(a => {
+    const id = a.getAttribute('href').replace('#','');
+    const el = document.getElementById(id);
+    if(el) sections.push({ el, a });
+  });
+  let ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY + 80;
+      let current = sections[0];
+      for(const s of sections){
+        if(s.el.offsetTop <= scrollY) current = s;
+      }
+      navItems.forEach(a => a.classList.remove('active'));
+      if(current) current.a.classList.add('active');
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  // Smooth scroll
+  navItems.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = a.getAttribute('href').replace('#','');
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
 </script>
 </body>
 </html>
