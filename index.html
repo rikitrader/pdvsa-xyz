@@ -39,6 +39,8 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow-x: hidden; width: 100%; }
+  img, video, svg, canvas, iframe { max-width: 100%; height: auto; }
 
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -46,12 +48,13 @@
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
   }
 
   .dashboard {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 24px;
+    padding: 16px;
   }
 
   /* Header */
@@ -65,7 +68,7 @@
   }
 
   .header h1 {
-    font-size: 28px;
+    font-size: clamp(20px, 5vw, 28px);
     font-weight: 700;
     letter-spacing: -0.5px;
     margin-bottom: 4px;
@@ -73,7 +76,7 @@
 
   .header .subtitle {
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
   }
 
   .header .flag-line {
@@ -108,17 +111,21 @@
 
   .tab {
     flex: 1;
-    padding: 10px 16px;
+    padding: 12px 16px;
     border: none;
     background: transparent;
     color: var(--text-muted);
-    font-size: 13px;
+    font-size: clamp(11px, 2.5vw, 13px);
     font-weight: 500;
     cursor: pointer;
     border-radius: 8px;
     transition: all 0.2s;
     white-space: nowrap;
     min-width: fit-content;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .tab:hover { color: var(--text-secondary); background: var(--bg-card-hover); }
@@ -131,7 +138,7 @@
   /* KPI Grid */
   .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: 1fr;
     gap: 12px;
     margin-bottom: 24px;
   }
@@ -155,9 +162,10 @@
   }
 
   .kpi-value {
-    font-size: 24px;
+    font-size: clamp(18px, 4vw, 24px);
     font-weight: 700;
     letter-spacing: -0.5px;
+    overflow-wrap: anywhere;
   }
 
   .kpi-change {
@@ -173,7 +181,7 @@
   /* Chart Grid */
   .chart-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+    grid-template-columns: 1fr;
     gap: 16px;
     margin-bottom: 24px;
   }
@@ -198,10 +206,18 @@
   }
 
   /* Balance Sheet Table */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -8px;
+    padding: 0 8px;
+  }
+  .table-scroll table { min-width: 580px; }
+
   .bs-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: clamp(11px, 2.5vw, 13px);
   }
 
   .bs-table th {
@@ -250,7 +266,7 @@
   /* Strategy Section */
   .strategy-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: 1fr;
     gap: 16px;
     margin-bottom: 24px;
   }
@@ -400,7 +416,7 @@
   .comparison-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: clamp(11px, 2.5vw, 13px);
     margin-top: 16px;
   }
 
@@ -504,12 +520,22 @@
 
   .sources a:hover { text-decoration: underline; }
 
-  @media (max-width: 768px) {
-    .dashboard { padding: 12px; }
-    .chart-grid { grid-template-columns: 1fr; }
-    .strategy-grid { grid-template-columns: 1fr; }
+  /* ═══════ MOBILE-FIRST BREAKPOINTS ═══════ */
+  @media (min-width: 480px) {
     .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    .tabs { flex-wrap: nowrap; overflow-x: auto; }
+    .lang-toggle { top: 16px; right: 16px; padding: 10px 14px; font-size: 12px; }
+  }
+  @media (min-width: 768px) {
+    .dashboard { padding: 24px; }
+    .kpi-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .chart-grid { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+    .strategy-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .lang-toggle { top: 20px; right: 20px; gap: 8px; padding: 10px 16px; }
+  }
+  @media (min-width: 1024px) {
+    .dashboard { padding: 32px; }
+    .chart-grid { grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); }
+    .strategy-grid { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
   }
   /* ═══════ LANGUAGE TOGGLE ═══════ */
   #google_translate_element { display: none !important; }
@@ -518,13 +544,13 @@
 
   .lang-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 12px;
+    right: 12px;
     z-index: 10000;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
+    gap: 6px;
+    padding: 8px 12px;
     border: 1px solid rgba(255,255,255,.08);
     border-radius: 12px;
     background: rgba(15,23,42,.6);
@@ -533,11 +559,12 @@
     cursor: pointer;
     transition: all 0.25s ease;
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     color: #94a3b8;
     letter-spacing: 0.5px;
     box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    min-height: 44px;
   }
   .lang-toggle:hover {
     border-color: rgba(201,253,52,.3);
@@ -621,7 +648,7 @@
     z-index: 1;
     width: 100%;
     max-width: 1080px;
-    padding: 88px 40px 48px;
+    padding: 80px 16px 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -657,7 +684,7 @@
     font-weight: 600;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     border: 1px solid rgba(201,253,52,.2);
     background: rgba(201,253,52,.04);
     color: #c9fd34;
@@ -742,10 +769,7 @@
     letter-spacing: 1px;
     margin-bottom: 16px;
     text-align: center;
-    background: linear-gradient(135deg, #ffffff 0%, #c9fd34 40%, #8b5cf6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: none;
+    color: #ffffff;
   }
 
   /* Subtitle */
@@ -753,19 +777,19 @@
     font-family: 'Inter', sans-serif;
     font-size: clamp(13px, 1.8vw, 16px);
     line-height: 1.8;
-    color: #94a3b8;
+    color: #e2e8f0;
     max-width: 720px;
-    margin: 0 auto 36px;
+    margin: 0 auto 28px;
     text-align: center;
   }
-  .intro-subtitle strong { -webkit-text-fill-color: initial; }
+  .intro-subtitle strong { color: #ffffff; font-weight: 700; }
 
   /* Glass pillar cards */
   .intro-pillars {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 14px;
-    margin-bottom: 40px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
     width: 100%;
     text-align: left;
   }
@@ -844,8 +868,8 @@
     font-size: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(201,253,52,.5);
-    margin-bottom: 14px;
+    color: rgba(34,197,94,.5);
+    margin-bottom: 10px;
     text-align: center;
   }
   .intro-flow {
@@ -854,8 +878,8 @@
     justify-content: center;
     gap: 4px;
     flex-wrap: wrap;
-    margin-bottom: 40px;
-    padding: 16px 20px;
+    margin-bottom: 28px;
+    padding: 14px 18px;
     background: rgba(15,23,42,.3);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -882,7 +906,7 @@
   .intro-flow-arrow {
     display: flex;
     align-items: center;
-    color: rgba(201,253,52,.3);
+    color: rgba(34,197,94,.4);
     font-size: 14px;
   }
   .intro-flow-arrow svg {
@@ -896,23 +920,24 @@
     align-items: center;
     gap: 10px;
     padding: 16px 44px;
-    border: 1px solid rgba(201,253,52,.3);
+    border: 1.5px solid rgba(255,255,255,.25);
     border-radius: 12px;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    color: #0a0a0a;
-    background: linear-gradient(135deg, #c9fd34, #a3e635);
+    color: #ffffff;
+    background: transparent;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(.4,0,.2,1);
-    box-shadow: 0 10px 40px -10px rgba(201,253,52,.3);
+    transition: all 0.25s cubic-bezier(.4,0,.2,1);
+    box-shadow: none;
   }
   .intro-enter-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 50px -10px rgba(201,253,52,.4);
-    border-color: rgba(201,253,52,.5);
-    background: linear-gradient(135deg, #d4ff55, #c9fd34);
+    color: #0a0a0a;
+    background: #c9fd34;
+    border-color: #c9fd34;
+    box-shadow: 0 10px 40px -10px rgba(201,253,52,.4);
   }
   .intro-enter-btn:active {
     transform: translateY(-1px);
@@ -956,15 +981,18 @@
   .intro-animate.d6 { animation-delay: 1.15s; }
   .intro-animate.d7 { animation-delay: 1.35s; }
 
-  /* Responsive */
-  @media (max-width: 900px) {
+  /* Responsive (mobile-first) */
+  @media (min-width: 480px) {
     .intro-pillars { grid-template-columns: repeat(2, 1fr); }
-    .intro-hud-frame { padding: 32px 20px; }
+    .intro-hud-frame { padding: 100px 24px 40px; }
   }
-  @media (max-width: 560px) {
-    .intro-pillars { grid-template-columns: 1fr; }
-    .intro-hud-frame { padding: 24px 16px; }
-    .intro-hud-frame::before, .intro-hud-frame::after { width: 32px; height: 32px; }
+  @media (min-width: 768px) {
+    .intro-pillars { grid-template-columns: repeat(3, 1fr); }
+    .intro-hud-frame { padding: 120px 32px 48px; }
+  }
+  @media (min-width: 1024px) {
+    .intro-pillars { grid-template-columns: repeat(5, 1fr); }
+    .intro-hud-frame { padding: 140px 40px 48px; }
   }
 
   /* Reduced motion */
@@ -974,6 +1002,53 @@
     .intro-orb { animation: none; }
     .intro-animate, .intro-animate-scale { animation-duration: 0.01s; }
     .intro-badge-dot { animation: none; }
+  }
+
+  /* ═══════ INLINE LOGO BLOCK ═══════ */
+  .intro-logo-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .intro-logo-icon {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+  .intro-logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .intro-logo-wordmark {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(36px, 7vw, 56px);
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1;
+    color: #ef4444;
+  }
+  .intro-logo-wordmark span {
+    color: #ef4444;
+  }
+  .intro-logo-tagline {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(9px, 1.5vw, 12px);
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: #64748b;
+    padding-left: 2px;
+  }
+  /* Logo mobile-first: stacked by default, horizontal on tablets+ */
+  .intro-logo-block { flex-direction: column; gap: 12px; text-align: center; }
+  .intro-logo-icon { width: 60px; height: 60px; }
+  .intro-logo-tagline { padding-left: 0; }
+  @media (min-width: 560px) {
+    .intro-logo-block { flex-direction: row; gap: 18px; text-align: left; }
+    .intro-logo-icon { width: 80px; height: 80px; }
+    .intro-logo-tagline { padding-left: 2px; }
   }
 </style>
 </head>
@@ -1002,9 +1077,34 @@
       </div>
     </div>
 
-    <!-- Logo -->
-    <div class="intro-animate-scale d1" style="margin-bottom:28px">
-      <img src="/logo.svg" alt="PDVSA.XYZ" style="width:min(620px,94vw);height:auto;display:block;margin:0 auto">
+    <!-- Logo (inline — no cache/font issues) -->
+    <div class="intro-animate-scale d1 intro-logo-block">
+      <!-- Hex icon -->
+      <svg class="intro-logo-icon" viewBox="-72 -72 144 144" fill="none">
+        <polygon points="0,-66 57.2,-33 57.2,33 0,66 -57.2,33 -57.2,-33" stroke="#ffffff" stroke-width="1.6" opacity=".3"/>
+        <polygon points="0,-50 43.3,-25 43.3,25 0,50 -43.3,25 -43.3,-25" stroke="#ffffff" stroke-width="1.3" opacity=".18" transform="rotate(30)"/>
+        <circle r="32" stroke="#ffffff" stroke-width="1.6" opacity=".35"/>
+        <circle r="12" fill="#ffffff" opacity=".5"/>
+        <circle r="5.5" fill="#ffffff" opacity=".95"/>
+        <circle cx="0" cy="-66" r="4" fill="#ffffff" opacity=".55"/>
+        <circle cx="57.2" cy="-33" r="4" fill="#ffffff" opacity=".45"/>
+        <circle cx="57.2" cy="33" r="4" fill="#ffffff" opacity=".45"/>
+        <circle cx="0" cy="66" r="4" fill="#ffffff" opacity=".45"/>
+        <circle cx="-57.2" cy="33" r="4" fill="#ffffff" opacity=".55"/>
+        <circle cx="-57.2" cy="-33" r="4" fill="#ffffff" opacity=".45"/>
+        <line x1="0" y1="0" x2="0" y2="-66" stroke="#ffffff" stroke-width=".7" opacity=".08"/>
+        <line x1="0" y1="0" x2="57.2" y2="-33" stroke="#ffffff" stroke-width=".7" opacity=".08"/>
+        <line x1="0" y1="0" x2="57.2" y2="33" stroke="#ffffff" stroke-width=".7" opacity=".08"/>
+        <line x1="0" y1="0" x2="0" y2="66" stroke="#ffffff" stroke-width=".7" opacity=".08"/>
+        <line x1="0" y1="0" x2="-57.2" y2="33" stroke="#ffffff" stroke-width=".7" opacity=".08"/>
+        <line x1="0" y1="0" x2="-57.2" y2="-33" stroke="#ffffff" stroke-width=".7" opacity=".08"/>
+        <path d="M-18,-18 L0,18 L18,-18" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+      </svg>
+      <!-- Text -->
+      <div class="intro-logo-text">
+        <div class="intro-logo-wordmark">PDVSA<span>.XYZ</span></div>
+        <div class="intro-logo-tagline">BLOCKCHAIN MONETARY INNOVATION</div>
+      </div>
     </div>
 
     <!-- Title -->
@@ -1014,14 +1114,14 @@
 
     <!-- Subtitle -->
     <p class="intro-subtitle intro-animate d3">
-      Venezuela's Banco Central has lost all credibility. The Bolivar lost <strong style="color:#ef4444">99.99%</strong> of its value.
+      Venezuela's Banco Central has lost all credibility. The Bolivar lost <strong>99.99%</strong> of its value.
       Reserves cover less than one month of imports. The people already use stablecoins as real currency.
-      This dashboard maps the <strong style="color:#c9fd34">data</strong>,
-      the <strong style="color:#ef4444">crisis</strong>, and the <strong style="color:#00bb7f">solution</strong>&mdash;a
-      sovereign stablecoin backed by <strong style="color:#c9fd34">USDC</strong> reserves,
-      settled on the <strong style="color:#00bb7f">XRP Ledger</strong>,
-      collateralized by <strong style="color:#fbbf24">US Treasuries (AAA)</strong>,
-      and connected through <strong style="color:#8b5cf6">cross-chain tokenization</strong>.
+      This dashboard maps the <strong>data</strong>,
+      the <strong>crisis</strong>, and the <strong>solution</strong>&mdash;a
+      sovereign stablecoin backed by <strong>USDC</strong> reserves,
+      settled on the <strong>XRP Ledger</strong>,
+      collateralized by <strong>US Treasuries (AAA)</strong>,
+      and connected through <strong>cross-chain tokenization</strong>.
     </p>
 
     <!-- 5-Pillar Glass Cards -->
@@ -1034,33 +1134,33 @@
         <div class="intro-pillar-title" style="color:#c9fd34">USDC (Circle)</div>
         <div class="intro-pillar-desc">Reserve anchor. 100% backed by US Treasuries + cash. Monthly Deloitte attestation. $60B+ in circulation. The bridge between fiat trust and crypto speed.</div>
       </div>
-      <div class="intro-pillar" style="--pillar-glow:rgba(0,187,127,.4)">
+      <div class="intro-pillar" style="--pillar-glow:rgba(201,253,52,.4)">
         <div class="intro-pillar-num">02</div>
-        <div class="intro-pillar-icon" style="background:rgba(0,187,127,.1)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00bb7f" stroke-width="1.8" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <div class="intro-pillar-icon" style="background:rgba(201,253,52,.1)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9fd34" stroke-width="1.8" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
-        <div class="intro-pillar-title" style="color:#00bb7f">XRP Ledger</div>
+        <div class="intro-pillar-title" style="color:#c9fd34">XRP Ledger</div>
         <div class="intro-pillar-desc">Settlement layer. 3&ndash;5 second finality. $0.0002 per tx. Native CLOB for FX. 300+ RippleNet banking partners globally.</div>
       </div>
-      <div class="intro-pillar" style="--pillar-glow:rgba(251,191,36,.4)">
+      <div class="intro-pillar" style="--pillar-glow:rgba(201,253,52,.4)">
         <div class="intro-pillar-num">03</div>
-        <div class="intro-pillar-icon" style="background:rgba(251,191,36,.1)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 3v18"/></svg>
+        <div class="intro-pillar-icon" style="background:rgba(201,253,52,.1)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9fd34" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 3v18"/></svg>
         </div>
-        <div class="intro-pillar-title" style="color:#fbbf24">US Treasuries (AAA)</div>
+        <div class="intro-pillar-title" style="color:#c9fd34">US Treasuries (AAA)</div>
         <div class="intro-pillar-desc">Collateral foundation. 60%+ in T-bills. BlackRock BUIDL + Franklin OnChain tokenized on-chain. Yield generation from day one.</div>
       </div>
-      <div class="intro-pillar" style="--pillar-glow:rgba(167,139,250,.4)">
+      <div class="intro-pillar" style="--pillar-glow:rgba(201,253,52,.4)">
         <div class="intro-pillar-num">04</div>
-        <div class="intro-pillar-icon" style="background:rgba(167,139,250,.1)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c2.8 2.8 4 6.2 4 10s-1.2 7.2-4 10c-2.8-2.8-4-6.2-4-10s1.2-7.2 4-10z"/></svg>
+        <div class="intro-pillar-icon" style="background:rgba(201,253,52,.1)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9fd34" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c2.8 2.8 4 6.2 4 10s-1.2 7.2-4 10c-2.8-2.8-4-6.2-4-10s1.2-7.2 4-10z"/></svg>
         </div>
-        <div class="intro-pillar-title" style="color:#a78bfa">Cross-Chain</div>
+        <div class="intro-pillar-title" style="color:#c9fd34">Cross-Chain</div>
         <div class="intro-pillar-desc">Ethereum (DeFi), Solana (retail), XRP (settlements), Polygon (gov). Every asset tokenized, every chain connected.</div>
       </div>
       <div class="intro-pillar" style="--pillar-glow:rgba(201,253,52,.4)">
         <div class="intro-pillar-num">05</div>
-        <div class="intro-pillar-icon" style="background:rgba(201,253,52,.08)">
+        <div class="intro-pillar-icon" style="background:rgba(201,253,52,.1)">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9fd34" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <div class="intro-pillar-title" style="color:#c9fd34">Venezuela Web 3.0</div>
@@ -1071,37 +1171,37 @@
     <!-- Flow Pipeline -->
     <div class="intro-flow-label intro-animate d5">Stabilization Pipeline</div>
     <div class="intro-flow intro-animate d5">
-      <div class="intro-flow-step" style="background:rgba(239,68,68,.08);color:#ef4444">
+      <div class="intro-flow-step" style="background:rgba(34,197,94,.08);color:#22c55e">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
         Failed CB
       </div>
       <span class="intro-flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      <div class="intro-flow-step" style="background:rgba(96,165,250,.08);color:#60a5fa">
+      <div class="intro-flow-step" style="background:rgba(34,197,94,.08);color:#22c55e">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
         People adopt USDT/USDC
       </div>
       <span class="intro-flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      <div class="intro-flow-step" style="background:rgba(201,253,52,.08);color:#c9fd34">
+      <div class="intro-flow-step" style="background:rgba(34,197,94,.08);color:#22c55e">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
         Connect USDC
       </div>
       <span class="intro-flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      <div class="intro-flow-step" style="background:rgba(0,187,127,.08);color:#00bb7f">
+      <div class="intro-flow-step" style="background:rgba(34,197,94,.08);color:#22c55e">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         Settle on XRP
       </div>
       <span class="intro-flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      <div class="intro-flow-step" style="background:rgba(251,191,36,.08);color:#fbbf24">
+      <div class="intro-flow-step" style="background:rgba(34,197,94,.08);color:#22c55e">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/></svg>
         Collateralize Treasuries
       </div>
       <span class="intro-flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      <div class="intro-flow-step" style="background:rgba(167,139,250,.08);color:#a78bfa">
+      <div class="intro-flow-step" style="background:rgba(34,197,94,.08);color:#22c55e">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
         Cross-chain Tokenize
       </div>
       <span class="intro-flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      <div class="intro-flow-step" style="background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(167,139,250,.1));color:#c4b5fd;border:1px solid rgba(167,139,250,.2)">
+      <div class="intro-flow-step" style="background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2)">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
         The Future is Here
       </div>
@@ -1149,6 +1249,10 @@
     <button class="tab" data-tab="stablecoin">Stablecoin Strategy</button>
     <button class="tab" data-tab="strategy">Anti-Inflation Strategy</button>
     <button class="tab" data-tab="comparisons">Historical Comparisons</button>
+    <a href="/report.html" class="tab" style="text-decoration:none;color:var(--accent-red)">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M3 12V2h8v10M3 7h8"/><path d="M6 4h2M6 6h4"/></svg>
+      Forensic Report
+    </a>
   </div>
 
   <!-- ========== SECTION: OVERVIEW ========== -->
@@ -1301,7 +1405,7 @@
     <div class="chart-grid">
       <div class="chart-card" style="grid-column: 1 / -1;">
         <h3>BCV Balance Sheet - Reconstructed from Official Data (VED Trillions)</h3>
-        <table class="bs-table">
+        <div class="table-scroll"><table class="bs-table">
           <thead>
             <tr><th colspan="2">ASSETS</th><th class="amount">Amount (T VED)</th><th class="amount">% of Total</th></tr>
           </thead>
@@ -1331,7 +1435,7 @@
             <tr><td class="indent" colspan="2">Securities Issued (BCV bonds)</td><td class="amount">---</td><td class="amount">---</td></tr>
             <tr class="total-row"><td colspan="2">TOTAL EQUITY</td><td class="amount">13.4</td><td class="amount">~0.9%</td></tr>
           </tbody>
-        </table>
+        </table></div>
         <div style="margin-top:12px;font-size:11px;color:var(--text-muted)">
           * Monetary base of Bs 179.5B from CEDICE/BCV May 2025. Full BCV balance sheet itemization is not publicly disclosed with granularity; values reconstructed from CEIC, BCV published totals, and reserve composition data. "---" = not disclosed.
         </div>
@@ -1483,7 +1587,7 @@
     <!-- Failed Plans Before -->
     <div class="chart-card" style="margin-bottom:24px">
       <h3>5 Failed Stabilization Plans (1986-1993)</h3>
-      <table class="comparison-table">
+      <div class="table-scroll"><table class="comparison-table">
         <thead>
           <tr><th>Plan</th><th>Year</th><th>Method</th><th>Initial Result</th><th>Why It Failed</th><th>Outcome</th></tr>
         </thead>
@@ -1653,7 +1757,7 @@
     <!-- URV = Stablecoin Connection -->
     <div class="chart-card" style="margin-top:24px;background:linear-gradient(135deg, rgba(6,182,212,0.08), rgba(168,85,247,0.08))">
       <h3 style="color:var(--accent-cyan)">The URV-Stablecoin Connection: History Repeating</h3>
-      <table class="comparison-table">
+      <div class="table-scroll"><table class="comparison-table">
         <thead>
           <tr><th>Characteristic</th><th>Brazil URV (1994)</th><th>Venezuela USDT (2025)</th><th>Parallel</th></tr>
         </thead>
@@ -1817,7 +1921,7 @@
     <!-- Why Stablecoins Work for Venezuela -->
     <div class="chart-card" style="margin-top:24px">
       <h3>Why Stablecoins Are Venezuela's Best Tool (vs Traditional Dollarization)</h3>
-      <table class="comparison-table">
+      <div class="table-scroll"><table class="comparison-table">
         <thead>
           <tr><th>Factor</th><th>Traditional Dollarization (Ecuador model)</th><th>Stablecoin-Based Dollarization</th><th>Advantage</th></tr>
         </thead>
@@ -2069,7 +2173,7 @@
   <div class="section" id="comparisons">
     <div class="chart-card" style="margin-bottom:24px">
       <h3>Historical Hyperinflation Stabilizations: Lessons for Venezuela</h3>
-      <table class="comparison-table">
+      <div class="table-scroll"><table class="comparison-table">
         <thead>
           <tr>
             <th>Country</th>

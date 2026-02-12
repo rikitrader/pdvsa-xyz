@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Deep Forensic Report: Central Bank of Venezuela & Systemic Risk | PDVSA.XYZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-card: #18181b;
+  --bg-card-hover: #27272a;
+  --border: rgba(255,255,255,0.1);
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --accent-red: #ef4444;
+  --accent-red-dim: rgba(239,68,68,0.12);
+  --accent-green: #00bb7f;
+  --accent-green-dim: rgba(0,187,127,0.12);
+  --accent-blue: #3b82f6;
+  --accent-blue-dim: rgba(59,130,246,0.12);
+  --accent-amber: #f59e0b;
+  --accent-amber-dim: rgba(245,158,11,0.12);
+  --accent-purple: #8b5cf6;
+  --accent-purple-dim: rgba(139,92,246,0.12);
+  --accent-cyan: #06b6d4;
+  --accent-cyan-dim: rgba(6,182,212,0.12);
+  --brand-gold: #c9fd34;
+  --brand-gold-dim: rgba(201,253,52,0.12);
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.1);
+  --radius: 12px;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; width: 100%; }
+img, video, svg, canvas, iframe { max-width: 100%; height: auto; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Layout */
+.report { max-width: 1200px; margin: 0 auto; padding: 16px; }
+@media(min-width:768px){ .report { padding: 32px; } }
+@media(min-width:1024px){ .report { padding: 48px; } }
+
+/* Back link */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--brand-gold); text-decoration: none; font-size: 13px;
+  font-weight: 500; margin-bottom: 24px; cursor: pointer;
+  transition: opacity .2s;
+}
+.back-link:hover { opacity: .7; }
+
+/* Title page */
+.title-page {
+  text-align: center; padding: 48px 16px;
+  border: 1px solid var(--glass-border); border-radius: var(--radius);
+  background: var(--glass-bg); margin-bottom: 32px;
+  position: relative; overflow: hidden;
+}
+.title-page::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent-red), var(--brand-gold), var(--accent-red));
+}
+.title-page h1 {
+  font-size: clamp(22px, 5vw, 36px); font-weight: 700;
+  letter-spacing: -0.5px; margin-bottom: 8px;
+  background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.title-page .report-subtitle {
+  font-size: clamp(13px, 3vw, 16px); color: var(--accent-red);
+  font-weight: 600; margin-bottom: 16px;
+}
+.title-page .meta { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); }
+.classification {
+  display: inline-block; padding: 6px 18px; border-radius: 6px;
+  background: var(--accent-red-dim); color: var(--accent-red);
+  font-weight: 700; font-size: 14px; margin-top: 16px;
+  border: 1px solid rgba(239,68,68,0.3);
+}
+
+/* Section */
+.section-block {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 24px 16px; margin-bottom: 24px;
+}
+@media(min-width:768px){ .section-block { padding: 32px 28px; } }
+
+.section-num {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  color: var(--brand-gold); text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.section-title {
+  font-size: clamp(18px, 4vw, 24px); font-weight: 700;
+  margin-bottom: 16px; letter-spacing: -0.3px;
+}
+.section-title.red { color: var(--accent-red); }
+
+/* Cards grid */
+.card-grid {
+  display: grid; grid-template-columns: 1fr; gap: 16px;
+}
+@media(min-width:600px){ .card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width:1024px){ .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); } }
+@media(min-width:1024px){ .card-grid.cols-4 { grid-template-columns: repeat(4, 1fr); } }
+
+/* Metric card */
+.metric-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px; position: relative; overflow: hidden;
+}
+.metric-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.metric-card.red::before { background: var(--accent-red); }
+.metric-card.green::before { background: var(--accent-green); }
+.metric-card.amber::before { background: var(--accent-amber); }
+.metric-card.gold::before { background: var(--brand-gold); }
+.metric-card.purple::before { background: var(--accent-purple); }
+.metric-card.cyan::before { background: var(--accent-cyan); }
+
+.metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.metric-value { font-size: clamp(24px, 5vw, 32px); font-weight: 700; font-family: var(--font-mono); }
+.metric-value.red { color: var(--accent-red); }
+.metric-value.green { color: var(--accent-green); }
+.metric-value.amber { color: var(--accent-amber); }
+.metric-value.gold { color: var(--brand-gold); }
+.metric-sub { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+/* Chart wrapper */
+.chart-wrap {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px; margin-bottom: 16px;
+}
+.chart-wrap h4 {
+  font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);
+}
+.chart-box { position: relative; width: 100%; max-height: 360px; }
+
+/* Tables */
+.table-scroll {
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  margin: 0 -8px; padding: 0 8px;
+}
+.data-table {
+  width: 100%; min-width: 580px; border-collapse: collapse;
+  font-size: 13px; margin-bottom: 8px;
+}
+.data-table th {
+  background: rgba(201,253,52,0.08); color: var(--brand-gold);
+  font-weight: 600; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1px; padding: 10px 12px; text-align: left;
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.data-table td {
+  padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: var(--text-secondary); vertical-align: top;
+}
+.data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* Tags */
+.tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.tag-extreme { background: rgba(239,68,68,0.15); color: #ef4444; }
+.tag-high { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.tag-moderate { background: rgba(6,182,212,0.15); color: #06b6d4; }
+.tag-ok { background: rgba(0,187,127,0.15); color: #00bb7f; }
+
+/* Score gauge */
+.gauge-row { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0; }
+.gauge-item { flex: 1; min-width: 140px; }
+.gauge-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.gauge-bar {
+  height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08);
+  overflow: hidden; position: relative;
+}
+.gauge-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+.gauge-fill.red { background: linear-gradient(90deg, #ef4444, #dc2626); }
+.gauge-fill.amber { background: linear-gradient(90deg, #f59e0b, #d97706); }
+.gauge-fill.green { background: linear-gradient(90deg, #00bb7f, #059669); }
+.gauge-score {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  margin-top: 4px;
+}
+
+/* Prose */
+p { margin-bottom: 12px; color: var(--text-secondary); font-size: 14px; }
+strong { color: var(--text-primary); }
+.highlight { color: var(--accent-red); font-weight: 600; }
+.gold-hl { color: var(--brand-gold); font-weight: 600; }
+
+/* Red flag box */
+.redflag-box {
+  border-left: 3px solid var(--accent-red); padding: 16px 20px;
+  background: var(--accent-red-dim); border-radius: 0 10px 10px 0;
+  margin-bottom: 16px;
+}
+.redflag-box h5 { color: var(--accent-red); font-size: 14px; margin-bottom: 6px; }
+
+/* Formula box */
+.formula-box {
+  background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2);
+  border-radius: 10px; padding: 16px 20px; margin-bottom: 16px;
+  font-family: var(--font-mono); font-size: 13px;
+}
+.formula-box .formula-name { color: var(--accent-purple); font-weight: 700; margin-bottom: 4px; font-size: 12px; }
+.formula-box code { color: var(--text-primary); }
+.formula-box .formula-result { margin-top: 8px; font-weight: 700; }
+
+/* Infographic blocks */
+.infographic {
+  display: grid; grid-template-columns: 1fr; gap: 12px;
+  margin: 16px 0;
+}
+@media(min-width:600px){ .infographic { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width:900px){ .infographic.cols-3 { grid-template-columns: repeat(3, 1fr); } }
+
+.info-block {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px; text-align: center;
+}
+.info-block .info-icon {
+  width: 48px; height: 48px; margin: 0 auto 12px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.info-block .info-val { font-size: 28px; font-weight: 700; font-family: var(--font-mono); }
+.info-block .info-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* Footnotes */
+.footnote { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+.footnote a { color: var(--brand-gold); text-decoration: none; }
+.footnote a:hover { text-decoration: underline; }
+
+/* Source list */
+.source-list { list-style: none; font-size: 12px; }
+.source-list li { padding: 4px 0; color: var(--text-muted); }
+.source-list li::before { content: '['; color: var(--brand-gold); }
+.source-list li::after { content: ']'; color: var(--brand-gold); }
+.source-list a { color: var(--text-secondary); text-decoration: none; }
+
+/* Responsive */
+@media(max-width:480px){
+  .title-page { padding: 32px 12px; }
+  .section-block { padding: 16px 12px; }
+  .chart-wrap { padding: 12px; }
+}
+
+/* Print */
+@media print {
+  body { background: #fff; color: #000; }
+  .back-link { display: none; }
+}
+
+/* Nav sidebar */
+.report-nav {
+  position: fixed; top: 16px; right: 16px; z-index: 100;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px; max-height: 90vh;
+  overflow-y: auto; display: none; width: 240px;
+}
+@media(min-width:1024px){ .report-nav { display: block; } }
+.report-nav a {
+  display: block; padding: 4px 8px; font-size: 11px;
+  color: var(--text-muted); text-decoration: none; border-radius: 4px;
+  cursor: pointer; transition: background .2s;
+}
+.report-nav a:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+.report-nav .nav-title { font-size: 10px; color: var(--brand-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 24px; margin: 16px 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.timeline-item { position: relative; margin-bottom: 16px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -20px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent-red); border: 2px solid var(--bg-primary);
+}
+.timeline-item.green::before { background: var(--accent-green); }
+.timeline-item.amber::before { background: var(--accent-amber); }
+.timeline-year { font-family: var(--font-mono); font-size: 12px; color: var(--brand-gold); font-weight: 600; }
+.timeline-text { font-size: 13px; color: var(--text-secondary); }
+
+/* Flow diagram */
+.flow-row {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 8px; margin: 16px 0;
+}
+.flow-step {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 16px; font-size: 12px;
+  text-align: center; min-width: 100px;
+}
+.flow-arrow { color: var(--accent-red); font-size: 18px; font-weight: 700; }
+</style>
+</head>
+<body>
+<!-- Navigation sidebar -->
+<nav class="report-nav">
+  <div class="nav-title">Report Sections</div>
+  <a href="#title">Title</a>
+  <a href="#executive">Executive Summary</a>
+  <a href="#methodology">Methodology</a>
+  <a href="#balance-sheet">BCV Balance Sheet</a>
+  <a href="#reserves">Reserves Adequacy</a>
+  <a href="#money-supply">Money Supply</a>
+  <a href="#fiscal">Fiscal & Debt</a>
+  <a href="#external">External Sector & FX</a>
+  <a href="#redflags">Red Flags</a>
+  <a href="#investor">Investor Implications</a>
+  <a href="#appendix">Appendices</a>
+</nav>
+
+<div class="report">
+<a href="/index.html" class="back-link">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2L4 8l6 6"/></svg>
+  Back to Dashboard
+</a>
+
+<!-- ============ 1. TITLE PAGE ============ -->
+<section class="title-page" id="title">
+  <div class="meta">PDVSA.XYZ RESEARCH DIVISION</div>
+  <h1>Deep Forensic Report:<br>Central Bank of Venezuela &amp; Systemic Risk</h1>
+  <div class="report-subtitle">Sovereign Financial Forensics Analysis</div>
+  <div class="meta">
+    Version 1.0 &mdash; February 2026<br>
+    Data Timestamp: Q4 2025 / Q1 2026<br>
+    Classification: PUBLIC
+  </div>
+  <div class="classification">RISK CLASSIFICATION: EXTREME</div>
+</section>
+
+<!-- ============ 2. EXECUTIVE SUMMARY ============ -->
+<section class="section-block" id="executive">
+  <div class="section-num">Section 01</div>
+  <h2 class="section-title">Executive Summary</h2>
+
+  <p>Venezuela's Central Bank (BCV) presents one of the <strong>most acute systemic risk profiles</strong> of any sovereign monetary authority globally. This forensic analysis, drawing on BCV balance sheet data, IMF projections, independent inflation trackers, and market indicators, reveals a central bank that has effectively <span class="highlight">lost its capacity to conduct independent monetary policy</span>.</p>
+
+  <p>Our <strong>Crisis Probability Index (CPI) scores Venezuela at 80.3/100</strong> &mdash; placing it firmly in the <span class="highlight">EXTREME risk</span> category. The combination of depleted reserves, runaway monetary expansion, a widening parallel FX premium, and the world's largest unresolved sovereign default creates a self-reinforcing cycle of institutional erosion.</p>
+
+  <div class="card-grid cols-3" style="margin:24px 0">
+    <div class="metric-card red">
+      <div class="metric-label">Crisis Probability Index</div>
+      <div class="metric-value red">80.3%</div>
+      <div class="metric-sub">Extreme risk threshold: &gt;70%</div>
+    </div>
+    <div class="metric-card red">
+      <div class="metric-label">External Debt / GDP</div>
+      <div class="metric-value red">~180%</div>
+      <div class="metric-sub">$150-170B total debt vs $82.8B GDP</div>
+    </div>
+    <div class="metric-card amber">
+      <div class="metric-label">FX Reserves</div>
+      <div class="metric-value amber">$13.3B</div>
+      <div class="metric-sub">Down 69% from 2008 peak of $43.1B</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;margin:20px 0 12px;color:var(--accent-red)">Top 5 Red Flags</h3>
+  <div class="infographic cols-3" style="margin-bottom:0">
+    <div class="redflag-box">
+      <h5>1. Monetary Expansion vs GDP</h5>
+      <p style="margin:0;font-size:13px">M2 growing 152% YoY vs 3% GDP growth. MEI score: <strong>50.7x</strong> (threshold: 2x)</p>
+    </div>
+    <div class="redflag-box">
+      <h5>2. Parallel FX Premium 86%</h5>
+      <p style="margin:0;font-size:13px">Official: 301 VES/USD. Black market: 560 VES/USD. Systemic FX stress confirmed.</p>
+    </div>
+    <div class="redflag-box">
+      <h5>3. World's Largest Default</h5>
+      <p style="margin:0;font-size:13px">$60B in defaulted bonds since 2017. Total claims: $150-170B including arbitration.</p>
+    </div>
+    <div class="redflag-box">
+      <h5>4. Reserve Collapse: -69%</h5>
+      <p style="margin:0;font-size:13px">From $43.1B (2008) to $13.3B (2025). Gold access blocked by UK courts.</p>
+    </div>
+    <div class="redflag-box">
+      <h5>5. Institutional Collapse</h5>
+      <p style="margin:0;font-size:13px">BCV lost independence. Maduro captured Jan 2026. Regime transition underway.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. METHODOLOGY ============ -->
+<section class="section-block" id="methodology">
+  <div class="section-num">Section 02</div>
+  <h2 class="section-title">Methodology</h2>
+
+  <div class="card-grid" style="margin-bottom:20px">
+    <div class="metric-card cyan">
+      <div class="metric-label">Data Sources</div>
+      <div class="metric-value" style="font-size:20px;color:var(--accent-cyan)">12+</div>
+      <div class="metric-sub">Official, institutional, and market sources</div>
+    </div>
+    <div class="metric-card purple">
+      <div class="metric-label">Time Horizon</div>
+      <div class="metric-value" style="font-size:20px;color:var(--accent-purple)">2008-2026</div>
+      <div class="metric-sub">18-year analysis window</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:15px;margin-bottom:12px">Data Sources by Priority Tier</h3>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Tier</th><th>Source</th><th>Data Category</th><th>Frequency</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="tag tag-ok">A</span></td><td>BCV Official Reports</td><td>Balance sheet, reserves, monetary aggregates</td><td>Monthly</td></tr>
+        <tr><td><span class="tag tag-ok">A</span></td><td>IMF World Economic Outlook</td><td>GDP, inflation, fiscal balance, debt</td><td>Biannual</td></tr>
+        <tr><td><span class="tag tag-ok">A</span></td><td>World Bank DataBank</td><td>CPI, trade, development indicators</td><td>Annual</td></tr>
+        <tr><td><span class="tag tag-moderate">B</span></td><td>CEIC Data</td><td>BCV balance sheet, monetary, reserves</td><td>Monthly</td></tr>
+        <tr><td><span class="tag tag-moderate">B</span></td><td>TradingEconomics</td><td>FX reserves, interest rates, trade</td><td>Monthly</td></tr>
+        <tr><td><span class="tag tag-moderate">B</span></td><td>Statista / FocusEconomics</td><td>GDP, inflation forecasts</td><td>Quarterly</td></tr>
+        <tr><td><span class="tag tag-high">C</span></td><td>Parallel FX Trackers</td><td>Black market exchange rates</td><td>Daily</td></tr>
+        <tr><td><span class="tag tag-high">C</span></td><td>Chainalysis / On-chain</td><td>Crypto adoption, USDT volumes</td><td>Annual</td></tr>
+        <tr><td><span class="tag tag-extreme">D</span></td><td>CSIS / Crisis Group</td><td>Political risk, governance analysis</td><td>Ad hoc</td></tr>
+        <tr><td><span class="tag tag-extreme">D</span></td><td>OFAC / Treasury</td><td>Sanctions programs, licenses</td><td>Ad hoc</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">Scoring Formulas</h3>
+  <div class="card-grid">
+    <div class="formula-box">
+      <div class="formula-name">FX Reserve Adequacy Index (RAI)</div>
+      <code>RAI = (FX Reserves / M2) &times; 100</code><br>
+      <span style="font-size:11px;color:var(--text-muted)">&lt;10 = severe insufficiency</span>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Import Coverage Ratio (ICR)</div>
+      <code>ICR = FX Reserves / Annual Imports</code><br>
+      <span style="font-size:11px;color:var(--text-muted)">&lt;3 months = liquidity pressure</span>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Monetary Expansion Indicator (MEI)</div>
+      <code>MEI = &Delta;M2 YoY / &Delta;GDP YoY</code><br>
+      <span style="font-size:11px;color:var(--text-muted)">&gt;2 = excessive expansion</span>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Parallel FX Premium (PFX)</div>
+      <code>PFX = ((Parallel - Official) / Official) &times; 100</code><br>
+      <span style="font-size:11px;color:var(--text-muted)">&gt;30% = systemic FX stress</span>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Inflation Accelerant Score (IAS)</div>
+      <code>IAS = YoY Inflation / YoY M2 Growth</code><br>
+      <span style="font-size:11px;color:var(--text-muted)">&gt;1 = accelerating beyond money growth</span>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">Crisis Probability Index (CPI)</div>
+      <code>CPI = 0.25&times;RAI + 0.20&times;MEI + 0.15&times;PFX + 0.15&times;FD + 0.15&times;EDP + 0.10&times;POL</code><br>
+      <span style="font-size:11px;color:var(--text-muted)">Normalized 0-100%</span>
+    </div>
+  </div>
+
+  <p style="margin-top:16px"><strong>Limitations:</strong> BCV data transparency has deteriorated since 2015. Several data series rely on IMF estimates or independent trackers. M2 figures in local currency are distorted by multiple exchange rate regimes. Gold reserve valuations fluctuate with market prices. Political instability (Maduro capture, Jan 2026) introduces additional uncertainty.</p>
+</section>
+
+<!-- ============ 4. BCV BALANCE SHEET ============ -->
+<section class="section-block" id="balance-sheet">
+  <div class="section-num">Section 03</div>
+  <h2 class="section-title">BCV Balance Sheet Diagnostics</h2>
+
+  <p>The Central Bank of Venezuela's balance sheet reveals a monetary authority under extreme stress. Gold constitutes <strong>approximately 47% of total reserve assets</strong>, a dangerous concentration in a single commodity. Foreign exchange assets have been depleted through years of deficit monetization and sanctions-related asset freezes.</p>
+
+  <div class="chart-wrap">
+    <h4>BCV Asset Composition (2025 Estimate)</h4>
+    <div class="chart-box"><canvas id="bcvAssetsChart"></canvas></div>
+  </div>
+
+  <div class="card-grid cols-4" style="margin:16px 0">
+    <div class="info-block">
+      <div class="info-icon" style="background:var(--accent-amber-dim)">
+        <svg width="24" height="24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <div class="info-val" style="color:var(--accent-amber)">$6.95B</div>
+      <div class="info-label">Gold Reserves</div>
+      <div class="metric-sub">161 tonnes &mdash; 47% of reserves</div>
+    </div>
+    <div class="info-block">
+      <div class="info-icon" style="background:var(--accent-green-dim)">
+        <svg width="24" height="24" fill="none" stroke="#00bb7f" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 12h10"/></svg>
+      </div>
+      <div class="info-val" style="color:var(--accent-green)">$5.2B</div>
+      <div class="info-label">FX (Non-Gold)</div>
+      <div class="metric-sub">Cash, SDRs, liquid assets</div>
+    </div>
+    <div class="info-block">
+      <div class="info-icon" style="background:var(--accent-red-dim)">
+        <svg width="24" height="24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+      </div>
+      <div class="info-val" style="color:var(--accent-red)">$1.15B</div>
+      <div class="info-label">Govt Securities</div>
+      <div class="metric-sub">Non-tradeable instruments</div>
+    </div>
+    <div class="info-block">
+      <div class="info-icon" style="background:var(--accent-purple-dim)">
+        <svg width="24" height="24" fill="none" stroke="#8b5cf6" stroke-width="2"><path d="M4 20l4-8 4 4 4-12 4 8"/></svg>
+      </div>
+      <div class="info-val" style="color:var(--accent-purple)">~$0.9B</div>
+      <div class="info-label">Blocked (UK)</div>
+      <div class="metric-sub">31 tonnes at Bank of England</div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>BCV Liabilities Structure (2025 Estimate)</h4>
+    <div class="chart-box"><canvas id="bcvLiabilitiesChart"></canvas></div>
+  </div>
+
+  <div class="redflag-box">
+    <h5>Balance Sheet Red Flag: Gold Concentration</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> 47% of international reserves are in monetary gold. <strong>Where:</strong> BCV vault + Bank of England (frozen). <strong>How:</strong> Illiquid gold cannot be quickly deployed for FX interventions. <strong>Why it matters:</strong> A gold price shock of -20% would wipe ~$1.4B from reserves instantly, pushing liquid reserves below 3 months of import cover.</p>
+  </div>
+</section>
+
+<!-- ============ 5. RESERVES ADEQUACY ============ -->
+<section class="section-block" id="reserves">
+  <div class="section-num">Section 04</div>
+  <h2 class="section-title">Reserves Adequacy Analysis</h2>
+
+  <p>Venezuela's international reserves have collapsed <strong>69% from their 2008 peak</strong> of $43.1 billion to approximately $13.3 billion at year-end 2025. While the nominal figure appears to provide adequate import coverage at current trade volumes, the <strong>composition and accessibility</strong> of these reserves paints a far more concerning picture.</p>
+
+  <div class="chart-wrap">
+    <h4>International Reserves Timeline (2008&ndash;2025, USD Billions)</h4>
+    <div class="chart-box"><canvas id="reservesChart"></canvas></div>
+  </div>
+
+  <div class="card-grid cols-3" style="margin:20px 0">
+    <div class="metric-card amber">
+      <div class="metric-label">Import Coverage</div>
+      <div class="metric-value amber">13.7 mo</div>
+      <div class="metric-sub">$13.3B reserves / $11.6B annual imports</div>
+    </div>
+    <div class="metric-card red">
+      <div class="metric-label">Liquid Reserve Coverage</div>
+      <div class="metric-value red">5.4 mo</div>
+      <div class="metric-sub">Excl. gold &amp; frozen: ~$5.2B liquid</div>
+    </div>
+    <div class="metric-card red">
+      <div class="metric-label">RAI Score</div>
+      <div class="metric-value red">~18</div>
+      <div class="metric-sub">FX Reserves / M2 &times; 100</div>
+    </div>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-name">Import Coverage Ratio (ICR) Calculation</div>
+    <code>ICR = $13.3B / $11.6B = <span class="formula-result" style="color:var(--accent-amber)">1.15 years (13.7 months)</span></code><br>
+    <span style="font-size:11px;color:var(--text-muted)">Headline adequate, but liquid reserves tell a different story</span>
+  </div>
+  <div class="formula-box">
+    <div class="formula-name">Liquid Reserve Coverage (Adjusted)</div>
+    <code>Liquid ICR = ($13.3B - $6.95B gold - $0.9B frozen) / $11.6B = <span class="formula-result" style="color:var(--accent-red)">0.47 years (5.6 months)</span></code><br>
+    <span style="font-size:11px;color:var(--text-muted)">Dangerously close to the 3-month critical threshold</span>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>Reserve Adequacy: Venezuela vs Regional Peers</h4>
+    <div class="chart-box"><canvas id="reservePeersChart"></canvas></div>
+  </div>
+
+  <div class="redflag-box">
+    <h5>Reserve Red Flag: Illiquid Composition</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> Only ~$5.2B of $13.3B reserves are liquid. <strong>Where:</strong> Gold (47%) is illiquid; $0.9B frozen at Bank of England. <strong>How:</strong> BCV cannot rapidly deploy most reserves for FX defense. <strong>Why:</strong> In a currency crisis, only liquid reserves matter. Venezuela's effective coverage is ~5.6 months, not the headline 13.7.</p>
+  </div>
+</section>
+
+<!-- ============ 6. MONEY SUPPLY ============ -->
+<section class="section-block" id="money-supply">
+  <div class="section-num">Section 05</div>
+  <h2 class="section-title">Money Supply &amp; Monetary Base Analysis</h2>
+
+  <p>Venezuela's monetary expansion is among the most extreme globally. In 2024, broad money (M2) grew <strong>152% year-over-year</strong> while real GDP expanded only ~3% &mdash; an unprecedented divergence that fuels persistent inflationary pressure. The decade average M2 growth of <strong>6,577% per annum</strong> reflects the hyperinflationary trauma of 2017-2021.</p>
+
+  <div class="card-grid cols-3" style="margin:20px 0">
+    <div class="metric-card red">
+      <div class="metric-label">M2 Growth (2024)</div>
+      <div class="metric-value red">152%</div>
+      <div class="metric-sub">Year-over-year broad money expansion</div>
+    </div>
+    <div class="metric-card green">
+      <div class="metric-label">Real GDP Growth (2024)</div>
+      <div class="metric-value green">3.0%</div>
+      <div class="metric-sub">IMF estimate, oil-driven recovery</div>
+    </div>
+    <div class="metric-card red">
+      <div class="metric-label">MEI Score</div>
+      <div class="metric-value red">50.7x</div>
+      <div class="metric-sub">Threshold: &gt;2x is excessive</div>
+    </div>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-name">Monetary Expansion Indicator (MEI)</div>
+    <code>MEI = &Delta;M2 (152%) / &Delta;GDP (3%) = <span class="formula-result" style="color:var(--accent-red)">50.7x (Extreme)</span></code><br>
+    <span style="font-size:11px;color:var(--text-muted)">A score &gt;2 indicates excessive monetary expansion. Venezuela scores 25x the threshold.</span>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>Inflation vs Money Supply Growth (2012&ndash;2025)</h4>
+    <div class="chart-box"><canvas id="inflationChart"></canvas></div>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>Inflation Trajectory (Log Scale)</h4>
+    <div class="chart-box"><canvas id="inflationLogChart"></canvas></div>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-name">Inflation Accelerant Score (IAS)</div>
+    <code>IAS = YoY Inflation (172%) / M2 Growth (152%) = <span class="formula-result" style="color:var(--accent-red)">1.13 (Accelerating)</span></code><br>
+    <span style="font-size:11px;color:var(--text-muted)">IAS &gt;1 means inflation outpaces money creation &mdash; velocity increasing and expectations unanchored</span>
+  </div>
+
+  <div class="redflag-box">
+    <h5>Monetary Red Flag: Hyper-Acceleration</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> M2 growing 50x faster than GDP. <strong>Where:</strong> BCV monetary aggregates vs national accounts. <strong>How:</strong> Government deficit monetization forces BCV to print. <strong>Why:</strong> This is the classic precursor to hyperinflationary relapse. Inflation velocity is increasing (IAS &gt; 1), meaning price expectations have become unanchored again.</p>
+  </div>
+</section>
+
+<!-- ============ 7. FISCAL & DEBT ============ -->
+<section class="section-block" id="fiscal">
+  <div class="section-num">Section 06</div>
+  <h2 class="section-title">Fiscal &amp; Sovereign Debt Assessment</h2>
+
+  <p>Venezuela's sovereign debt crisis is <strong>the largest unresolved default in history</strong>. Total external liabilities of $150-170 billion dwarf the IMF's $82.8 billion GDP estimate, producing a debt-to-GDP ratio of approximately 180-200%. Since the 2017 default, accrued interest and arbitration awards have continued to inflate total claims.</p>
+
+  <div class="chart-wrap">
+    <h4>External Debt Breakdown (2025 Estimate)</h4>
+    <div class="chart-box"><canvas id="debtChart"></canvas></div>
+  </div>
+
+  <div class="card-grid cols-4" style="margin:20px 0">
+    <div class="metric-card red">
+      <div class="metric-label">Debt / GDP</div>
+      <div class="metric-value red">~180%</div>
+      <div class="metric-sub">IMF estimate 2025</div>
+    </div>
+    <div class="metric-card red">
+      <div class="metric-label">Defaulted Bonds</div>
+      <div class="metric-value red">$60B</div>
+      <div class="metric-sub">Since November 2017</div>
+    </div>
+    <div class="metric-card amber">
+      <div class="metric-label">Bilateral Debt</div>
+      <div class="metric-value amber">$16.5B</div>
+      <div class="metric-sub">Primarily China, Russia</div>
+    </div>
+    <div class="metric-card amber">
+      <div class="metric-label">Arbitration Awards</div>
+      <div class="metric-value amber">$22B</div>
+      <div class="metric-sub">ICSID + court judgments</div>
+    </div>
+  </div>
+
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Debt Category</th><th>Amount (USD)</th><th>Status</th><th>Primary Creditors</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sovereign Bonds</td><td>~$35B (principal + interest)</td><td><span class="tag tag-extreme">Defaulted</span></td><td>Institutional investors, hedge funds</td></tr>
+        <tr><td>PDVSA Bonds</td><td>~$25B (principal + interest)</td><td><span class="tag tag-extreme">Defaulted</span></td><td>PDVSA 2020 bondholders</td></tr>
+        <tr><td>China Bilateral</td><td>~$10B remaining</td><td><span class="tag tag-high">Distressed</span></td><td>China Development Bank</td></tr>
+        <tr><td>Russia Bilateral</td><td>~$3B</td><td><span class="tag tag-high">Restructured</span></td><td>Rosneft, Russian govt</td></tr>
+        <tr><td>Multilateral</td><td>~$3.5B</td><td><span class="tag tag-moderate">Arrears</span></td><td>CAF, IDB</td></tr>
+        <tr><td>Arbitration Awards</td><td>~$22B</td><td><span class="tag tag-extreme">Unpaid</span></td><td>ConocoPhillips, Crystallex, etc.</td></tr>
+        <tr><td>Accrued Interest</td><td>~$30-40B</td><td><span class="tag tag-extreme">Accumulating</span></td><td>All bondholders</td></tr>
+        <tr><td><strong>TOTAL</strong></td><td><strong>$150-170B</strong></td><td><span class="tag tag-extreme">EXTREME</span></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-name">Fiscal Dominance Metric (FD)</div>
+    <code>FD = Govt Deposits at BCV / Total BCV Liabilities &asymp; <span class="formula-result" style="color:var(--accent-red)">~25% (Est.)</span></code><br>
+    <span style="font-size:11px;color:var(--text-muted)">&gt;20% indicates central bank financing of public sector. BCV has been the primary fiscal financing mechanism since oil revenue collapse.</span>
+  </div>
+
+  <div class="redflag-box">
+    <h5>Debt Red Flag: World's Largest Unresolved Default</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> $150-170B in total claims vs $82.8B GDP. <strong>Where:</strong> Sovereign bonds, PDVSA bonds, bilateral loans, arbitration. <strong>How:</strong> Default since 2017 with no restructuring framework. Accrued interest growing ~$8B/year. <strong>Why:</strong> No path to capital market access. Any transition government faces a wall of claims that exceeds the entire economy.</p>
+  </div>
+</section>
+
+<!-- ============ 8. EXTERNAL SECTOR & FX ============ -->
+<section class="section-block" id="external">
+  <div class="section-num">Section 07</div>
+  <h2 class="section-title">External Sector &amp; Exchange Rate Dynamics</h2>
+
+  <p>Venezuela's exchange rate system has <strong>effectively bifurcated into two parallel economies</strong>. The official BCV rate of 301 VES/USD (Jan 2026) coexists with a black market rate of ~560 VES/USD, representing an <strong>86% premium</strong>. The bol&iacute;var lost approximately 70% of its value in 2025 alone, with the official rate surging from 52 VES/USD in January to 301 by December.</p>
+
+  <div class="chart-wrap">
+    <h4>Official vs Parallel Exchange Rate (2025)</h4>
+    <div class="chart-box"><canvas id="fxChart"></canvas></div>
+  </div>
+
+  <div class="card-grid cols-3" style="margin:20px 0">
+    <div class="metric-card red">
+      <div class="metric-label">FX Premium (PFX)</div>
+      <div class="metric-value red">86%</div>
+      <div class="metric-sub">Threshold: &gt;30% = systemic stress</div>
+    </div>
+    <div class="metric-card red">
+      <div class="metric-label">Bol&iacute;var Loss (2025)</div>
+      <div class="metric-value red">-70%</div>
+      <div class="metric-sub">Official rate: 52 &rarr; 301 VES/USD</div>
+    </div>
+    <div class="metric-card amber">
+      <div class="metric-label">Crypto Adoption</div>
+      <div class="metric-value amber">#18</div>
+      <div class="metric-sub">Global rank (Chainalysis 2024)</div>
+    </div>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-name">Parallel FX Premium (PFX)</div>
+    <code>PFX = ((560 - 301) / 301) &times; 100 = <span class="formula-result" style="color:var(--accent-red)">86% (Systemic Stress)</span></code><br>
+    <span style="font-size:11px;color:var(--text-muted)">An 86% gap confirms massive capital controls distortion and inability to unify rates</span>
+  </div>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">Dollarization &amp; Stablecoin Adoption</h3>
+  <div class="infographic cols-3">
+    <div class="info-block">
+      <div class="info-val" style="color:var(--brand-gold)">$20B</div>
+      <div class="info-label">Crypto Volume (2024)</div>
+      <div class="metric-sub">+110% YoY (Chainalysis)</div>
+    </div>
+    <div class="info-block">
+      <div class="info-val" style="color:var(--brand-gold)">~50%</div>
+      <div class="info-label">Txns in USDT (&lt;$10K)</div>
+      <div class="metric-sub">De facto dollarization</div>
+    </div>
+    <div class="info-block">
+      <div class="info-val" style="color:var(--brand-gold)">$12B</div>
+      <div class="info-label">PDVSA Oil via USDT</div>
+      <div class="metric-sub">~80% of oil exports (est.)</div>
+    </div>
+  </div>
+
+  <!-- Dollarization flow diagram -->
+  <h3 style="font-size:15px;margin:20px 0 12px">The Dollarization Pipeline</h3>
+  <div class="flow-row">
+    <div class="flow-step" style="border-color:var(--accent-red)"><strong style="color:var(--accent-red)">BCV</strong><br><span style="font-size:11px;color:var(--text-muted)">Prints VES</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-amber)"><strong style="color:var(--accent-amber)">Inflation</strong><br><span style="font-size:11px;color:var(--text-muted)">172% YoY</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-amber)"><strong style="color:var(--accent-amber)">Citizens</strong><br><span style="font-size:11px;color:var(--text-muted)">Flee bol&iacute;var</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--brand-gold)"><strong style="color:var(--brand-gold)">USDT/USD</strong><br><span style="font-size:11px;color:var(--text-muted)">P2P exchange</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent-green)"><strong style="color:var(--accent-green)">De Facto $</strong><br><span style="font-size:11px;color:var(--text-muted)">Economy</span></div>
+  </div>
+
+  <div class="redflag-box">
+    <h5>FX Red Flag: Dual Economy Fragmentation</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> 86% gap between official and parallel rates; 70% currency loss in one year. <strong>Where:</strong> Currency markets, P2P platforms, informal economy. <strong>How:</strong> Capital controls prevent rate unification; citizens bypass via crypto. <strong>Why:</strong> Two-thirds of FX transactions now occur through crypto platforms, meaning BCV has lost effective monetary transmission.</p>
+  </div>
+</section>
+
+<!-- ============ 9. RED FLAGS ============ -->
+<section class="section-block" id="redflags">
+  <div class="section-num">Section 08</div>
+  <h2 class="section-title red">Red Flags &amp; Systemic Risk Models</h2>
+
+  <p>Our analysis identifies <strong>six primary red flag categories</strong>, each scored on a 0-100 severity scale and weighted according to the Crisis Probability Index (CPI) formula. The composite CPI of <span class="highlight">80.3/100</span> places Venezuela in the <strong>EXTREME</strong> risk category.</p>
+
+  <div class="chart-wrap">
+    <h4>Crisis Probability Index: Component Breakdown</h4>
+    <div class="chart-box"><canvas id="cpiRadarChart"></canvas></div>
+  </div>
+
+  <!-- Gauge bars -->
+  <div style="margin:24px 0">
+    <div class="gauge-row">
+      <div class="gauge-item">
+        <div class="gauge-label">Reserve Inadequacy (25%)</div>
+        <div class="gauge-bar"><div class="gauge-fill red" style="width:70%"></div></div>
+        <div class="gauge-score" style="color:var(--accent-red)">70/100</div>
+      </div>
+      <div class="gauge-item">
+        <div class="gauge-label">Monetary Expansion (20%)</div>
+        <div class="gauge-bar"><div class="gauge-fill red" style="width:95%"></div></div>
+        <div class="gauge-score" style="color:var(--accent-red)">95/100</div>
+      </div>
+      <div class="gauge-item">
+        <div class="gauge-label">FX Premium (15%)</div>
+        <div class="gauge-bar"><div class="gauge-fill red" style="width:85%"></div></div>
+        <div class="gauge-score" style="color:var(--accent-red)">85/100</div>
+      </div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-item">
+        <div class="gauge-label">Fiscal Dominance (15%)</div>
+        <div class="gauge-bar"><div class="gauge-fill amber" style="width:65%"></div></div>
+        <div class="gauge-score" style="color:var(--accent-amber)">65/100</div>
+      </div>
+      <div class="gauge-item">
+        <div class="gauge-label">External Debt (15%)</div>
+        <div class="gauge-bar"><div class="gauge-fill red" style="width:90%"></div></div>
+        <div class="gauge-score" style="color:var(--accent-red)">90/100</div>
+      </div>
+      <div class="gauge-item">
+        <div class="gauge-label">Political/Policy (10%)</div>
+        <div class="gauge-bar"><div class="gauge-fill red" style="width:78%"></div></div>
+        <div class="gauge-score" style="color:var(--accent-red)">78/100</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-name">Crisis Probability Index (CPI) &mdash; Final Calculation</div>
+    <code>CPI = (0.25 &times; 70) + (0.20 &times; 95) + (0.15 &times; 85) + (0.15 &times; 65) + (0.15 &times; 90) + (0.10 &times; 78)</code><br>
+    <code>CPI = 17.5 + 19.0 + 12.75 + 9.75 + 13.5 + 7.8 = <span class="formula-result" style="color:var(--accent-red);font-size:16px">80.3 / 100 (EXTREME)</span></code>
+  </div>
+
+  <!-- Detailed red flags -->
+  <h3 style="font-size:15px;margin:24px 0 12px">Detailed Red Flag Analysis</h3>
+
+  <div class="redflag-box">
+    <h5>RF-1: Severe Reserve Insufficiency (Score: 70/100)</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> FX reserves at $13.3B, down 69% from $43.1B peak (2008). Only $5.2B liquid after gold and frozen assets. RAI score ~18.<br>
+    <strong>Where:</strong> BCV international reserves data, Bank of England custody records.<br>
+    <strong>How:</strong> Liquid reserves declining while M2 surges creates a widening gap between monetary liabilities and reserve backing.<br>
+    <strong>Why investors care:</strong> Insufficient reserves to defend the currency means continued depreciation is inevitable. Any external shock (oil price drop, sanctions tightening) could trigger rapid reserve depletion.</p>
+  </div>
+
+  <div class="redflag-box">
+    <h5>RF-2: Hyper-Acceleration of Money Supply (Score: 95/100)</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> M2 growing 152% YoY vs 3% GDP growth. Decade average: 6,577% annual M2 growth. MEI: 50.7x.<br>
+    <strong>Where:</strong> BCV monetary aggregates, IMF WEO data.<br>
+    <strong>How:</strong> Deficit monetization forces BCV to create money to finance government operations. Money velocity increasing (IAS &gt; 1).<br>
+    <strong>Why investors care:</strong> This is the textbook precursor to hyperinflationary relapse. The 2025 re-acceleration (172% inflation) suggests the 2022-2024 disinflation was temporary.</p>
+  </div>
+
+  <div class="redflag-box">
+    <h5>RF-3: Parallel FX Market Stress (Score: 85/100)</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> 86% premium between official (301 VES/USD) and parallel (560 VES/USD) rates. Bol&iacute;var lost 70% in 2025.<br>
+    <strong>Where:</strong> P2P platforms, crypto exchanges, informal markets.<br>
+    <strong>How:</strong> Capital controls create artificial demand in unofficial channels. Two-thirds of FX transactions now occur via crypto.<br>
+    <strong>Why investors care:</strong> Currency mismatch risk for any investment. The real exchange rate is unknowable, making valuation impossible.</p>
+  </div>
+
+  <div class="redflag-box">
+    <h5>RF-4: Fiscal Dominance of Central Bank (Score: 65/100)</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> Fiscal deficit of 3.6-5.5% of GDP, with BCV as primary financing mechanism. Government deposits ~25% of BCV liabilities.<br>
+    <strong>Where:</strong> BCV balance sheet, government fiscal accounts.<br>
+    <strong>How:</strong> BCV prints money to cover fiscal shortfalls, sacrificing price stability mandate.<br>
+    <strong>Why investors care:</strong> Central bank independence is non-existent. Monetary policy serves fiscal needs, not economic stability.</p>
+  </div>
+
+  <div class="redflag-box">
+    <h5>RF-5: External Debt Collapse (Score: 90/100)</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> $150-170B total claims vs $82.8B GDP (180-200% debt/GDP). $60B in defaulted bonds accruing interest at ~$8B/yr.<br>
+    <strong>Where:</strong> Sovereign bonds, PDVSA bonds, bilateral loans, ICSID arbitration.<br>
+    <strong>How:</strong> Default since 2017 with no restructuring framework. Legal claims multiplying.<br>
+    <strong>Why investors care:</strong> Distressed debt trades at 8-12 cents on the dollar. Any recovery scenario requires massive haircuts. Holdout litigation could block restructuring for years.</p>
+  </div>
+
+  <div class="redflag-box">
+    <h5>RF-6: Institutional &amp; Political Volatility (Score: 78/100)</h5>
+    <p style="margin:0;font-size:13px"><strong>What:</strong> Maduro captured January 3, 2026. Acting president Delcy Rodr&iacute;guez leads uncertain transition. New oil licensing framework emerging.<br>
+    <strong>Where:</strong> Executive branch, legislature, judiciary, PDVSA governance.<br>
+    <strong>How:</strong> Authoritarian succession, not democratic transition. Regime elements remain. Policy direction unclear.<br>
+    <strong>Why investors care:</strong> Governance uncertainty paralyzes investment decisions. Sanctions framework in flux. Property rights remain contested.</p>
+  </div>
+</section>
+
+<!-- ============ 10. INVESTOR IMPLICATIONS ============ -->
+<section class="section-block" id="investor">
+  <div class="section-num">Section 09</div>
+  <h2 class="section-title">Investor Implications</h2>
+
+  <p>Given the <strong>CPI score of 80.3 (EXTREME)</strong>, investors face a complex landscape where traditional sovereign risk frameworks may understate actual exposure. We model three scenarios for the 2026-2028 period:</p>
+
+  <div class="chart-wrap">
+    <h4>Scenario Analysis: Probability-Weighted Outcomes</h4>
+    <div class="chart-box"><canvas id="scenarioChart"></canvas></div>
+  </div>
+
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Scenario</th><th>Probability</th><th>FX Impact</th><th>Bond Recovery</th><th>Oil Sector</th><th>Investor Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>A: Managed Transition</strong></td>
+          <td><span class="tag tag-moderate">30%</span></td>
+          <td>Unification at ~400 VES/USD</td>
+          <td>15-25 cents/dollar</td>
+          <td>Gradual opening, GL46 expansion</td>
+          <td>Selective entry: oil services, distressed debt</td>
+        </tr>
+        <tr>
+          <td><strong>B: Status Quo Decay</strong></td>
+          <td><span class="tag tag-high">45%</span></td>
+          <td>Continued depreciation to 800+</td>
+          <td>8-12 cents/dollar</td>
+          <td>Limited access, sanctions persist</td>
+          <td>Avoid. Monitor only.</td>
+        </tr>
+        <tr>
+          <td><strong>C: Collapse &amp; Crisis</strong></td>
+          <td><span class="tag tag-extreme">25%</span></td>
+          <td>Hyperinflationary spiral</td>
+          <td>2-5 cents/dollar</td>
+          <td>Production collapse below 500K bpd</td>
+          <td>Full exit. Hedge exposures.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:15px;margin:24px 0 12px">Market Impact Assessment</h3>
+  <div class="card-grid cols-3">
+    <div class="metric-card red">
+      <div class="metric-label">Sovereign Credit</div>
+      <div class="metric-value" style="font-size:18px;color:var(--accent-red)">SD / Default</div>
+      <div class="metric-sub">S&P: SD. Fitch: RD. No rating recovery expected without restructuring.</div>
+    </div>
+    <div class="metric-card amber">
+      <div class="metric-label">Oil Production Risk</div>
+      <div class="metric-value" style="font-size:18px;color:var(--accent-amber)">896K bpd</div>
+      <div class="metric-sub">$58B needed to restore infrastructure. PDVSA pipelines 50+ years old.</div>
+    </div>
+    <div class="metric-card purple">
+      <div class="metric-label">Sanctions Regime</div>
+      <div class="metric-value" style="font-size:18px;color:var(--accent-purple)">In Flux</div>
+      <div class="metric-sub">GL46 issued Jan 2026. Selective rollback possible. Full lifting unlikely.</div>
+    </div>
+  </div>
+
+  <!-- Political timeline -->
+  <h3 style="font-size:15px;margin:24px 0 12px">Political &amp; Policy Risk Timeline</h3>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">Nov 2017</div>
+      <div class="timeline-text">Venezuela defaults on sovereign and PDVSA bonds. $60B+ in claims begin accruing.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2018-2021</div>
+      <div class="timeline-text">Hyperinflation peaks at 130,060% (2018 official). Oil production collapses to 400K bpd.</div>
+    </div>
+    <div class="timeline-item amber">
+      <div class="timeline-year">2022-2023</div>
+      <div class="timeline-text">Temporary disinflation (189% in 2023). De facto dollarization accelerates. USDT becomes parallel currency.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">Mar 2025</div>
+      <div class="timeline-text">Chevron license amended &mdash; wind-down required. 25% tariff on Venezuelan oil importers.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">Apr 2025</div>
+      <div class="timeline-text">Maduro declares &ldquo;economic emergency.&rdquo; Inflation re-accelerates to 172% by April.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">Jan 3, 2026</div>
+      <div class="timeline-text">U.S. captures Maduro. Delcy Rodr&iacute;guez becomes acting president. Regime intact but leadership changed.</div>
+    </div>
+    <div class="timeline-item amber">
+      <div class="timeline-year">Jan 29, 2026</div>
+      <div class="timeline-text">OFAC issues General License 46 &mdash; permits U.S. companies to trade Venezuelan oil. Major policy shift.</div>
+    </div>
+    <div class="timeline-item green">
+      <div class="timeline-year">Feb 2026</div>
+      <div class="timeline-text">Rodr&iacute;guez signs foreign oil company rights bill. Amnesty law for political prisoners advancing.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11. APPENDICES ============ -->
+<section class="section-block" id="appendix">
+  <div class="section-num">Section 10</div>
+  <h2 class="section-title">Appendices</h2>
+
+  <h3 style="font-size:15px;margin-bottom:12px">A. Raw Dataset: Key Economic Indicators</h3>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Indicator</th><th>2018</th><th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Inflation (%)</td><td>130,060</td><td>19,906</td><td>2,959</td><td>686</td><td>234</td><td>190</td><td>48</td><td>172-548*</td></tr>
+        <tr><td>FX Reserves ($B)</td><td>8.8</td><td>7.6</td><td>6.4</td><td>5.1</td><td>9.2</td><td>9.8</td><td>10.3</td><td>13.3</td></tr>
+        <tr><td>GDP Growth (%)</td><td>-19.6</td><td>-28.0</td><td>-30.0</td><td>-0.5</td><td>8.0</td><td>3.6</td><td>3.0</td><td>~3.0</td></tr>
+        <tr><td>Oil Prod. (K bpd)</td><td>1,354</td><td>877</td><td>512</td><td>553</td><td>717</td><td>800</td><td>893</td><td>896</td></tr>
+        <tr><td>Official FX (VES/$)</td><td>0.01</td><td>15K</td><td>400K</td><td>4.2</td><td>11.1</td><td>35.5</td><td>36.6</td><td>301</td></tr>
+        <tr><td>Debt/GDP (%)</td><td>162</td><td>233</td><td>304</td><td>217</td><td>155</td><td>159</td><td>164</td><td>~180</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote">* Inflation estimates vary: BCV official ~48% (2024), IMF projection 548% (2025), independent trackers 172% (mid-2025). VES exchange rates reflect multiple redenominations.</p>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">B. CPI Scoring Sheet</h3>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Component</th><th>Metric</th><th>Value</th><th>Score (0-100)</th><th>Weight</th><th>Weighted</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Reserve Inadequacy</td><td>RAI</td><td>~18</td><td>70</td><td>25%</td><td>17.5</td></tr>
+        <tr><td>Monetary Expansion</td><td>MEI</td><td>50.7x</td><td>95</td><td>20%</td><td>19.0</td></tr>
+        <tr><td>FX Premium</td><td>PFX</td><td>86%</td><td>85</td><td>15%</td><td>12.75</td></tr>
+        <tr><td>Fiscal Dominance</td><td>FD</td><td>~25%</td><td>65</td><td>15%</td><td>9.75</td></tr>
+        <tr><td>External Debt</td><td>Debt/GDP</td><td>~180%</td><td>90</td><td>15%</td><td>13.5</td></tr>
+        <tr><td>Political/Policy</td><td>Qualitative</td><td>Regime change</td><td>78</td><td>10%</td><td>7.8</td></tr>
+        <tr><td colspan="4"><strong>TOTAL CPI</strong></td><td><strong>100%</strong></td><td><strong style="color:var(--accent-red)">80.3</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:15px;margin:20px 0 12px">C. Data Sources Catalog</h3>
+  <ul class="source-list">
+    <li><a href="https://www.ceicdata.com/en/indicator/venezuela/foreign-exchange-reserves" target="_blank">CEIC Data &mdash; Venezuela Foreign Exchange Reserves</a></li>
+    <li><a href="https://tradingeconomics.com/venezuela/foreign-exchange-reserves" target="_blank">TradingEconomics &mdash; Venezuela FX Reserves</a></li>
+    <li><a href="https://tradingeconomics.com/venezuela/gold-reserves" target="_blank">TradingEconomics &mdash; Venezuela Gold Reserves</a></li>
+    <li><a href="https://www.imf.org/external/datamapper/NGDPD@WEO/VEN" target="_blank">IMF WEO &mdash; Venezuela GDP</a></li>
+    <li><a href="https://www.imf.org/external/datamapper/PCPIPCH@WEO/WEOWORLD/VEN/TUR" target="_blank">IMF WEO &mdash; Venezuela Inflation Rate</a></li>
+    <li><a href="https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG?locations=VE" target="_blank">World Bank &mdash; Consumer Price Inflation</a></li>
+    <li><a href="https://www.caracaschronicles.com/2025/04/09/why-venezuelas-exchange-rate-gap-is-growing-and-what-to-expect/" target="_blank">Caracas Chronicles &mdash; Exchange Rate Gap Analysis</a></li>
+    <li><a href="https://www.cnbc.com/2026/01/04/venezuelas-billions-in-distressed-debt-who-is-in-line-to-collect.html" target="_blank">CNBC &mdash; Venezuela Distressed Debt</a></li>
+    <li><a href="https://www.csis.org/analysis/venezuelan-external-public-debt-crisis-everything-everywhere-all-once" target="_blank">CSIS &mdash; Venezuelan External Debt Crisis</a></li>
+    <li><a href="https://learn.backpack.exchange/articles/stablecoins-in-venezuela" target="_blank">Backpack Exchange &mdash; Stablecoins in Venezuela</a></li>
+    <li><a href="https://www.cnbc.com/2026/01/19/venezuelans-turned-to-tether-issued-usdt-stablecoin-as-its-government-wobbled.html" target="_blank">CNBC &mdash; Venezuela USDT Adoption</a></li>
+    <li><a href="https://ofac.treasury.gov/sanctions-programs-and-country-information/venezuela-related-sanctions" target="_blank">OFAC &mdash; Venezuela Sanctions Program</a></li>
+    <li><a href="https://www.eia.gov/international/analysis/country/VEN" target="_blank">EIA &mdash; Venezuela Oil Production</a></li>
+    <li><a href="https://pgjonline.com/news/2025/july/venezuelas-pdvsa-reports-175-billion-in-2024-oil-revenue-as-exports-jump" target="_blank">PGJ &mdash; PDVSA 2024 Revenue</a></li>
+    <li><a href="https://www.focus-economics.com/country-indicator/venezuela/money/" target="_blank">FocusEconomics &mdash; Venezuela Money Supply</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Hyperinflation_in_Venezuela" target="_blank">Wikipedia &mdash; Hyperinflation in Venezuela</a></li>
+  </ul>
+</section>
+
+<!-- Footer -->
+<div style="text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:32px">
+  <div style="font-size:12px;color:var(--text-muted)">
+    PDVSA.XYZ Research Division &mdash; Deep Forensic Report v1.0 &mdash; February 2026<br>
+    <span style="color:var(--accent-red)">DISCLAIMER:</span> This report is for informational purposes only. Not financial advice.<br>
+    Data sources cited throughout. Independent verification recommended.
+  </div>
+  <a href="/index.html" class="back-link" style="margin-top:16px">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2L4 8l6 6"/></svg>
+    Back to Dashboard
+  </a>
+</div>
+
+</div><!-- end .report -->
+
+<!-- ============ CHART.JS SCRIPTS ============ -->
+<script>
+const goldC = '#c9fd34';
+const redC = '#ef4444';
+const amberC = '#f59e0b';
+const greenC = '#00bb7f';
+const purpleC = '#8b5cf6';
+const cyanC = '#06b6d4';
+const gridC = 'rgba(255,255,255,0.06)';
+const txtC = '#a1a1aa';
+
+Chart.defaults.color = txtC;
+Chart.defaults.borderColor = gridC;
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.size = 11;
+
+// 1. BCV Assets Doughnut
+new Chart(document.getElementById('bcvAssetsChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Gold Reserves ($6.95B)', 'Liquid FX ($5.2B)', 'Govt Securities ($1.15B)', 'Frozen UK ($0.9B)'],
+    datasets: [{
+      data: [6.95, 5.2, 1.15, 0.9],
+      backgroundColor: [amberC, greenC, redC, purpleC],
+      borderWidth: 0, borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } }
+    }
+  }
+});
+
+// 2. BCV Liabilities Doughnut
+new Chart(document.getElementById('bcvLiabilitiesChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Currency in Circulation', 'Bank Reserves', 'Govt Deposits', 'Foreign Liabilities', 'Other'],
+    datasets: [{
+      data: [35, 18, 25, 12, 10],
+      backgroundColor: [redC, amberC, purpleC, cyanC, 'rgba(255,255,255,0.15)'],
+      borderWidth: 0, borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } },
+      title: { display: true, text: '% Composition (Estimated)', color: txtC, font: { size: 11 } }
+    }
+  }
+});
+
+// 3. Reserves Timeline
+new Chart(document.getElementById('reservesChart'), {
+  type: 'line',
+  data: {
+    labels: ['2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'International Reserves ($B)',
+      data: [43.1, 35.8, 29.5, 29.9, 29.9, 21.5, 22.1, 16.4, 10.5, 9.7, 8.8, 7.6, 6.4, 5.1, 9.2, 9.8, 10.3, 13.3],
+      borderColor: goldC, backgroundColor: 'rgba(201,253,52,0.1)',
+      fill: true, tension: 0.3, borderWidth: 2.5, pointRadius: 4,
+      pointBackgroundColor: goldC, pointBorderColor: '#0a0a0a', pointBorderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { beginAtZero: true, grid: { color: gridC },
+        ticks: { callback: v => '$' + v + 'B' }
+      },
+      x: { grid: { display: false } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y + ' Billion' } }
+    }
+  }
+});
+
+// 4. Reserve Peers Comparison
+new Chart(document.getElementById('reservePeersChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Brazil', 'Colombia', 'Chile', 'Peru', 'Mexico', 'Venezuela', 'Argentina'],
+    datasets: [{
+      label: 'Months of Import Cover',
+      data: [18.2, 11.5, 7.8, 16.4, 5.2, 5.6, 3.1],
+      backgroundColor: ['#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6', redC, amberC],
+      borderRadius: 6, borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true, indexAxis: 'y',
+    scales: {
+      x: { grid: { color: gridC }, ticks: { callback: v => v + ' mo' } },
+      y: { grid: { display: false } }
+    },
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Liquid Reserve Coverage (Months of Imports) — Venezuela adjusted for gold', color: txtC, font: { size: 11 } }
+    }
+  }
+});
+
+// 5. Inflation vs M2 Chart
+new Chart(document.getElementById('inflationChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2022','2023','2024','2025 (est.)'],
+    datasets: [
+      {
+        label: 'Inflation (%)',
+        data: [234, 190, 48, 172],
+        backgroundColor: redC, borderRadius: 4, borderWidth: 0
+      },
+      {
+        label: 'M2 Growth (%)',
+        data: [180, 200, 152, 160],
+        backgroundColor: purpleC, borderRadius: 4, borderWidth: 0
+      },
+      {
+        label: 'GDP Growth (%)',
+        data: [8, 3.6, 3, 3],
+        backgroundColor: greenC, borderRadius: 4, borderWidth: 0
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { grid: { color: gridC }, ticks: { callback: v => v + '%' } },
+      x: { grid: { display: false } }
+    },
+    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16 } } }
+  }
+});
+
+// 6. Inflation Log Scale
+new Chart(document.getElementById('inflationLogChart'), {
+  type: 'line',
+  data: {
+    labels: ['2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'Annual Inflation (%, Log Scale)',
+      data: [20.1, 56.2, 68.5, 159, 274, 863, 130060, 19906, 2959, 686, 234, 190, 48, 172],
+      borderColor: redC, backgroundColor: 'rgba(239,68,68,0.1)',
+      fill: true, tension: 0.3, borderWidth: 2.5, pointRadius: 4,
+      pointBackgroundColor: redC
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: {
+        type: 'logarithmic', grid: { color: gridC },
+        ticks: { callback: v => { if([10,100,1000,10000,100000].includes(v)) return v.toLocaleString()+'%'; return ''; } }
+      },
+      x: { grid: { display: false } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+
+// 7. External Debt Breakdown
+new Chart(document.getElementById('debtChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Sovereign Bonds', 'PDVSA Bonds', 'Arbitration', 'Accrued Interest', 'China Bilateral', 'Russia + Multi'],
+    datasets: [{
+      label: 'USD Billions',
+      data: [35, 25, 22, 35, 10, 6.5],
+      backgroundColor: [redC, redC, amberC, purpleC, cyanC, 'rgba(255,255,255,0.2)'],
+      borderRadius: 6, borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { grid: { color: gridC }, ticks: { callback: v => '$' + v + 'B' } },
+      x: { grid: { display: false } }
+    },
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Total: $150-170 Billion (vs GDP of $82.8B)', color: redC, font: { size: 12, weight: 'bold' } }
+    }
+  }
+});
+
+// 8. Official vs Parallel FX
+new Chart(document.getElementById('fxChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan 25','Mar 25','Jun 25','Aug 25','Oct 25','Dec 25','Jan 26'],
+    datasets: [
+      {
+        label: 'Official Rate (VES/USD)',
+        data: [52, 65, 99, 150, 200, 280, 301],
+        borderColor: goldC, borderWidth: 2.5, tension: 0.3, pointRadius: 4,
+        pointBackgroundColor: goldC
+      },
+      {
+        label: 'Parallel Rate (VES/USD)',
+        data: [75, 110, 165, 240, 350, 490, 560],
+        borderColor: redC, borderWidth: 2.5, tension: 0.3, pointRadius: 4,
+        pointBackgroundColor: redC, borderDash: [6, 3]
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { grid: { color: gridC }, ticks: { callback: v => v + ' VES' } },
+      x: { grid: { display: false } }
+    },
+    plugins: {
+      legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16 } }
+    }
+  }
+});
+
+// 9. CPI Radar Chart
+new Chart(document.getElementById('cpiRadarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Reserve\nInadequacy', 'Monetary\nExpansion', 'FX\nPremium', 'Fiscal\nDominance', 'External\nDebt', 'Political\nRisk'],
+    datasets: [{
+      label: 'Venezuela CPI Score',
+      data: [70, 95, 85, 65, 90, 78],
+      backgroundColor: 'rgba(239,68,68,0.15)',
+      borderColor: redC, borderWidth: 2.5, pointRadius: 5,
+      pointBackgroundColor: redC, pointBorderColor: '#0a0a0a', pointBorderWidth: 2
+    },{
+      label: 'Critical Threshold',
+      data: [50, 50, 50, 50, 50, 50],
+      backgroundColor: 'rgba(245,158,11,0.05)',
+      borderColor: amberC, borderWidth: 1.5, borderDash: [4, 4],
+      pointRadius: 0
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      r: {
+        min: 0, max: 100,
+        grid: { color: gridC },
+        angleLines: { color: gridC },
+        pointLabels: { font: { size: 10 }, color: txtC },
+        ticks: { display: false }
+      }
+    },
+    plugins: {
+      legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16 } }
+    }
+  }
+});
+
+// 10. Scenario Chart
+new Chart(document.getElementById('scenarioChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Managed Transition', 'Status Quo Decay', 'Collapse & Crisis'],
+    datasets: [
+      {
+        label: 'Probability (%)',
+        data: [30, 45, 25],
+        backgroundColor: [greenC, amberC, redC],
+        borderRadius: 6, borderWidth: 0
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: true,
+    scales: {
+      y: { grid: { color: gridC }, max: 60, ticks: { callback: v => v + '%' } },
+      x: { grid: { display: false } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+</script>
+</body>
+</html>
